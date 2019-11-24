@@ -3,22 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Account extends Model
+use App\Farm;
+class Zone extends Model
 {
     protected $fillable = [
-        'name', 
-        'description', 
-        'latitude', 
-        'longitude', 
-        'kc', 
-        'theoretical_flow',
-        "unit_theoretical_flow",
-        "efficiency",
-        "humidity_retention",
-        "max",
-        "min",
-        "critical_point1",
-        "critical_point2"
+        'name', 'description','latitude', 
+        'longitude','type', 'kc','theoreticalFlow',
+        'unitTheoreticalFlow','efficiency',
+        'humidityRetention','max','min','criticalPoint1','criticalPoint2',
+        'id_farm','id_pump_system'
     ];
+    public function farm()
+    {
+        return $this->hasOne(Farm::class,'id','id_farm');
+    }
 }

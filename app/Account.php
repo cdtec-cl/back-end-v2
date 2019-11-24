@@ -3,19 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Farm;
 class Account extends Model
 {
     protected $fillable = [
-        'name'
+        'name', 'rut','razonsocial', 'rutlegal','direccion', 'telefono','email','comentario', 'habilitar','id_farm'
     ];
-    /**
-         * A post belongs to a user
-         *
-         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function farm()
     {
-        return $this->belongsTo('App\User');
+        return $this->hasOne(Farm::class,'id','id_farm');
     }
 }
