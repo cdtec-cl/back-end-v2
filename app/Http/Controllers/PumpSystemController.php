@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Pump_system;
 use App\Farm;
+use App\Zone;
 class PumpSystemController extends Controller
 {
     public function store(Request $request){
@@ -57,4 +58,97 @@ class PumpSystemController extends Controller
             ], 500);
         }
     }
+    public function get($id){
+        try {            
+            $element = Pump_system::with("farm")->find($id);
+            if(is_null($element)){
+                return response()->json([
+                    "message"=>"non-existent item",
+                    "data"=>$element
+                ],404);
+            }
+            $response = [
+                'message'=> 'item found successfully',
+                'data' => $element,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function zones($id){
+        try {
+            $elements = Zone::where("id_pump_system",$id)->with("polygons")->with("types")->get();
+            $response = [
+                'message'=> 'items found successfully',
+                'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function irrigations($id){
+        try {            
+            $elements = Irrigation::where("id_pump_system",$id)->with("zone")->with("volume")->with("farm")->get();
+            $response = [
+                'message'=> 'items found successfully',
+                'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function realIrrigations($id){
+        try {            
+            $elements = RealIrrigation::where("id_pump_system",$id)->with("zone")->with("irrigations")->with("farm")->get();
+            $response = [
+                'message'=> 'items found successfully',
+                'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function tanks($id){
+        try {            
+            $element = Pump_system::find($id);
+            if(is_null($element)){
+                return response()->json([
+                    "message"=>"non-existent item",
+                    "data"=>$element->name
+                ],404);
+            }
+            $response = [
+                'message'=> 'item found successfully',
+                'data' => $element,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    
 }

@@ -12,13 +12,14 @@ use App\Pump_system;
 use App\Measure;
 use App\Irrigation;
 use App\RealIrrigation;
+use App\Alarm;
 class FarmController extends Controller
 {
     public function all(){
         try {
             $response = [
                 'message'=> 'Farm list',
-                'data' => Farm::all(),
+                'data' => Farm::with("accounts")->get(),
             ];
             return response()->json($response, 200);
         } catch (\Exception $e) {
@@ -31,7 +32,7 @@ class FarmController extends Controller
     }
     public function get($id){
         try {            
-            $element = Farm::find($id);
+            $element = Farm::with("accounts")->find($id);
             if(is_null($element)){
                 return response()->json([
                     "message"=>"non-existent item",
@@ -102,9 +103,45 @@ class FarmController extends Controller
             ], 500);
         }
     }
+    public function update(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'name'            => 'required|string|max:45',
+            'description'     => 'required|string|max:45',
+            'webhook'         => 'required|string|max:45',
+        ],[
+            'name.required'            => 'El name es requerido',
+            'name.max'                 => 'El name debe contener como máximo 45 caracteres',
+            'description.required'     => 'El description es requerido',
+            'description.max'          => 'El description debe contener como máximo 45 caracteres',
+            'webhook.required'         => 'El webhook es requerido',
+            'webhook.max'              => 'El webhook debe contener como máximo 45 caracteres'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $element = Farm::find($id);
+            if(is_null($element)){
+                return response()->json(["message"=>"non-existent farm"],404);
+            }
+            $element->fill($request->all());
+            $response = [
+                'message'=> 'item successfully updated',
+                'data' => $element,
+            ];
+            $element->update();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
     public function zones($id){
         try {            
-            $elements = Zone::where("id_farm",$id)->get();
+            $elements = Zone::where("id_farm",$id)->with("polygons")->with("types")->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
@@ -120,7 +157,12 @@ class FarmController extends Controller
     }
     public function hydraulics($id){
         try {            
-            $elements = Hydraulic::where("id_farm",$id)->get();
+            $elements = Hydraulic::where("id_farm",$id)
+                ->with("farm")
+                ->with("zone")
+                ->with("node")
+                ->with("physicalConnection")
+                ->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
@@ -136,7 +178,7 @@ class FarmController extends Controller
     }
     public function pumpsystems($id){
         try {            
-            $elements = Pump_system::where("id_farm",$id)->get();
+            $elements = Pump_system::where("id_farm",$id)->with("farm")->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
@@ -168,7 +210,7 @@ class FarmController extends Controller
     }
     public function nodes($id){
         try {            
-            $elements = Node::where("id_farm",$id)->get();
+            $elements = Node::where("id_farm",$id)->with("farm")->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
@@ -184,7 +226,7 @@ class FarmController extends Controller
     }
     public function irrigations($id){
         try {            
-            $elements = Irrigation::where("id_farm",$id)->get();
+            $elements = Irrigation::where("id_farm",$id)->with("zone")->with("volume")->with("pumpSystem")->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
@@ -200,10 +242,47 @@ class FarmController extends Controller
     }
     public function realIrrigations($id){
         try {            
-            $elements = RealIrrigation::where("id_farm",$id)->get();
+            $elements = RealIrrigation::where("id_farm",$id)->with("zone")->with("pumpSystem")->with("irrigations")->get();
             $response = [
                 'message'=> 'items found successfully',
                 'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function alarmsTriggered(Request $request,$id){
+        try {
+            $elements = Alarm::where("id_farm",$id)->whereBetween('date', [$request->get('initTime'), $request->get('endTime')])->get();
+            $response = [
+                'message'=> 'items found successfully',
+                'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function webhookUpdate(Request $request,$id){
+        try {
+            $element = Farm::find($id);
+            if(is_null($element)){
+                return response()->json(["message"=>"non-existent farm"],404);
+            }
+            $element->webhook=$request->get("webhook");
+            $element->update();
+            $response = [
+                'message'=> 'item successfully updated',
+                'data' => $element,
             ];
             return response()->json($response, 200);
         } catch (\Exception $e) {

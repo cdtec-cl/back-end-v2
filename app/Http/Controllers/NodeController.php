@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Node;
+use App\Measure;
+use App\Farm;
+
 class NodeController extends Controller
 {
     public function store(Request $request){
@@ -30,6 +33,10 @@ class NodeController extends Controller
             return response()->json($validator->errors(), 400);
         }
         try {
+            $farm = Farm::find($request->get('id_farm'));
+            if(is_null($farm)){
+                return response()->json(["message"=>"non-existent farm"],404);
+            }
             $element = Node::create([
                 'name' => $request->get('name'),
                 'lat' => $request->get('lat'),
@@ -45,6 +52,44 @@ class NodeController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function measures($id){
+        try {            
+            $elements = Measure::where("id_node",$id)->get();
+            $response = [
+                'message'=> 'items found successfully',
+                'data' => $elements,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function get($id){
+        try {            
+            $element = Node::with("farm")->find($id);
+            if(is_null($element)){
+                return response()->json([
+                    "message"=>"non-existent item",
+                    "data"=>$element
+                ],404);
+            }
+            $response = [
+                'message'=> 'item found successfully',
+                'data' => $element,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
                 'error' => $e->getMessage(),
                 'linea' => $e->getLine()
             ], 500);
