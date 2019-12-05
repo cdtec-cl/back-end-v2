@@ -15,26 +15,14 @@ class CreateAlarmsTable extends Migration
     {
         Schema::create('alarms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('activationValue')->default(0);
-            $table->string('date', 45);
-            $table->unsignedBigInteger('id_farm')->unsigned();
-            $table->foreign('id_farm')
-                ->references('id')
-                ->on('farms')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->unsignedBigInteger('id_zone')->unsigned();
-            $table->foreign('id_zone')
-                ->references('id')
-                ->on('zones')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->unsignedBigInteger('id_irrigation')->unsigned();
-            $table->foreign('id_irrigation')
-                ->references('id')
-                ->on('irrigations')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->integer('activationValue')->nullable();
+            $table->text('description')->nullable();        
+            $table->string('date', 45)->nullable();
+            $table->unsignedInteger('id_farm')->nullable();
+            $table->unsignedInteger('id_zone')->nullable();
+            $table->unsignedInteger('id_irrigation')->nullable();
+            $table->unsignedInteger('id_real_irrigation')->nullable();            
+            $table->unsignedInteger('id_wiseconn')->nullable();
             $table->timestamps();
         });
     }

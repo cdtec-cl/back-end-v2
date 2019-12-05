@@ -15,16 +15,12 @@ class CreateNodesTable extends Migration
     {
         Schema::create('nodes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 45);
-            $table->string('lat', 45);
-            $table->string('lng', 45);
-            $table->string('nodeType', 45);
-            $table->unsignedBigInteger('id_farm')->unsigned();
-            $table->foreign('id_farm')
-                ->references('id')
-                ->on('farms')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->string('name');
+            $table->string('lat', 45)->nullable();
+            $table->string('lng', 45)->nullable();
+            $table->string('nodeType', 45)->nullable();
+            $table->unsignedInteger('id_farm')->nullable();
+            $table->unsignedInteger('id_wiseconn')->nullable();
             $table->timestamps();
         });
     }

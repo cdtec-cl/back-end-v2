@@ -4,7 +4,19 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use App\Console\Commands\CloneByFarmFarmsAccountsNodes;
+use App\Console\Commands\CloneByFarmZones;
+use App\Console\Commands\CloneByFarmPumpsystems;
+use App\Console\Commands\CloneByFarmHydraulics;
+use App\Console\Commands\CloneByFarmMeasures;
+use App\Console\Commands\CloneByFarmIrrigationsVolumes;
+use App\Console\Commands\CloneByFarmRealIrrigationsVolumes;
+use App\Console\Commands\CloneByFarmAlarms;
+use App\Console\Commands\CloneByZonePumpsystems;
+use App\Console\Commands\CloneByZoneMeasures;
+use App\Console\Commands\CloneByZoneIrrigationsVolumes;
+use App\Console\Commands\CloneByZoneRealIrrigationsVolumes;
+use App\Console\Commands\CloneByZoneAlarms;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -13,7 +25,19 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CloneByFarmFarmsAccountsNodes::class,
+        CloneByFarmZones::class,
+        CloneByFarmPumpsystems::class,
+        CloneByFarmHydraulics::class,
+        CloneByFarmMeasures::class,
+        CloneByFarmIrrigationsVolumes::class,
+        CloneByFarmRealIrrigationsVolumes::class,
+        CloneByFarmAlarms::class,
+        CloneByZonePumpsystems::class,
+        CloneByZoneMeasures::class,
+        CloneByZoneIrrigationsVolumes::class,
+        CloneByZoneRealIrrigationsVolumes::class,
+        CloneByZoneAlarms::class,
     ];
 
     /**
@@ -24,8 +48,32 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // php artisan clonebyfarm:farms:accounts:nodes:run
+        // $schedule->command('clonebyfarm:farms:accounts:nodes:run')->hourly();
+        // php artisan clonebyfarm:zones:run
+        // $schedule->command('clonebyfarm:zones:run')->hourly();
+        // php artisan clonebyfarm:pumpsystems:run
+        // $schedule->command('clonebyfarm:pumpsystems:run')->hourly();
+        // php artisan clonebyfarm:hydraulics:run
+        // $schedule->command('clonebyfarm:hydraulics:run')->hourly();
+        // php artisan clonebyfarm:measures:run
+        // $schedule->command('clonebyfarm:measures:run')->hourly();
+        // php artisan clonebyfarm:irrigations:volumes:run
+        // $schedule->command('clonebyfarm:irrigations:volumes:run')->hourly();
+        // php artisan clonebyfarm:realirrigations:volumes:run
+        // $schedule->command('clonebyfarm:realirrigations:volumes:run')->hourly();
+        // php artisan clonebyfarm:alarms:run
+        // $schedule->command('clonebyfarm:alarms:run')->hourly();
+        // php artisan clonebyzone:pumpsystems:run
+        // $schedule->command('clonebyzone:pumpsystems:run')->hourly();
+        // php artisan clonebyzone:measures:run
+        // $schedule->command('clonebyzone:measures:run')->hourly();
+        // php artisan clonebyzone:irrigations:volumes:run
+        // $schedule->command('clonebyzone:irrigations:volumes:run')->hourly();
+        // php artisan clonebyzone:realirrigations:volumes:run
+        // $schedule->command('clonebyzone:realirrigations:volumes:run')->hourly();
+        // php artisan clonebyzone:alarms:run
+        // $schedule->command('clonebyzone:alarms:run')->hourly();
     }
 
     /**

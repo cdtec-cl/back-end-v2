@@ -56,7 +56,7 @@ class AccountController extends Controller
             'email'           => 'required|string|max:45',
             'comentario'      => 'required|string|max:45',
             'habilitar'       => 'required|string|max:45',
-            'id_farm'         => 'requirid_farmed|integer'
+            'id_farm'         => 'required|integer'
         ],[
             'name.required'          => 'El name es requerido',
             'name.max'               => 'El name debe contener como máximo 45 caracteres',
