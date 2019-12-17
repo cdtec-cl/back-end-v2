@@ -52,21 +52,20 @@ class CloneByZoneMeasures extends Command
             'nodePort'=> isset($measure->physicalConnection)?$measure->physicalConnection->nodePort:null
         ]);
     }
-    protected function measureCreate($measure,$farm,$zone,$node,$newPhysicalConnection){
+    protected function measureCreate($measure,$farm,$zone,$newPhysicalConnection){
         return Measure::create([
             'name' => $measure->name,
-            'unit' => isset($measure->unit)?isset($measure->unit):null,
-            'lastData' =>isset($measure->lastData)?isset($measure->lastData):null,
+            'unit' => isset($measure->unit)?($measure->unit):null,
+            'lastData' =>isset($measure->lastData)?($measure->lastData):null,
             'lastDataDate'=> isset($measure->lastDataDate)?(Carbon::parse($measure->lastDataDate)):null,
             'monitoringTime'=> isset($measure->monitoringTime)?$measure->monitoringTime:null,
-            'sensorDepth' => isset($measure->sensorDepth)?isset($measure->sensorDepth):null,
-            'depthUnit'=> isset($measure->depthUnit)?isset($measure->depthUnit):null,
-            'sensorType'=> isset($measure->sensorType)?isset($measure->sensorType):null,
-            'readType'=> isset($measure->readType)?isset($measure->readType):null,
+            'sensorDepth' => isset($measure->sensorDepth)?($measure->sensorDepth):null,
+            'depthUnit'=> isset($measure->depthUnit)?($measure->depthUnit):null,
+            'sensorType'=> isset($measure->sensorType)?($measure->sensorType):null,
+            'readType'=> isset($measure->readType)?($measure->readType):null,
             'id_farm' => isset($farm->id)?$farm->id:null,
-            'id_zone' => $zone->id,
+            'id_zone' => isset($zone->id)?$farm->id:null,
             'id_physical_connection' => isset($newPhysicalConnection->id)?$newPhysicalConnection->id:null,
-            'id_node' => isset($node->id)?$node->id:null,
             'id_wiseconn' => $measure->id
         ]); 
     }
@@ -91,12 +90,12 @@ class CloneByZoneMeasures extends Command
                         $newPhysicalConnection =$this->physicalConnectionCreate($measure);
                         if(isset($measure->farmId)&&isset($measure->nodeId)&&isset($measure->zoneId)){
                             $farm=Farm::where("id_wiseconn",$measure->farmId)->first();
-                            $node=Node::where("id_wiseconn",$measure->nodeId)->first();
-                            if($measure->farmId==$farm->id_wiseconn&&!is_null($farm)&&!is_null($node)){ 
-                                $newmeasure =$this->measureCreate($measure,$farm,$farm,$node,$newPhysicalConnection); 
+                            $zone=Zone::where("id_wiseconn",$measure->zoneId)->first();                            
+                            if($measure->farmId==$farm->id_wiseconn&&!is_null($farm)&&!is_null($zone)){ 
+                                $newmeasure =$this->measureCreate($measure,$farm,$zone,$newPhysicalConnection); 
                             }
                         }else{
-                            $newmeasure =$this->measureCreate($measure,$farm,null,null,$newPhysicalConnection); 
+                            $newmeasure =$this->measureCreate($measure,$farm,null,$newPhysicalConnection); 
                         }
                         
                     }  

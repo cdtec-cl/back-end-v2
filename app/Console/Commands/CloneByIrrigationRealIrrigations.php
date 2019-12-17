@@ -5,28 +5,28 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
-use App\Farm;
+use App\Irrigation;
 use App\RealIrrigation;
 use App\Zone;
 use App\Pump_system;
 use App\Volume;
 use Carbon\Carbon;
 
-class CloneByZoneRealIrrigationsVolumes extends Command
+class CloneByIrrigationRealIrrigations extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clonebyzone:realirrigations:volumes:run';
+    protected $signature = 'clonebyirrigation:realirrigations:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clone real irrigations data by zone';
+    protected $description = 'Clone realirrigations by irrigation';
 
     /**
      * Create a new command instance.
@@ -52,7 +52,7 @@ class CloneByZoneRealIrrigationsVolumes extends Command
             'unitAbrev'=> isset($realIrrigation->volume)?$realIrrigation->volume->unitAbrev:null
         ]);
     }
-    protected function realIirrigationCreate($realIrrigation,$farm,$zone,$volume,$pumpSystem){
+    protected function realIrrigationCreate($realIrrigation,$farm,$zone,$volume,$pumpSystem){
         return RealIrrigation::create([
             'initTime' => isset($realIrrigation->initTime)?$realIrrigation->initTime:null,
             'endTime' =>isset($realIrrigation->endTime)?$realIrrigation->endTime:null,
@@ -77,20 +77,20 @@ class CloneByZoneRealIrrigationsVolumes extends Command
         $initTime=Carbon::now(date_default_timezone_get())->format('Y-m-d');
         $endTime=Carbon::now(date_default_timezone_get())->addDays(15)->format('Y-m-d');
         try{
-            $farms=Farm::all();
-            foreach ($farms as $key => $farm) {
-                $realIrrigationsResponse = $this->requestWiseconn($client,'GET','/farms/'.$farm->id_wiseconn.'/realIrrigations/?endTime='.$endTime.'&initTime='.$initTime);
+            $irrigations=Irrigation::all();
+            foreach ($irrigations as $key => $irrigation) {
+                $realIrrigationsResponse = $this->requestWiseconn($client,'GET','/irrigations/'.$irrigation->id_wiseconn.'/realIrrigations/');
                 $realIrrigations=json_decode($realIrrigationsResponse->getBody()->getContents());
                 foreach ($realIrrigations as $key => $realIrrigation) {
                     $zone=Zone::where("id_wiseconn",$realIrrigation->zoneId)->first();
                     $pumpSystem=Pump_system::where("id_wiseconn",$realIrrigation->pumpSystemId)->first();
                     if(is_null(RealIrrigation::where("id_wiseconn",$realIrrigation->id)->first())&&!is_null($zone)&&!is_null($pumpSystem)){ 
                         $newVolume =$this->volumeCreate($realIrrigation);
-                        $newRealIrrigation =$this->realIirrigationCreate($realIrrigation,$farm,$zone,$newVolume,$pumpSystem);                                                                 
+                        $newRealIrrigation =$this->realIrrigationCreate($realIrrigation,$farm,$zone,$newVolume,$pumpSystem);                                                                 
                     }
-                }                    
+                }
             }
-            $this->info("Success: Clone real irrigations and volumes data by zone");
+            $this->info("Success: Clone real irrigations and volumes data by irrigation");
         } catch (\Exception $e) {
             $this->error("Error:" . $e->getMessage());
             $this->error("Linea:" . $e->getLine());

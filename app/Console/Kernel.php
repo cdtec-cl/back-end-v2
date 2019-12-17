@@ -15,8 +15,13 @@ use App\Console\Commands\CloneByFarmAlarms;
 use App\Console\Commands\CloneByZonePumpsystems;
 use App\Console\Commands\CloneByZoneMeasures;
 use App\Console\Commands\CloneByZoneIrrigationsVolumes;
-use App\Console\Commands\CloneByZoneRealIrrigationsVolumes;
+use App\Console\Commands\CloneByZoneRealIrrigationVolumes;
 use App\Console\Commands\CloneByZoneAlarms;
+use App\Console\Commands\CloneByNodeMeasures;
+use App\Console\Commands\CloneByIrrigationRealIrrigations;
+use App\Console\Commands\CloneByPumpsystemIrrigationsVolumes;
+use App\Console\Commands\CloneByPumpsystemRealIrrigationsVolumes;
+use App\Console\Commands\CloneByPumpsystemZones;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -36,8 +41,13 @@ class Kernel extends ConsoleKernel
         CloneByZonePumpsystems::class,
         CloneByZoneMeasures::class,
         CloneByZoneIrrigationsVolumes::class,
-        CloneByZoneRealIrrigationsVolumes::class,
+        CloneByZoneRealIrrigationVolumes::class,
         CloneByZoneAlarms::class,
+        CloneByNodeMeasures::class,
+        CloneByIrrigationRealIrrigations::class,
+        CloneByPumpsystemIrrigationsVolumes::class,
+        CloneByPumpsystemRealIrrigationsVolumes::class,
+        CloneByPumpsystemZones::class
     ];
 
     /**
@@ -74,6 +84,16 @@ class Kernel extends ConsoleKernel
         // $schedule->command('clonebyzone:realirrigations:volumes:run')->hourly();
         // php artisan clonebyzone:alarms:run
         // $schedule->command('clonebyzone:alarms:run')->hourly();
+        // php artisan clonebynode:measures:run
+        // $schedule->command('clonebynode:measures:run')->hourly();
+        // php artisan clonebyirrigation:realirrigations:run
+        // $schedule->command('clonebyirrigation:realirrigations:run')->hourly();
+        // php artisan clonebypumpsystem:irrigations:volumes:run
+        // $schedule->command('clonebypumpsystem:irrigations:volumes:run')->hourly();
+        // php artisan clonebypumpsystem:realirrigations:volumes:run
+        // $schedule->command('clonebypumpsystem:realirrigations:volumes:run')->hourly();
+        // php artisan clonebypumpsystem:zones:run
+        // $schedule->command('clonebypumpsystem:zones:run')->hourly();
     }
 
     /**

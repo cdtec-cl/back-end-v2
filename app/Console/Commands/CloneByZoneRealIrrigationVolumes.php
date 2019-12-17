@@ -12,21 +12,21 @@ use App\Pump_system;
 use App\Volume;
 use Carbon\Carbon;
 
-class CloneByFarmRealIrrigationsVolumes extends Command
+class CloneByZoneRealIrrigationVolumes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clonebyfarm:realirrigations:volumes:run';
+    protected $signature = 'clonebyzone:realirrigations:volumes:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clone real irrigations data by farm';
+    protected $description = 'Clone real irrigations data by zone';
 
     /**
      * Create a new command instance.
@@ -52,7 +52,7 @@ class CloneByFarmRealIrrigationsVolumes extends Command
             'unitAbrev'=> isset($realIrrigation->volume)?$realIrrigation->volume->unitAbrev:null
         ]);
     }
-    protected function realIirrigationCreate($realIrrigation,$farm,$zone,$volume,$pumpSystem){
+    protected function realIrrigationCreate($realIrrigation,$farm,$zone,$volume,$pumpSystem){
         return RealIrrigation::create([
             'initTime' => isset($realIrrigation->initTime)?$realIrrigation->initTime:null,
             'endTime' =>isset($realIrrigation->endTime)?$realIrrigation->endTime:null,
@@ -86,11 +86,11 @@ class CloneByFarmRealIrrigationsVolumes extends Command
                     $pumpSystem=Pump_system::where("id_wiseconn",$realIrrigation->pumpSystemId)->first();
                     if(is_null(RealIrrigation::where("id_wiseconn",$realIrrigation->id)->first())&&!is_null($zone)&&!is_null($pumpSystem)){ 
                         $newVolume =$this->volumeCreate($realIrrigation);
-                        $newRealIrrigation =$this->realIirrigationCreate($realIrrigation,$farm,$zone,$newVolume,$pumpSystem);                                                                 
+                        $newRealIrrigation =$this->realIrrigationCreate($realIrrigation,$farm,$zone,$newVolume,$pumpSystem);                                                                 
                     }
                 }                    
             }
-            $this->info("Success: Clone real irrigations and volumes data by farm");
+            $this->info("Success: Clone real irrigations and volumes data by zone");
         } catch (\Exception $e) {
             $this->error("Error:" . $e->getMessage());
             $this->error("Linea:" . $e->getLine());

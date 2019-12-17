@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
@@ -11,21 +12,22 @@ use App\Node;
 use App\Zone;
 use App\Measure;
 use App\PhysicalConnection;
-class CloneByFarmMeasures extends Command
+
+class CloneByNodeMeasures extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clonebyfarm:measures:run';
+    protected $signature = 'clonebynode:measures:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clone measures data by farm';
+    protected $description = 'Clone measures by node';
 
     /**
      * Create a new command instance.
@@ -36,7 +38,7 @@ class CloneByFarmMeasures extends Command
     {
         parent::__construct();
     }
-    protected function requestWiseconn($client,$method,$uri){
+protected function requestWiseconn($client,$method,$uri){
         return $client->request($method, $uri, [
             'headers' => [
                 'api_key' => '9Ev6ftyEbHhylMoKFaok',
@@ -54,14 +56,14 @@ class CloneByFarmMeasures extends Command
     protected function measureCreate($measure,$farm,$zone,$node,$newPhysicalConnection){
         return Measure::create([
             'name' => $measure->name,
-            'unit' => isset($measure->unit)?($measure->unit):null,
-            'lastData' =>isset($measure->lastData)?($measure->lastData):null,
+            'unit' => isset($measure->unit)?$measure->unit:null,
+            'lastData' =>isset($measure->lastData)?$measure->lastData:null,
             'lastDataDate'=> isset($measure->lastDataDate)?(Carbon::parse($measure->lastDataDate)):null,
             'monitoringTime'=> isset($measure->monitoringTime)?$measure->monitoringTime:null,
-            'sensorDepth' => isset($measure->sensorDepth)?($measure->sensorDepth):null,
-            'depthUnit'=> isset($measure->depthUnit)?($measure->depthUnit):null,
-            'sensorType'=> isset($measure->sensorType)?($measure->sensorType):null,
-            'readType'=> isset($measure->readType)?($measure->readType):null,
+            'sensorDepth' => isset($measure->sensorDepth)?$measure->sensorDepth:null,
+            'depthUnit'=> isset($measure->depthUnit)?$measure->depthUnit:null,
+            'sensorType'=> isset($measure->sensorType)?$measure->sensorType:null,
+            'readType'=> isset($measure->readType)?$measure->readType:null,
             'id_farm' => isset($farm->id)?$farm->id:null,
             'id_zone' => isset($zone->id)?$zone->id:null,
             'id_physical_connection' => isset($newPhysicalConnection->id)?$newPhysicalConnection->id:null,
@@ -80,9 +82,9 @@ class CloneByFarmMeasures extends Command
             'timeout'  => 100.0,
         ]);
         try{
-            $farms=Farm::all();
-            foreach ($farms as $key => $farm) {
-                $measuresResponse = $this->requestWiseconn($client,'GET','/farms/'.$farm->id_wiseconn.'/measures');
+            $nodes=Node::all();
+            foreach ($nodes as $key => $node) {
+                $measuresResponse = $this->requestWiseconn($client,'GET','/nodes/'.$node->id_wiseconn.'/measures');
                 $measures=json_decode($measuresResponse->getBody()->getContents());
                 foreach ($measures as $key => $measure) {
                     if(is_null(Measure::where("id_wiseconn",$measure->id)->first())){
@@ -90,7 +92,7 @@ class CloneByFarmMeasures extends Command
                         if(isset($measure->farmId)&&isset($measure->nodeId)&&isset($measure->zoneId)){
                             $farm=Farm::where("id_wiseconn",$measure->farmId)->first();
                             $zone=Zone::where("id_wiseconn",$measure->zoneId)->first(); 
-                            if($measure->farmId==$farm->id_wiseconn&&!is_null($zone)&&!is_null($farm)){ 
+                            if($measure->farmId==$farm->id_wiseconn&&!is_null($farm)&&!is_null($zone)){ 
                                 $newmeasure =$this->measureCreate($measure,$farm,$zone,$newPhysicalConnection); 
                             }
                         }else{
@@ -98,9 +100,9 @@ class CloneByFarmMeasures extends Command
                         }
                         
                     }  
-                }                    
+                }
             }
-            $this->info("Success: Clone measures data by farm");
+            $this->info("Success: Clone measures data by node");
         } catch (\Exception $e) {
             $this->error("Error:" . $e->getMessage());
             $this->error("Linea:" . $e->getLine());
