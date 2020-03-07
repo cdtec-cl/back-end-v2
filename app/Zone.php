@@ -9,6 +9,7 @@ use App\SouthWestBound;
 use App\NorthEastBound;
 class Zone extends Model
 {
+    
     protected $fillable = [
         'name', 'description','latitude', 
         'longitude','type', 'kc','theoreticalFlow',
@@ -18,7 +19,7 @@ class Zone extends Model
     ];
     protected $with = ['path','southWest','northEast'];
     protected $hidden   = [
-        'id','id_zone',
+        'id_zone',
         'id_bound',
         'created_at',
         'updated_at',
