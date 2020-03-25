@@ -83,11 +83,26 @@ Route::group(['middleware' => ['cors'] ], function() {
 	Route::post('volumes/store', 'VolumeController@store');
 	// polygons
 	Route::post('polygons/store', 'PolygonController@store');
-
+	// users
+	Route::get('users', 'UserController@all');
+	Route::get('users/get/{id}', 'UserController@get');
+	Route::post('users/store', 'UserController@store');
+	Route::post('users/update/{id}', 'UserController@update');
+	Route::delete('users/delete/{id}', 'UserController@delete');
+	// farmscamps
+	Route::get('farmscamps', 'FarmsUsersController@all');
+	Route::get('farmscamps/get/{id}', 'FarmsUsersController@get');
+	Route::post('farmscamps/store', 'FarmsUsersController@store');
+	Route::post('farmscamps/update/{id}', 'FarmsUsersController@update');
+	Route::delete('farmscamps/delete/{id}', 'FarmsUsersController@delete');		
+	// roles
+	Route::get('roles', 'RoleController@all');
+	Route::get('roles/get/{id}', 'RoleController@get');
+	Route::post('roles/store', 'RoleController@store');
+	Route::post('roles/update/{id}', 'RoleController@update');
+	Route::delete('roles/delete/{id}', 'RoleController@delete');		
 });
 
-// test
-Route::get('test', 'Controller@test');
 // types
 Route::post('types/store', 'TypeController@store');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
