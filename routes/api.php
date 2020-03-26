@@ -87,6 +87,7 @@ Route::group(['middleware' => ['cors'] ], function() {
 	Route::get('users', 'UserController@all');
 	Route::get('users/get/{id}', 'UserController@get');
 	Route::get('users/{id}/getfarms', 'UserController@getFarms');
+	Route::post('users/{id}/registerfarms', 'UserController@registerFarms');
 	Route::post('users/store', 'UserController@store');
 	Route::post('users/update/{id}', 'UserController@update');
 	Route::delete('users/delete/{id}', 'UserController@delete');
@@ -102,11 +103,11 @@ Route::group(['middleware' => ['cors'] ], function() {
 	Route::get('roles/get/{id}', 'RoleController@get');
 	Route::post('roles/store', 'RoleController@store');
 	Route::post('roles/update/{id}', 'RoleController@update');
-	Route::delete('roles/delete/{id}', 'RoleController@delete');		
+	Route::delete('roles/delete/{id}', 'RoleController@delete');
+	// types
+	Route::post('types/store', 'TypeController@store');	
 });
-
-// types
-Route::post('types/store', 'TypeController@store');
+Route::post('auth/login', 'Api\AuthController@login');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
