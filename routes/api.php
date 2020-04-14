@@ -32,6 +32,7 @@ Route::group(['middleware' => ['cors'] ], function() {
 	Route::post('farms/{id}/alarms/triggered', 'FarmController@alarmsTriggered');
 	Route::get('farms/{id}/realirrigations', 'FarmController@realIrrigations');
 	Route::get('farms/{id}/measures', 'FarmController@measures');
+	Route::get('farms/{id}/sensortypes', 'FarmController@sensorTypes');	
 	Route::post('farms/{id}/webhook', 'FarmController@webhookUpdate');
 	// zones
 	Route::post('zones/store', 'ZoneController@store');
@@ -87,6 +88,7 @@ Route::group(['middleware' => ['cors'] ], function() {
 	Route::get('users', 'UserController@all');
 	Route::get('users/get/{id}', 'UserController@get');
 	Route::get('users/{id}/getfarms', 'UserController@getFarms');
+	Route::get('users/{id}/getaccounts', 'UserController@getAccounts');	
 	Route::post('users/{id}/registerfarms', 'UserController@registerFarms');
 	Route::post('users/store', 'UserController@store');
 	Route::post('users/update/{id}', 'UserController@update');
