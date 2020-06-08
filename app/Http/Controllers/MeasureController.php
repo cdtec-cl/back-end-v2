@@ -145,15 +145,82 @@ class MeasureController extends Controller{
         ]);
     }
     public function data(Request $request,$id){
-        try {
-            $measure=Measure::find($id);
+        $arrays=$request->all();
+        $dataId = array();        
+        foreach ($arrays as $key => $array) {            
+            $id= substr($key, 0,2);
+            if($id==='id') {
+                $dataId[]= $array;
+
+            }
+        }
+        $dataMeasure =array();
+           
+        foreach($dataId as $key => $value){
+            $measure=Measure::find($value);
             if(is_null($measure)){
                 return response()->json([
                     "message"=>"Measure no existente",
                     "data"=>$measure
                 ],404);
             }
-            //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
+
+            $dataMeasure[]=MeasureData::where("id_measure",$value)
+                                       ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                                       ->select(\DB::raw(
+                                        'value,
+                                        UNIX_TIMESTAMP(time) as date_measure
+                                     '
+                                     ))->orderBy('time', 'DESC')->get();
+
+        }
+        try {
+            
+         
+          
+            $response = [
+                'message'=> 'MeasureData encontrado satisfactoriamente',
+                'measure'=>$measure,
+                'data' => $dataMeasure,
+            ];              
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function filterData(Request $request){
+        try {
+            $measure=Measure::where("id_zone",$request->input("zone")["id"])
+                    ->where("sensorDepth",$request->input("sensorSelected")["sensorDepth"])
+                    ->where("unit",$request->input("sensorSelected")["unit"])
+                    ->where("depthUnit",$request->input("sensorSelected")["depthUnit"])->first();
+            if(is_null($measure)){
+                return response()->json([
+                    "message"=>"Measure no existente",
+                    "data"=>$measure
+                ],404);
+            }
+            $response = [
+                'message'=> 'MeasureData encontrado satisfactoriamente',
+                'data' => MeasureData::where("id_measure",$measure->id)->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])->orderBy('time', 'DESC')->get(),
+            ];              
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+
+
+
+      //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
             //$cloningErrors=CloningErrors::where("elements","/measures/id/data")->where("uri","/measures/".$measure->id_wiseconn."/data")->where("id_wiseconn",$measure->id_wiseconn)->get();
             /*if(count($cloningErrors)>0){
                 foreach ($cloningErrors as $key => $cloningError) {
@@ -205,43 +272,4 @@ class MeasureController extends Controller{
                         ], 500);
                     }
             }*/
-            $response = [
-                'message'=> 'MeasureData encontrado satisfactoriamente',
-                'measure'=>$measure,
-                'data' => MeasureData::where("id_measure",$measure->id)->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])->orderBy('time', 'DESC')->get(),
-            ];              
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
-                'error' => $e->getMessage(),
-                'linea' => $e->getLine()
-            ], 500);
-        }
-    }
-    public function filterData(Request $request){
-        try {
-            $measure=Measure::where("id_zone",$request->input("zone")["id"])
-                    ->where("sensorDepth",$request->input("sensorSelected")["sensorDepth"])
-                    ->where("unit",$request->input("sensorSelected")["unit"])
-                    ->where("depthUnit",$request->input("sensorSelected")["depthUnit"])->first();
-            if(is_null($measure)){
-                return response()->json([
-                    "message"=>"Measure no existente",
-                    "data"=>$measure
-                ],404);
-            }
-            $response = [
-                'message'=> 'MeasureData encontrado satisfactoriamente',
-                'data' => MeasureData::where("id_measure",$measure->id)->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])->orderBy('time', 'DESC')->get(),
-            ];              
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
-                'error' => $e->getMessage(),
-                'linea' => $e->getLine()
-            ], 500);
-        }
-    }
 }
