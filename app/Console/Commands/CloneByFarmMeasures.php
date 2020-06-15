@@ -167,6 +167,7 @@ class CloneByFarmMeasures extends Command
         return null;
     }
     protected function measureCreate($measure,$farm,$zone,$node,$newPhysicalConnection){
+       // $this->info("==========creacion de este measure (".count($measure)." elementos)");
         return Measure::create([
             'name' => $measure->name,
             'unit' => isset($measure->unit)?($measure->unit):null,
@@ -285,6 +286,8 @@ class CloneByFarmMeasures extends Command
                                 $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                                 $measures=json_decode($measuresResponse->getBody()->getContents());
                                 $this->info("==========Clonando nuevos elementos (".count($measures)." elementos)");
+                                $this->info("==========Clonando nuevos elementos (".$measures." elementos)");
+                                
                                 foreach ($measures as $key => $measure) {
                                     $this->cloneBy($measure);
                                 }

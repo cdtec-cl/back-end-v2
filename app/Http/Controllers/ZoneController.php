@@ -233,7 +233,7 @@ class ZoneController extends Controller
             ], 500);
         }
     }
-    public function measures($id){
+    public function measures(Request $request,$id){
         try {
             $zone=Zone::find($id);
             $today = Carbon::today();

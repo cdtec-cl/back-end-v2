@@ -145,7 +145,8 @@ class MeasureController extends Controller{
         ]);
     }
     public function data(Request $request,$id){
-        $arrays=$request->all();
+        $arrays=$request->all();        
+
         $dataId = array();        
         foreach ($arrays as $key => $array) {            
             $id= substr($key, 0,2);
@@ -154,9 +155,14 @@ class MeasureController extends Controller{
 
             }
         }
-        $dataMeasure =array();
+        $dataMeasure = array();
+       
+        $dataResponse2 = array();
+        $cont = 0;
+
            
         foreach($dataId as $key => $value){
+            $dataResponse = array();
             $measure=Measure::find($value);
             if(is_null($measure)){
                 return response()->json([
@@ -168,10 +174,21 @@ class MeasureController extends Controller{
             $dataMeasure[]=MeasureData::where("id_measure",$value)
                                        ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
                                        ->select(\DB::raw(
-                                        'value,
-                                        UNIX_TIMESTAMP(time) as date_measure
+                                        
+                                        'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+                                        value, 
+                                        time
                                      '
-                                     ))->orderBy('time', 'DESC')->get();
+                                     ))->orderBy('time', 'ASC')->get();
+                       
+            
+            foreach($dataMeasure[$cont] as $value){  
+                $dataResponse[] = array(intval(($value->date_measure)*1000),
+                round($value->value,2), $value->time);                                     
+            }
+            $dataResponse2[]= $dataResponse;
+            $cont= $cont+1;
+            
 
         }
         try {
@@ -181,7 +198,7 @@ class MeasureController extends Controller{
             $response = [
                 'message'=> 'MeasureData encontrado satisfactoriamente',
                 'measure'=>$measure,
-                'data' => $dataMeasure,
+                'data' => $dataResponse2,
             ];              
             return response()->json($response, 200);
         } catch (\Exception $e) {

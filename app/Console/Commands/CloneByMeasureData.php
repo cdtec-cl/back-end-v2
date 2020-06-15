@@ -57,6 +57,7 @@ class CloneByMeasureData extends Command
         ]);
     }
     protected function cloneBy($measure,$measureData,$measuresDataCount){
+        print_r(MeasureData::where("id_measure",$measure->id)->where("time",$measureData->time)->first());
         if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$measureData->time)->first())){
             $newMeasureData = $this->measureDataCreate($measure,$measureData);
             $this->info("New MeasureData id:".$newMeasureData->id." cantidad de MeasureData:".$measuresDataCount);
@@ -74,9 +75,14 @@ class CloneByMeasureData extends Command
         try{
             //$zonesId=Zone::whereIn("name",["Estación Meteorológica","Estación Metereológica"])->pluck("id");
             //$measures=Measure::whereIn("id_zone",$zonesId)->get();
-            $measures=Measure::distinct('id_wiseconn')->get();//all();
-            $initTime=Carbon::now(date_default_timezone_get())->subDays(5)->format('Y-m-d');
+            // $measures=Measure::distinct('id_wiseconn')->get();//all();
+            $measures=Measure::whereIn('id', [53, 59])->get(); //all();
+            $initTime=Carbon::now(date_default_timezone_get())->subDays(10)->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
+            $this->info("==========Fecha Inicio (".$initTime." elementos)");
+            $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
+            
+            
             foreach ($measures as $mKey => $measure) {
                 try{
                     $cloningErrors=CloningErrors::where("elements","/measures/id/data")->get();
@@ -92,10 +98,14 @@ class CloneByMeasureData extends Command
                         }
                     }else{
                         try {
-                            if($measure->lastMeasureDataUpdate){
+                            /*if($measure->lastMeasureDataUpdate){
                                 $initTime=Carbon::parse($measure->lastMeasureDataUpdate)->format('Y-m-d');
-                            }
+                            }*/
+                            $this->info("==========INIT TIME (".$initTime." )");
+                            $this->info("==========ID MEASURE WISECON (".$measure->id_wiseconn." )");
                             $currentRequestUri='/measures/'.$measure->id_wiseconn.'/data?initTime='.$initTime.'T00:00&endTime='.$endTime.'T00:00';
+                            $this->info("==========URL (".$currentRequestUri." )");
+                          //  dd($currentRequestUri);
                             $currentRequestElement='/measures/id/data';
                             $id_wiseconn=$measure->id_wiseconn;
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);

@@ -61,25 +61,25 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // php artisan clonebyfarm:farms:accounts:nodes:run
-        $schedule->command('clonebyfarm:farms:accounts:nodes:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:farms:accounts:nodes:run')->daily();
         // php artisan clonebyfarm:zones:run
-        $schedule->command('clonebyfarm:zones:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:zones:run')->daily();
         // php artisan clonebyfarm:pumpsystems:run
-        $schedule->command('clonebyfarm:pumpsystems:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:pumpsystems:run')->daily();
         // php artisan clonebyfarm:hydraulics:run
-        $schedule->command('clonebyfarm:hydraulics:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:hydraulics:run')->daily();
         // php artisan clonebyfarm:measures:run
-        $schedule->command('clonebyfarm:measures:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:measures:run')->everyTenMinutes();;
         // php artisan clonebyfarm:irrigations:volumes:run
-        $schedule->command('clonebyfarm:irrigations:volumes:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:irrigations:volumes:run')->everyTenMinutes();;
         // php artisan clonebyfarm:realirrigations:volumes:run
-        $schedule->command('clonebyfarm:realirrigations:volumes:run')->everyFiveMinutes();
+        $schedule->command('clonebyfarm:realirrigations:volumes:run')->everyTenMinutes();;
         // php artisan clonebyfarm:alarms:run
         // $schedule->command('clonebyfarm:alarms:run')->everyFiveMinutes();
         // php artisan clonebyzone:pumpsystems:run
-        $schedule->command('clonebyzone:pumpsystems:run')->everyFiveMinutes();
+        $schedule->command('clonebyzone:pumpsystems:run')->everyTenMinutes();;
         // php artisan clonebyzone:measures:run
-        $schedule->command('clonebyzone:measures:run')->everyFiveMinutes();
+        $schedule->command('clonebyzone:measures:run')->everyTenMinutes();;
         // php artisan clonebyzone:irrigations:volumes:run
         $schedule->command('clonebyzone:irrigations:volumes:run')->everyFiveMinutes();
         // php artisan clonebyzone:realirrigations:volumes:run
@@ -97,7 +97,7 @@ class Kernel extends ConsoleKernel
         // php artisan clonebypumpsystem:zones:run
         // $schedule->command('clonebypumpsystem:zones:run')->everyFiveMinutes(); //(clonado en controlador)
         // php artisan clonebymeasure:data:run
-        $schedule->command('clonebymeasure:data:run')->everyFiveMinutes();
+       //  $schedule->command('clonebymeasure:data:run')->everyFiveMinutes();
     }
 
     /**
