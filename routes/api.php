@@ -57,6 +57,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::get('measures/{id}', 'MeasureController@get');
 	Route::get('measures/{id}/data', 'MeasureController@data');
 	Route::post('measures/filter/data', 'MeasureController@filterData');
+	Route::get('measures/filter/sensor', 'MeasureController@filterDatabySensor');
 
 	// pumpsystems
 	Route::post('pumpsystems/store', 'PumpSystemController@store');

@@ -145,7 +145,7 @@ class MeasureController extends Controller{
         ]);
     }
     public function data(Request $request,$id){
-        $arrays=$request->all();        
+        $arrays=$request->all();       
 
         $dataId = array();        
         foreach ($arrays as $key => $array) {            
@@ -210,11 +210,40 @@ class MeasureController extends Controller{
         }
     }
     public function filterData(Request $request){
+        $dataResponse2 = array();
+        $dataResponse = array();
+        $dataMeasure = array();
+        $cont = 0;
+
+        
         try {
-            $measure=Measure::where("id_zone",$request->input("zone")["id"])
+           /* $measure=Measure::where("id_zone",$request->input("zone")["id"])
                     ->where("sensorDepth",$request->input("sensorSelected")["sensorDepth"])
                     ->where("unit",$request->input("sensorSelected")["unit"])
-                    ->where("depthUnit",$request->input("sensorSelected")["depthUnit"])->first();
+                    ->where("depthUnit",$request->input("sensorSelected")["depthUnit"])->first();*/
+            //$variable = $this->getNameAndGroup($request->input("variable"));             
+            /*$measure=Measure::where("id_zone",$request->input("zone")["id"])                    
+                            ->where("sensorType",$variable)->first();*/
+            $measure=Measure::where("id",$request->input("measure_id"))->first();
+
+            $dataMeasure[]=MeasureData::where("id_measure",$measure->id)
+            ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+            ->select(\DB::raw(
+             
+             'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+             value, 
+             time
+          '
+          ))->orderBy('time', 'ASC')->get();
+
+
+            foreach($dataMeasure[$cont] as $value){  
+                $dataResponse[] = array(intval(($value->date_measure)*1000),
+                round($value->value,2), $value->time);                                     
+            }
+
+            
+           
             if(is_null($measure)){
                 return response()->json([
                     "message"=>"Measure no existente",
@@ -223,7 +252,9 @@ class MeasureController extends Controller{
             }
             $response = [
                 'message'=> 'MeasureData encontrado satisfactoriamente',
-                'data' => MeasureData::where("id_measure",$measure->id)->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])->orderBy('time', 'DESC')->get(),
+                //'data' => $measure
+                //'data' => MeasureData::where("id_measure",$measure->id)->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])->orderBy('time', 'DESC')->get(),
+                'data' => $dataResponse
             ];              
             return response()->json($response, 200);
         } catch (\Exception $e) {
@@ -233,6 +264,77 @@ class MeasureController extends Controller{
                 'linea' => $e->getLine()
             ], 500);
         }
+    }
+
+    public function filterDatabySensor(Request $request){
+        
+        try {
+            $variable = $this->getNameAndGroup($request->input("type"));  
+                  
+            $measure=Measure::where("id_zone",$request->input("id_zone"))                    
+                            ->where("sensorType",$variable)->get();
+   
+           
+            if(is_null($measure)){
+                return response()->json([
+                    "message"=>"Measure no existente",
+                    "data"=>$measure
+                ],404);
+            }
+            $response = [
+                'message'=> 'MeasureData encontrado satisfactoriamente',               
+                'data' => $measure,
+            ];              
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+
+    protected function getNameAndGroup($sensorType){
+       
+      
+        switch (strtolower($sensorType)) {
+            //clima
+            case "temperatura":
+            return 'temperature';
+            break;
+            case 'humedad relativa':
+            return 'humidity';
+            break;
+            case "velocidad viento":            
+            return 'Wind Velocity';
+            break;
+            case "dirección viento":            
+            return 'Wind Direction';
+            break;
+            case "radiacion solar":            
+            return 'Solar Radiation';
+            break;
+            case "rafaga de viento":            
+            return 'Wind Gust';
+            break;
+            case "etp":            
+            return 'Etp';
+            break;
+            case "et0":            
+            return 'Et0';
+            break;
+            case "porción frío":            
+            return 'Chill portion';
+            break;
+            case "horas frío":            
+            return 'Chill hours';
+            break;
+            case "atmospheric pressure":            
+            return 'Atmospheric Pressure';
+            break;        
+        }
+
     }
 
 
