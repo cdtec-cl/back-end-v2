@@ -170,16 +170,29 @@ class MeasureController extends Controller{
                     "data"=>$measure
                 ],404);
             }
+            if($measure->id_wiseconn==='1-22869'){
+                $dataMeasure[]=MeasureData::where("id_measure",$value)
+                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->select(\DB::raw(
+                 
+                 'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+                 SUM(value) as value, 
+                 time
+              '
+              ))->orderBy('time', 'ASC')->orderBy('time', 'ASC')->get();
 
-            $dataMeasure[]=MeasureData::where("id_measure",$value)
-                                       ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
-                                       ->select(\DB::raw(
-                                        
-                                        'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
-                                        value, 
-                                        time
-                                     '
-                                     ))->orderBy('time', 'ASC')->get();
+            }else{
+                $dataMeasure[]=MeasureData::where("id_measure",$value)
+                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->select(\DB::raw(
+                 
+                 'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+                 value, 
+                 time
+              '
+              ))->orderBy('time', 'ASC')->get();
+            }
+           
                        
             
             foreach($dataMeasure[$cont] as $value){  
@@ -226,15 +239,29 @@ class MeasureController extends Controller{
                             ->where("sensorType",$variable)->first();*/
             $measure=Measure::where("id",$request->input("measure_id"))->first();
 
-            $dataMeasure[]=MeasureData::where("id_measure",$measure->id)
-            ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
-            ->select(\DB::raw(
-             
-             'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
-             value, 
-             time
-          '
-          ))->orderBy('time', 'ASC')->get();
+            if($measure->id_wiseconn==='1-22869'){
+                $dataMeasure[]=MeasureData::where("id_measure",$measure->id)
+                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->select(\DB::raw(                 
+                 'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+                 SUM(value) as value, 
+                 time
+              '
+              ))->groupByRaw('CAST(time AS DATE)')->orderBy('time', 'ASC')->get();
+
+            }else{
+                $dataMeasure[]=MeasureData::where("id_measure",$measure->id)
+                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->select(\DB::raw(                 
+                 'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
+                 value, 
+                 time
+              '
+              ))->orderBy('time', 'ASC')->get();;
+            }
+           
+
+           
 
 
             foreach($dataMeasure[$cont] as $value){  
@@ -332,7 +359,11 @@ class MeasureController extends Controller{
             break;
             case "atmospheric pressure":            
             return 'Atmospheric Pressure';
-            break;        
+            break; 
+            case "precipitacion/rain":            
+            return 'Rain';
+            break;      
+
         }
 
     }
