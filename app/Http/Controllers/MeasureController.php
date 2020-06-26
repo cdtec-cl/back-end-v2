@@ -179,7 +179,7 @@ class MeasureController extends Controller{
                  SUM(value) as value, 
                  time
               '
-              ))->orderBy('time', 'ASC')->orderBy('time', 'ASC')->get();
+              ))->groupByRaw('CAST(time AS DATE)')->orderBy('time', 'ASC')->get();
 
             }else{
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
