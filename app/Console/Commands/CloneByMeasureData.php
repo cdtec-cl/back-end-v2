@@ -75,8 +75,8 @@ class CloneByMeasureData extends Command
         try{
             //$zonesId=Zone::whereIn("name",["Estación Meteorológica","Estación Metereológica"])->pluck("id");
             //$measures=Measure::whereIn("id_zone",$zonesId)->get();
-            // $measures=Measure::distinct('id_wiseconn')->get();//all();
-            $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
+            $measures=Measure::distinct('id_wiseconn')->where('status','=', '1')->get();//all();            
+           // $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
             $initTime=Carbon::now(date_default_timezone_get())->subDays(20)->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
@@ -104,8 +104,7 @@ class CloneByMeasureData extends Command
                             $this->info("==========INIT TIME (".$initTime." )");
                             $this->info("==========ID MEASURE WISECON (".$measure->id_wiseconn." )");
                             $currentRequestUri='/measures/'.$measure->id_wiseconn.'/data?initTime='.$initTime.'T00:00&endTime='.$endTime.'T00:00';
-                            $this->info("==========URL (".$currentRequestUri." )");
-                          //  dd($currentRequestUri);
+                            $this->info("==========URL (".$currentRequestUri." )");                          
                             $currentRequestElement='/measures/id/data';
                             $id_wiseconn=$measure->id_wiseconn;
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);

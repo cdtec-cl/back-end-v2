@@ -170,7 +170,7 @@ class MeasureController extends Controller{
                     "data"=>$measure
                 ],404);
             }
-            if($measure->id_wiseconn==='1-22869'){
+            if($measure->sensorType==='Rain'){
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
                 ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
                 ->select(\DB::raw(
