@@ -239,7 +239,7 @@ class MeasureController extends Controller{
                             ->where("sensorType",$variable)->first();*/
             $measure=Measure::where("id",$request->input("measure_id"))->first();
 
-            if($measure->id_wiseconn==='1-22869'){
+            if($measure->sensorType==='Rain'){
                 $dataMeasure[]=MeasureData::where("id_measure",$measure->id)
                 ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
                 ->select(\DB::raw(                 
