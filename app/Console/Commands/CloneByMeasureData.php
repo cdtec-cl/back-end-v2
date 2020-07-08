@@ -75,13 +75,18 @@ class CloneByMeasureData extends Command
         try{
             //$zonesId=Zone::whereIn("name",["Estación Meteorológica","Estación Metereológica"])->pluck("id");
             //$measures=Measure::whereIn("id_zone",$zonesId)->get();
-            $measures=Measure::distinct('id_wiseconn')->where('status','=', '1')->get();//all();            
+            $measures= Measure::query() 
+                            ->distinct('measures.id_wiseconn')                           
+                            ->join('farms', 'farms.id', '=', 'measures.id_farm')
+                            ->where('measures.status','=', '1')                            
+                            ->where('farms.active_cloning','=', '1')  
+                            ->get();               
             //desarrollo
            // $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
            //producci{on}
           // $measures=Measure::whereIn('id', [59,60,61,62,63,64,65,66,67,68,69,70,71,343,344,339,429])->get(); //all();
 
-            $initTime=Carbon::now(date_default_timezone_get())->subDays(20)->format('Y-m-d');
+            $initTime=Carbon::now(date_default_timezone_get())->subDays(5)->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
             $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
