@@ -76,11 +76,13 @@ class CloneByMeasureData extends Command
             //$zonesId=Zone::whereIn("name",["Estación Meteorológica","Estación Metereológica"])->pluck("id");
             //$measures=Measure::whereIn("id_zone",$zonesId)->get();
             $measures= Measure::query() 
-                            ->distinct('measures.id_wiseconn')                           
+                            ->distinct('measures.id_wiseconn')  
+                            ->select('measures.id','measures.id_wiseconn' )                         
                             ->join('farms', 'farms.id', '=', 'measures.id_farm')
                             ->where('measures.status','=', '1')                            
                             ->where('farms.active_cloning','=', '1')  
-                            ->get();               
+                            ->get(); 
+                   
             //desarrollo
            // $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
            //producci{on}
