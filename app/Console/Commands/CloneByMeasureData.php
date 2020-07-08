@@ -81,8 +81,8 @@ class CloneByMeasureData extends Command
                             ->join('farms', 'farms.id', '=', 'measures.id_farm')
                             ->where('measures.status','=', '1')                            
                             ->where('farms.active_cloning','=', '1')  
-                            ->get(); 
-                   
+                            ->groupBy('measures.id_wiseconn')
+                            ->get();                   
             //desarrollo
            // $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
            //producci{on}
