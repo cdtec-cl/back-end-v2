@@ -97,7 +97,7 @@ class Kernel extends ConsoleKernel
         // php artisan clonebypumpsystem:zones:run
         // $schedule->command('clonebypumpsystem:zones:run')->everyFiveMinutes(); //(clonado en controlador)
         // php artisan clonebymeasure:data:run
-       //  $schedule->command('clonebymeasure:data:run')->everyFiveMinutes();
+         $schedule->command('clonebymeasure:data:run')->everyFourHours();
     }
 
     /**
