@@ -75,20 +75,21 @@ class CloneByMeasureData extends Command
         try{
             //$zonesId=Zone::whereIn("name",["Estación Meteorológica","Estación Metereológica"])->pluck("id");
             //$measures=Measure::whereIn("id_zone",$zonesId)->get();
-            $measures= Measure::query() 
+           /* $measures= Measure::query() 
                             ->distinct('measures.id_wiseconn')  
                             ->select('measures.id','measures.id_wiseconn' )                         
                             ->join('farms', 'farms.id', '=', 'measures.id_farm')
                             ->where('measures.status','=', '1')                            
                             ->where('farms.active_cloning','=', '1')  
                             ->groupBy('measures.id_wiseconn')
-                            ->get();                   
+                            ->get();   */                
             //desarrollo
            // $measures=Measure::whereIn('id', [52, 198,58,276,59,53])->get(); //all();
            //producci{on}
-          // $measures=Measure::whereIn('id', [59,60,61,62,63,64,65,66,67,68,69,70,71,343,344,339,429])->get(); //all();
+           $measures=Measure::whereIn('id', [59,60,61,62,63,64,65,66,67,68,69,70,71,343,344,339,340,341,343,344,342,423,424,425,426,427,428,429,429,430,705,3238,3239,3241,3243,3244,3245,3345,3351,3353,3374,3375,
+                            2775,2776,3019,3020,3021,3022,3023,3024])->get(); //all();
 
-            $initTime=Carbon::now(date_default_timezone_get())->format('Y-m-d');
+            $initTime=Carbon::now(date_default_timezone_get())->subDays(10)->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
             $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
