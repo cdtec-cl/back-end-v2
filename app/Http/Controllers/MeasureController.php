@@ -158,21 +158,23 @@ class MeasureController extends Controller{
         $dataMeasure = array();
        
         $dataResponse2 = array();
-        $cont = 0;
+        $cont = 0;        
+        $fecha_actual = date('Y-m-d', strtotime("+1 day"));     
 
            
         foreach($dataId as $key => $value){
             $dataResponse = array();
             $measure=Measure::find($value);
+
             if(is_null($measure)){
                 return response()->json([
                     "message"=>"Measure no existente",
-                    "data"=>$measure
+                    "data"=>$measures
                 ],404);
             }
             if($measure->sensorType==='Rain'){
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
-                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->whereBetween("time",[$request->input("initTime"),$fecha_actual])
                 ->select(\DB::raw(
                  
                  'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
@@ -183,7 +185,7 @@ class MeasureController extends Controller{
 
             }else{
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
-                ->whereBetween("time",[$request->input("initTime"),$request->input("endTime")])
+                ->whereBetween("time",[$request->input("initTime"),$fecha_actual])
                 ->select(\DB::raw(
                  
                  'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
@@ -191,6 +193,7 @@ class MeasureController extends Controller{
                  time
               '
               ))->orderBy('time', 'ASC')->get();
+             
             }
            
                        
@@ -227,7 +230,7 @@ class MeasureController extends Controller{
         $dataResponse = array();
         $dataMeasure = array();
         $cont = 0;
-
+        
         
         try {
            /* $measure=Measure::where("id_zone",$request->input("zone")["id"])
