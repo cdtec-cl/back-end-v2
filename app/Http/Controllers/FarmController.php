@@ -695,6 +695,25 @@ class FarmController extends Controller
                 ], 500);
             }
         }
+
+        public function weatherStationZone($id){
+            try {
+                $weatherStation = Zone::where("id",$id)->first();
+                $response = [
+                    'message'=> 'Lista de zonas',
+                    '$id'=> $id,
+                    'data' => $weatherStation,
+                ];
+                return response()->json($response, 200);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                    'error' => $e->getMessage(),
+                    'linea' => $e->getLine()
+                ], 500);
+            }
+        }
         public function activeCloning($id){
             try {
                 $farm=Farm::find($id);

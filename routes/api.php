@@ -26,6 +26,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::post('farms/update/{id}', 'FarmController@update');
 	Route::get('farms/{id}/zones', 'FarmController@zones');
 	Route::get('farms/{id}/weatherstation', 'FarmController@weatherStation');
+	Route::get('farms/{id}/weatherstationzone', 'FarmController@weatherStationZone');
 	Route::get('farms/{id}/hydraulics', 'FarmController@hydraulics');
 	Route::get('farms/{id}/nodes', 'FarmController@nodes');
 	Route::get('farms/{id}/pumpsystems', 'FarmController@pumpsystems');
