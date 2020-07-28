@@ -311,7 +311,7 @@ class FarmController extends Controller
             if(is_null($farm)){
                 return response()->json(['message'=>'Campo no existente'],404);
             }
-            $zones = Zone::where("id_farm",$farm->id)->get();
+            $zones = Zone::where("id_farm",$farm->id)->orderBy('id', 'desc')->get();
             //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
             //$cloningErrors=CloningErrors::where("elements","/farms/id/zones")->where("uri","/farms/".$farm->id_wiseconn."/zones")->where("id_wiseconn",$farm->id_wiseconn)->get();
             /*if(count($cloningErrors)>0){
