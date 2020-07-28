@@ -84,13 +84,13 @@ class CloneByMeasureData extends Command
                             ->groupBy('measures.id_wiseconn')
                             ->get();   */                
             //desarrollo
-            $measures=Measure::whereIn('id', [3068, 3069,3070,3071,3072,3073,3083,3084])->get(); //all();
+           // $measures=Measure::whereIn('id', [3068, 3069,3070,3071,3072,3073,3083,3084])->get(); //all();
            //producci{on}
-           /*$measures=Measure::whereIn('id', [59,60,61,62,63,64,65,66,67,68,69,70,71,343,344,339,340,341,343,344,342,423,424,425,426,427,428,429,430,705,3238,3239,3241,3243,3244,3245,3345,3351,3353,3374,3375,
+           $measures=Measure::whereIn('id', [59,60,61,62,63,64,65,66,67,68,69,70,71,343,344,339,340,341,343,344,342,423,424,425,426,427,428,429,430,705,3238,3239,3241,3243,3244,3245,3345,3351,3353,3374,3375,
                             2775,2776,3019,3020,3021,3022,3023,3024, 3218, 3219, 3220,3221,3222,3223,3224,3225,3344,3347,3358,3365,3372,3376,3377,
-                            342,343,344,3803,3804,3805,3806,3807,3808,3809,3810,3811,3812,3813,3068,3069,3070,3071,3072,3073,3083,3084])->get(); */
+                            342,343,344,3803,3804,3805,3806,3807,3808,3809,3810,3811,3812,3813,3068,3069,3070,3071,3072,3073,3083,3084])->get(); 
 
-            $initTime=Carbon::now(date_default_timezone_get())->subDays(5)->format('Y-m-d');
+            $initTime=Carbon::now(date_default_timezone_get())->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
             $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
