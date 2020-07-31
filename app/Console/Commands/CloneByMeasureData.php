@@ -91,7 +91,7 @@ class CloneByMeasureData extends Command
                             342,343,344,3803,3804,3805,3806,3807,3808,3809,3810,3811,3812,3813,3068,3069,3070,3071,3072,3073,3083,3084, 524,525,526,527,528,529,530,531,532,533,534,535,536,537,704,
                             601,602,603,604,605,606,607,609,610,611,612,613,614,701,702,703])->get(); 
 
-            $initTime=Carbon::now(date_default_timezone_get())->subDays(28)->format('Y-m-d');
+            $initTime=Carbon::now(date_default_timezone_get())->subDays(1)->format('Y-m-d');
             $endTime=Carbon::now(date_default_timezone_get())->addDays(1)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
             $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
