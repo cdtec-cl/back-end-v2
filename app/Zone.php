@@ -8,6 +8,8 @@ use App\Type;
 use App\SouthWestBound;
 use App\NorthEastBound;
 use App\Measure;
+use App\ZoneGraph;
+use App\ZoneImages;
 class Zone extends Model
 {
     protected $fillable = [
@@ -16,8 +18,31 @@ class Zone extends Model
         'unitTheoreticalFlow','efficiency',
         'humidityRetention','max','min','criticalPoint1','criticalPoint2',
         'id_farm','id_pump_system','id_wiseconn',
+        'graph1_url',
+        'graph2_url',
+        'surface',//superficie
+        'species',//especie
+        'variety',//variedad
+        'plantation_year',//año de plantación
+        'emitter_flow',//caudal del emisor
+        'distance_between_emitters',//distancia entre emisores
+        'plantation_frame',//marco de plantacion
+        'probe_type',//tipo de sonda
+        'type_irrigation',//tipo de riego
+        'weather',//clima
+        'soil_type',//tipo de suelo
+        'weather_cb', //radiobutton de clima
+        'floor_cb', //radiobutton de clima
+        'installation_date', //fecha de instalación
+        'number_roots', //cantidad de raices
+        'plant', //planta
+        'probe_plant_distance', //distancia planta sonda
+        'sprinkler_probe_distance', //distancia sonda aspersor
+        'installation_type', //tipo de instalacion
+        'image_url',
+        'title_second_graph'
     ];
-    protected $with = ['path','southWest','northEast','type','measures'];
+    protected $with = ['path','southWest','northEast','type','measures','zoneGraphs','zoneImages'];
     protected $hidden   = [
         'id_zone',
         'id_bound',
@@ -46,4 +71,12 @@ class Zone extends Model
     {
         return $this->hasMany(Measure::class,'id_zone');
     }
+    public function zoneGraphs()
+    {
+        return $this->hasMany(ZoneGraph::class,'id_zone');
+    }
+    public function zoneImages(){
+        return $this->hasMany(ZoneImages::class,'id_zone');        
+    }
+    
 }

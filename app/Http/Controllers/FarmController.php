@@ -735,5 +735,30 @@ class FarmController extends Controller
                 ], 500);
             }
         }
+        public function wiseconnZones($id){
+            try {
+                $farm=Farm::find($id);
+                if(is_null($farm)){
+                    return response()->json(['message'=>'Campo no existente'],404);
+                }
+                // https://apiv2.wiseconn.com/farms/{id}/zones
+                $wiseconnZones = json_decode(($this->requestWiseconn(new Client([
+                    'base_uri' => 'https://apiv2.wiseconn.com',
+                    'timeout'  => 100.0,
+                ]),'GET','/farms/'.$farm->id_wiseconn.'/zones/'))->getBody()->getContents());
+                $response = [
+                    'message'=> 'Lista de zonas de wiseconn api',
+                    'data'=> $wiseconnZones,
+                ];
+                return response()->json($response, 200);
+                
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                    'error' => $e->getMessage(),
+                    'linea' => $e->getLine()
+                ], 500);
+            }
+        }
 
     }

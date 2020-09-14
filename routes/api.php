@@ -25,6 +25,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::post('farms/store', 'FarmController@store');
 	Route::post('farms/update/{id}', 'FarmController@update');
 	Route::get('farms/{id}/zones', 'FarmController@zones');
+	Route::get('farms/wiseconn/{id}/zones', 'FarmController@wiseconnZones');
 	Route::get('farms/{id}/weatherstation', 'FarmController@weatherStation');
 	Route::get('farms/{id}/weatherstationzone', 'FarmController@weatherStationZone');
 	Route::get('farms/{id}/hydraulics', 'FarmController@hydraulics');
@@ -44,10 +45,13 @@ Route::group(['middleware' => ['api']], function() {
 	Route::get('zones/{id}', 'ZoneController@get');
 	Route::post('zones/update/{id}', 'ZoneController@update');
 	Route::get('zones/{id}/measures', 'ZoneController@measures');
+	Route::get('zones/wiseconn/{id}/measures', 'ZoneController@wiseconnMeasures');
 	Route::get('zones/{id}/irrigations', 'ZoneController@irrigations');
 	Route::get('zones/{id}/hydraulics', 'ZoneController@hydraulics');
 	Route::post('zones/{id}/alarms/triggered', 'ZoneController@alarmsTriggered');
 	Route::get('zones/{id}/realIrrigations', 'ZoneController@realIrrigations');
+	Route::post('zones/{id}/updateandmeasures', 'ZoneController@updateAndMeasures');
+	Route::post('zones/{id}/deleteimage', 'ZoneController@deleteImage');
 	// paths
 	Route::post('path/store', 'PathController@store');
 	// bounds
@@ -125,7 +129,10 @@ Route::group(['middleware' => ['api']], function() {
 	Route::delete('accountsettings/delete/{id}', 'AccountSettingsController@delete');
 	Route::get('accountsettings/generateapikey', 'AccountSettingsController@generateApiKey');
 	Route::get('accountsettings/getbyfarm/{id}', 'AccountSettingsController@getByFarm');
-
+	// graphs
+	Route::get('graphs', 'GraphController@all');
+	//irrimax
+	Route::post('irrimax/query', 'IrrimaxController@query');
 
 });
 Route::post('auth/login', 'Api\AuthController@login');

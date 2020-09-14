@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 use App\Zone;
+use App\ZoneGraph;
+use App\Graph;
+use App\MeasureGraph;
 use App\Farm;
 use App\Pump_system;
 use App\Measure;
@@ -17,6 +20,10 @@ use App\RealIrrigation;
 use App\Polygon;
 use App\PhysicalConnection;
 use App\CloningErrors;
+use App\ZoneImages;
+use Image;
+use File;
+
 class ZoneController extends Controller
 {
     protected function requestWiseconn($client,$method,$uri){
@@ -368,7 +375,7 @@ class ZoneController extends Controller
                 $farm=$zone->id_farm?Farm::find($zone->id_farm):null;
                 $initTime=(Carbon::parse($request->input("initTime")))->format('Y-m-d');
                 $endTime=(Carbon::parse($request->input("endTime")))->format('Y-m-d');
-                    $cloningErrors=CloningErrors::where("elements","/zones/id/realIrrigations")->where("uri",'LIKE',"/zones/".$zone->id_wiseconn."/realIrrigations/%")->where("id_wiseconn",$zone->id_wiseconn)->get();
+                $cloningErrors=CloningErrors::where("elements","/zones/id/realIrrigations")->where("uri",'LIKE',"/zones/".$zone->id_wiseconn."/realIrrigations/%")->where("id_wiseconn",$zone->id_wiseconn)->get();
                     //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
                     /*if(count($cloningErrors)>0){
                         foreach ($cloningErrors as $key => $cloningError) {
@@ -425,29 +432,278 @@ class ZoneController extends Controller
                                     'linea' => $e->getLine()
                                 ], 500);
                             }
-                    }*/
+                        }*/
+                        $response = [
+                            'message'=> 'Lista de RealIrrigation',
+                            'zone'=> $zone,
+                            'wiseconnRealIrrigations'=>$wiseconnRealIrrigations,
+                            'data' => RealIrrigation::where("id_zone",$zone->id)
+                            ->where("initTime",">=",$initTime)
+                            ->where(function ($q) use ($endTime) {
+                                $q->where("endTime","<=",$endTime)->orWhere("status", "Running");
+                            })->with("pumpSystem")->with("irrigations")->with("farm")->get()
+                        ];
+                        return response()->json($response, 200);
+                    }else{                
+                        return response()->json(['message'=>'Zona no existente'],404);
+                    }
+
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
+                }
+            }
+            public function wiseconnMeasures($id){
+                try {
+                    $zone=Zone::where('id_wiseconn',$id)->first();
+                    if(is_null($zone)){
+                        $wiseconnMeasures = json_decode(($this->requestWiseconn(new Client([
+                            'base_uri' => 'https://apiv2.wiseconn.com',
+                            'timeout'  => 100.0,
+                        ]),'GET','/zones/'.$id.'/measures/'))->getBody()->getContents());
+                        $response = [
+                            'message'=> 'Lista de measures de wiseconn api',
+                            'data'=> $wiseconnMeasures,
+                        ];
+                        return response()->json($response, 200);
+                    }
+                    return response()->json([
+                        'message'=>'Zona existente en data local',
+                        'data'=>$zone
+                    ],200);
+                    
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
+                }
+            }
+            public function savePhoto($photo){
+                $file_ext = $photo->getClientOriginalExtension();
+                $filename = '/images/'. time() . '-' .rand(0,100).'.'.$file_ext;
+                Image::make($photo)->save(public_path($filename));
+                return $filename;
+            }
+            public function updateAndMeasures(Request $request,$id){
+                try {
+                    $localZone=Zone::find($id);
+                    $apiZone=Zone::where('id_wiseconn',$id)->first();
+                    $zone=!is_null($apiZone)?($apiZone):($localZone);
+                    $requestZone=json_decode($request->get('zone'));
+                    if(is_null($zone)&&!is_null($requestZone)&&!is_null($request->get('id_farm'))){
+                        $newZone=new Zone();
+                        $newZone->name=$requestZone->name;
+                        $newZone->latitude=$requestZone->latitude;
+                        $newZone->longitude=$requestZone->longitude;
+                        $newZone->id_farm=$request->get('id_farm');
+                        $newZone->id_wiseconn=$id;
+                        $newZone->surface=isset($requestZone->surface)?$requestZone->surface:null;
+                        $newZone->species=isset($requestZone->species)?$requestZone->species:null;
+                        $newZone->variety=isset($requestZone->variety)?$requestZone->variety:null;
+                        $newZone->plantation_year=isset($requestZone->plantation_year)?$requestZone->plantation_year:null;
+                        $newZone->emitter_flow=isset($requestZone->emitter_flow)?:null;
+                        $newZone->distance_between_emitters=isset($requestZone->distance_between_emitters)?$requestZone->distance_between_emitters:null;
+                        $newZone->plantation_frame=isset($requestZone->plantation_frame)?$requestZone->plantation_frame:null;
+                        $newZone->probe_type=isset($requestZone->probe_type)?$requestZone->probe_type:null;
+                        $newZone->type_irrigation=isset($requestZone->type_irrigation)?$requestZone->type_irrigation:null;
+                        $newZone->weather=isset($requestZone->weather)?$requestZone->weather:null;
+                        $newZone->soil_type=isset($requestZone->soil_type)?$requestZone->soil_type:null;
+                        $newZone->graph1_url=isset($requestZone->graph1_url)?$requestZone->graph1_url:null;
+                        $newZone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:null;
+                        $newZone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
+                        $newZone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
+                        
+                        if(isset($requestZone->graph1_url)||isset($requestZone->graph2_url)){
+                            $newZone->floor_cb=true;  
+                        }
+                        $newZone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:null;
+                        $newZone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:null;
+                        $newZone->plant=isset($requestZone->plant)?$requestZone->plant:null;
+                        $newZone->probe_plant_distance=isset($requestZone->probe_plant_distance)?$requestZone->probe_plant_distance:null;
+                        $newZone->sprinkler_probe_distance=isset($requestZone->sprinkler_probe_distance)?$requestZone->sprinkler_probe_distance:null;
+                        $newZone->installation_type=isset($requestZone->installation_type)?$requestZone->installation_type:null;
+                        $newZone->save();
+
+                        $requestMeasures=json_decode($request->get('measures'));
+                        foreach ($requestMeasures as $key => $value) {
+                            $measure=Measure::where("id_wiseconn",$value->id)->first();
+                            if(is_null($measure)){
+                                $newMeasure= new Measure();
+                                $newMeasure->name=$value->name;
+                                $newMeasure->id_wiseconn=$value->id;
+                                $newMeasure->id_zone=$newZone->id;
+                                $newMeasure->save();
+
+                                $newZone->weather_cb=true;
+                                $newZone->update();
+                            }else{
+                                $measure->name=$value->name;
+                                $measure->id_wiseconn=$value->id;
+                                $measure->id_zone=$newZone->id;
+                                $measure->update();
+                            }
+                        }
+
+                        $requestGraphs=json_decode($request->get('graphs'));
+                        foreach ($requestGraphs as $key => $value) {
+                            $graph=Graph::find($value->id);
+                            if(!is_null($graph)){
+                                $graph->title=isset($value->title)?$value->title:null;
+                                $graph->description=isset($value->description)?$value->description:null;
+                                $graph->active=isset($value->active)&&$value->active=="0"?false:true;
+                                $graph->update();
+                                foreach ($value->measure_graphs as $key => $measure_graph) {
+                                    $measureGraph=MeasureGraph::find($measure_graph->id);
+                                    if(!is_null($measureGraph)){
+                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                        if(isset($measure_graph->id_measure)){
+                                            $measure=Measure::where('id_wiseconn',$measure_graph->id_measure)->first();
+                                            if(!is_null($measure)){
+                                                $measureGraph->id_measure=$measure->id;
+                                            }
+                                        }
+                                        $measureGraph->update();
+                                    }
+                                }
+                                $zoneGraph=new ZoneGraph();
+                                $zoneGraph->id_graph=$graph->id;
+                                $zoneGraph->id_zone=$newZone->id;
+                                $zoneGraph->save();
+                            }
+                        }
+
+                        for ($i=0; $i < intval($request->get("zoneImagesCount")); $i++) { 
+                            $filename=$this->SavePhoto($request->file("zoneImage".$i));
+                            if($filename){
+                                $element = ZoneImages::create([
+                                    'id_zone' => $newZone->id,
+                                    'image' => $filename?asset($filename):asset('/images/default.jpg'),
+                                ]);
+                            }
+                        }
+                        $response = [
+                            'message'=> 'Registro de zona y measures',
+                        ];
+                        return response()->json($response, 200);
+                    }
+                    if(!is_null($zone)){
+                        $zone->name=$requestZone->name;
+                        $zone->latitude=$requestZone->latitude;
+                        $zone->longitude=$requestZone->longitude;
+                        $zone->surface=$requestZone->surface;
+                        $zone->species=$requestZone->species;
+                        $zone->variety=$requestZone->variety;
+                        $zone->plantation_year=$requestZone->plantation_year;
+                        $zone->emitter_flow=$requestZone->emitter_flow;
+                        $zone->distance_between_emitters=$requestZone->distance_between_emitters;
+                        $zone->plantation_frame=$requestZone->plantation_frame;
+                        $zone->probe_type=$requestZone->probe_type;
+                        $zone->type_irrigation=$requestZone->type_irrigation;
+                        $zone->weather=$requestZone->weather;
+                        $zone->soil_type=$requestZone->soil_type;
+                        $zone->graph1_url=isset($requestZone->graph1_url)?$requestZone->graph1_url:$zone->graph1_url;
+                        $zone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:$zone->graph2_url;
+                        $zone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
+                        $zone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
+                        
+                        if(isset($requestZone->graph1_url)||isset($requestZone->graph2_url)){
+                            $zone->floor_cb=true;  
+                        }                    
+                        $zone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:$zone->installation_date;
+                        $zone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:$zone->number_roots;
+                        $zone->plant=isset($requestZone->plant)?$requestZone->plant:$zone->plant;
+                        $zone->probe_plant_distance=isset($requestZone->probe_plant_distance)?$requestZone->probe_plant_distance:$zone->probe_plant_distance;
+                        $zone->sprinkler_probe_distance=isset($requestZone->sprinkler_probe_distance)?$requestZone->sprinkler_probe_distance:$zone->sprinkler_probe_distance;
+                        $zone->installation_type=isset($requestZone->installation_type)?$requestZone->installation_type:$zone->installation_type;
+                        $zone->update();
+
+                        $requestMeasures=json_decode($request->get('measures'));
+                        foreach ($requestMeasures as $key => $value) {
+                            $measure=Measure::find($value->id);
+                            if(!is_null($measure)){
+                                $measure->name=$value->name;
+                                $measure->id_wiseconn=$value->id;
+                                $measure->id_zone=$zone->id;
+                                $measure->update();
+                            }
+                        }
+
+                        $requestGraphs=json_decode($request->get('graphs'));
+                        foreach ($requestGraphs as $key => $value) {
+                            $graph=Graph::find($value->id);
+                            if(!is_null($graph)){
+                                $graph->title=isset($value->title)?$value->title:null;
+                                $graph->description=isset($value->description)?$value->description:null;
+                                $graph->active=isset($value->active)&&$value->active=="0"?false:true;
+                                $graph->update();
+                                foreach ($value->measure_graphs as $key => $measure_graph) {
+                                    $measureGraph=MeasureGraph::find($measure_graph->id);
+                                    if(!is_null($measureGraph)){
+                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                        $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                        $measureGraph->update();
+                                    }
+                                }
+                            }
+                        }
+                        for ($i=0; $i < intval($request->get("zoneImagesCount")); $i++) { 
+                            $filename=$this->SavePhoto($request->file("zoneImage".$i));
+                            if($filename){
+                                $element = ZoneImages::create([
+                                    'id_zone' => $zone->id,
+                                    'image' => $filename?asset($filename):asset('/images/default.jpg'),
+                                ]);
+                            }
+                        }
+                    }else{
+                        $response = [
+                        'message'=> 'Zona no existente',
+                        ];
+                        return response()->json($response, 404);
+                    }
+
                     $response = [
-                        'message'=> 'Lista de RealIrrigation',
-                        'zone'=> $zone,
-                        'wiseconnRealIrrigations'=>$wiseconnRealIrrigations,
-                        'data' => RealIrrigation::where("id_zone",$zone->id)
-                        ->where("initTime",">=",$initTime)
-                        ->where(function ($q) use ($endTime) {
-                            $q->where("endTime","<=",$endTime)->orWhere("status", "Running");
-                        })->with("pumpSystem")->with("irrigations")->with("farm")->get()
+                        'message'=> 'Registro de zona y measures',
+                        'data'=> $request->all(),
                     ];
                     return response()->json($response, 200);
-                }else{                
-                    return response()->json(['message'=>'Zona no existente'],404);
+
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
                 }
-
-            } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
-                    'error' => $e->getMessage(),
-                    'linea' => $e->getLine()
-                ], 500);
             }
-        }
 
-    }
+            public function deleteImage(Request $request,$id){
+                try {
+                    $zoneImages=ZoneImages::where("id_zone",$id)->where("image",$request->get("url"))->first();
+                    if(!is_null($zoneImages)){
+                        if(file_exists(public_path("images/".$request->get("filename")))){
+                            unlink(public_path("images/".$request->get("filename")));
+                        }
+                        $zoneImages->delete();
+                    }
+                    $response = [
+                        'message'=> 'Imagen eliminada satisfactoriamente',
+                        'id' => $id,
+                        'data' => $request->all(),
+                    ];
+                    return response()->json($response, 200);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
+                }
+            }
+
+        }
