@@ -26,7 +26,7 @@ class AddTitleSecondGraphToZonesTables extends Migration
     public function down()
     {
         Schema::table('zones', function (Blueprint $table) {
-            //
+            $table->dropColumn('title_second_graph');
         });
     }
 }

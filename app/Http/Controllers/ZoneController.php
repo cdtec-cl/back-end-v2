@@ -517,16 +517,15 @@ class ZoneController extends Controller
                         $newZone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:null;
                         $newZone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
                         $newZone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
-                        
-                        if(isset($requestZone->graph1_url)||isset($requestZone->graph2_url)){
-                            $newZone->floor_cb=true;  
-                        }
+                        $newZone->floor_cb=$requestZone->floor_cb==1?true:false;  
+                        $newZone->weather_cb=$requestZone->weather_cb==1?true:false;  
                         $newZone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:null;
                         $newZone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:null;
                         $newZone->plant=isset($requestZone->plant)?$requestZone->plant:null;
                         $newZone->probe_plant_distance=isset($requestZone->probe_plant_distance)?$requestZone->probe_plant_distance:null;
                         $newZone->sprinkler_probe_distance=isset($requestZone->sprinkler_probe_distance)?$requestZone->sprinkler_probe_distance:null;
                         $newZone->installation_type=isset($requestZone->installation_type)?$requestZone->installation_type:null;
+
                         $newZone->save();
 
                         $requestMeasures=json_decode($request->get('measures'));
@@ -538,9 +537,6 @@ class ZoneController extends Controller
                                 $newMeasure->id_wiseconn=$value->id;
                                 $newMeasure->id_zone=$newZone->id;
                                 $newMeasure->save();
-
-                                $newZone->weather_cb=true;
-                                $newZone->update();
                             }else{
                                 $measure->name=$value->name;
                                 $measure->id_wiseconn=$value->id;
@@ -610,10 +606,9 @@ class ZoneController extends Controller
                         $zone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:$zone->graph2_url;
                         $zone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
                         $zone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
-                        
-                        if(isset($requestZone->graph1_url)||isset($requestZone->graph2_url)){
-                            $zone->floor_cb=true;  
-                        }                    
+                        $zone->floor_cb=$requestZone->floor_cb==1?true:false;  
+                        $zone->weather_cb=$requestZone->weather_cb==1?true:false;  
+
                         $zone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:$zone->installation_date;
                         $zone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:$zone->number_roots;
                         $zone->plant=isset($requestZone->plant)?$requestZone->plant:$zone->plant;
