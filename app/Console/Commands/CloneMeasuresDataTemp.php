@@ -60,6 +60,7 @@ class CloneMeasuresDataTemp extends Command
                 if($zone->id_wiseconn){
                     try {
                         $currentRequestUri='/zones/'.$zone->id_wiseconn.'/measures/';
+                        $currentRequestElement='/zones/id/measures';
                         $measuresResponse = $this->requestWiseconn('GET','/zones/'.$zone->id_wiseconn.'/measures/');
                         $id_wiseconn=$zone->id_wiseconn;
                         $measures=json_decode($measuresResponse->getBody()->getContents());
