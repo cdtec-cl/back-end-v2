@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use App\Zone;
 use App\MeasuresDataTemp;
 use App\Measure;
+use App\CloningErrors;
 class CloneMeasuresDataTemp extends Command
 {
     /**
