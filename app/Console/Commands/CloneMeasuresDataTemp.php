@@ -57,20 +57,37 @@ class CloneMeasuresDataTemp extends Command
             $zones=Zone::all();
             foreach ($zones as $key => $zone) {
                 if($zone->id_wiseconn){
-                    $measuresResponse = $this->requestWiseconn('GET','/zones/'.$zone->id_wiseconn.'/measures/');
-                    $measures=json_decode($measuresResponse->getBody()->getContents());
-                    foreach ($measures as $key => $value) {
-                        $measure=Measure::where("id_wiseconn",$value->id)->first();
-                        if(!is_null($measure)){
-                            $measuresDataTemp=new MeasuresDataTemp();
-                            $measuresDataTemp->value=isset($value->lastData)?$value->lastData:null;
-                            $measuresDataTemp->time=isset($value->lastDataDate)?$value->lastDataDate:null;
-                            $measuresDataTemp->id_measure=$measure->id;
-                            $measuresDataTemp->save();
-                            $this->info("MeasuresDataTemp registrado, id:".$measuresDataTemp->id);
+                    try {
+                        $currentRequestUri='/zones/'.$zone->id_wiseconn.'/measures/';
+                        $measuresResponse = $this->requestWiseconn('GET','/zones/'.$zone->id_wiseconn.'/measures/');
+                        $id_wiseconn=$zone->id_wiseconn;
+                        $measures=json_decode($measuresResponse->getBody()->getContents());
+                        foreach ($measures as $key => $value) {
+                            $measure=Measure::where("id_wiseconn",$value->id)->first();
+                            if(!is_null($measure)){
+                                $measuresDataTemp=new MeasuresDataTemp();
+                                $measuresDataTemp->value=isset($value->lastData)?$value->lastData:null;
+                                $measuresDataTemp->time=isset($value->lastDataDate)?$value->lastDataDate:null;
+                                $measuresDataTemp->id_measure=$measure->id;
+                                $measuresDataTemp->save();
+                                $this->info("MeasuresDataTemp registrado, id:".$measuresDataTemp->id);
+                            }
+                        }
+                        $this->info("==========Measures retornado (".count($measures)." elementos)");
+
+                    } catch (\Exception $e) {
+                        $this->error("Error:" . $e->getMessage());
+                        $this->error("Linea:" . $e->getLine());
+                        $this->error("currentRequestUri:" . $currentRequestUri);
+                        if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
+                            $cloningError=new CloningErrors();
+                            $cloningError->elements=$currentRequestElement;
+                            $cloningError->uri=$currentRequestUri;
+                            $cloningError->id_wiseconn=$id_wiseconn;
+                            $cloningError->save();
                         }
                     }
-                    $this->info("==========Measures retornado (".count($measures)." elementos)");
+                
                 }                               
             }
             $this->info("Success: Clone real irrigations and volumes data by zone");
