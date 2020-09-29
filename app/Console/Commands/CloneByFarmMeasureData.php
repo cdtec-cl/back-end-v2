@@ -69,6 +69,7 @@ class CloneByFarmMeasureData extends Command
                                 sleep(1);
                             }
                             $this->info("requestWiseconn()");
+                            $this->info($cloningError->uri);
                             $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             foreach ($measures as $key => $value) {
