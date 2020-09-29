@@ -64,31 +64,37 @@ class CloneByFarmMeasureData extends Command
                     $id_wiseconn=$farm->id_wiseconn;
                     if(count($cloningErrors)>0){
                         foreach ($cloningErrors as $key => $cloningError) {
-                            if($key % 3 == 0){
-                                $this->info("sleep(1)");
-                                sleep(1);
-                            }
-                            $this->info("requestWiseconn()");
-                            $this->info($cloningError->uri);
-                            $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
-                            $measures=json_decode($measuresResponse->getBody()->getContents());
-                            foreach ($measures as $key => $value) {
-                                $measure=Measure::where("id_wiseconn",$value->id)->first();
-                                if(!is_null($measure)){
-                                    if($value->id[0].$value->id[1]== "1-"){                                      
-                                        if(isset($value->lastData)&&!is_null($value->lastData)&&isset($value->lastDataDate)&&!is_null($value->lastDataDate)){
-                                            $measureData=new MeasureData();
-                                            $measureData->value=isset($value->lastData)?$value->lastData:null;
-                                            $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
-                                            $measureData->id_measure=$measure->id;
-                                            $measureData->save();
-                                            $this->info("New MeasureData id:".$measureData->id);
-                                        }
-                                    }else{
-                                        $this->info("Elemento no registrado por id:".$value->id);
-                                    }
+                            try{
+                                if($key % 3 == 0){
+                                    $this->info("sleep(1)");
+                                    sleep(1);
                                 }
-                                $cloningError->delete();
+                                $this->info("requestWiseconn()");
+                                $this->info($cloningError->uri);
+                                $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
+                                $measures=json_decode($measuresResponse->getBody()->getContents());
+                                foreach ($measures as $key => $value) {
+                                    $measure=Measure::where("id_wiseconn",$value->id)->first();
+                                    if(!is_null($measure)){
+                                        if($value->id[0].$value->id[1]== "1-"){                                      
+                                            if(isset($value->lastData)&&!is_null($value->lastData)&&isset($value->lastDataDate)&&!is_null($value->lastDataDate)){
+                                                $measureData=new MeasureData();
+                                                $measureData->value=isset($value->lastData)?$value->lastData:null;
+                                                $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
+                                                $measureData->id_measure=$measure->id;
+                                                $measureData->save();
+                                                $this->info("New MeasureData id:".$measureData->id);
+                                            }
+                                        }else{
+                                            $this->info("Elemento no registrado por id:".$value->id);
+                                        }
+                                    }
+                                    $cloningError->delete();
+                                }
+                            }catch (\Exception $e) {
+                                $this->error("Error:" . $e->getMessage());
+                                $this->error("Linea:" . $e->getLine());
+                                $this->error("currentRequestUri:" . $currentRequestUri);
                             }
                         }
                     }else{
