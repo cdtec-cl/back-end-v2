@@ -55,9 +55,8 @@ class CloneByFarmMeasureData extends Command
     {
         //
         try{
-            $farms=Farm::all();
+            $farms=Farm::where('active_cloning',1)->get();
             foreach ($farms as $key => $farm) {
-                // if($farm->active_cloning==1){
                 try{
                     $cloningErrors=CloningErrors::where("elements","/farms/id/measures")->get();
                     $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
@@ -65,6 +64,11 @@ class CloneByFarmMeasureData extends Command
                     $id_wiseconn=$farm->id_wiseconn;
                     if(count($cloningErrors)>0){
                         foreach ($cloningErrors as $key => $cloningError) {
+                            if($key % 3 == 0){
+                                $this->info("sleep(1)");
+                                sleep(1);
+                            }
+                            $this->info("requestWiseconn()");
                             $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             foreach ($measures as $key => $value) {
@@ -88,18 +92,22 @@ class CloneByFarmMeasureData extends Command
                         }
                     }else{
                         try{
+                            if($key % 3 == 0){
+                                $this->info("sleep(1)");
+                                sleep(1);
+                            }
+                            $this->info("requestWiseconn()");
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
 
                             foreach ($measures as $key => $value) {
                                 $measure=Measure::where("id_wiseconn",$value->id)->first();
                                 if(!is_null($measure)){
-                                    if($value->id[0].$value->id[1]== "1-"){                                      
+                                    if($value->id[0].$value->id[1]== "1-"){
                                         $measureData=new MeasureData();
                                         $measureData->value=isset($value->lastData)?$value->lastData:null;
                                         $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
                                         $measureData->id_measure=$measure->id;
-                                       // $measureData->id_wiseconn=$value->id;
                                         $measureData->save();
                                         $this->info("New MeasureData id:".$measureData->id);
                                     }else{
@@ -132,7 +140,6 @@ class CloneByFarmMeasureData extends Command
                         $cloningError->save();
                     }
                 }
-                // }
             }
             $this->info("Success: Clone measures data by farm");
         } catch (\Exception $e) {
