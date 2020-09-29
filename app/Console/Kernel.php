@@ -71,7 +71,7 @@ class Kernel extends ConsoleKernel
         // php artisan clonebyfarm:hydraulics:run
         $schedule->command('clonebyfarm:hydraulics:run')->daily();
         // php artisan clonebyfarm:measures:run
-        $schedule->command('clonebyfarm:measures:run')->everyTenMinutes();
+      //   $schedule->command('clonebyfarm:measures:run')->everyTenMinutes();
         // php artisan clonebyfarm:irrigations:volumes:run
         $schedule->command('clonebyfarm:irrigations:volumes:run')->everyTenMinutes();
         // php artisan clonebyfarm:realirrigations:volumes:run
@@ -99,8 +99,13 @@ class Kernel extends ConsoleKernel
         // php artisan clonebypumpsystem:zones:run
         // $schedule->command('clonebypumpsystem:zones:run')->everyFiveMinutes(); //(clonado en controlador)
         // php artisan clonebymeasure:data:run
-         $schedule->command('clonebymeasure:data:run')->everyTwoHours();
-         $schedule->command('clonemeasuresdatatemp:run')->everyFifteenMinutes();
+        // $schedule->command('clonebymeasure:data:run')->everyTwoHours();
+        //$schedule->command('clonemeasuresdatatemp:run')->everyFifteenMinutes();
+
+        // php artisan clonebyfarm:measuresdata:run
+        $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();  
+
+         
     }
 
     /**
