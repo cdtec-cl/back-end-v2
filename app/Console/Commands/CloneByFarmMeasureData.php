@@ -99,7 +99,7 @@ class CloneByFarmMeasureData extends Command
                                         $measureData->value=isset($value->lastData)?$value->lastData:null;
                                         $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
                                         $measureData->id_measure=$measure->id;
-                                        $measureData->id_wiseconn=$value->id;
+                                       // $measureData->id_wiseconn=$value->id;
                                         $measureData->save();
                                         $this->info("New MeasureData id:".$measureData->id);
                                     }else{
