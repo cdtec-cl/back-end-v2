@@ -63,12 +63,16 @@ class CloneByFarmMeasureData extends Command
                     $currentRequestElement='/farms/id/measures';
                     $id_wiseconn=$farm->id_wiseconn;
                     if(count($cloningErrors)>0){
+                        $this->info("Cloning Error");
                         foreach ($cloningErrors as $key => $cloningError) {
                             try{
                                 if($key % 3 == 0){
                                     $this->info("sleep(1)");
-                                    sleep(1);
+                                    sleep(2);
                                 }
+                                $valor= $key % 3;
+                                $this->info("valor"+$valor);  
+                                                          
                                 $this->info("requestWiseconn()");
                                 $this->info($cloningError->uri);
                                 $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
@@ -94,16 +98,17 @@ class CloneByFarmMeasureData extends Command
                             }catch (\Exception $e) {
                                 $this->error("Error:" . $e->getMessage());
                                 $this->error("Linea:" . $e->getLine());
-                                $this->error("currentRequestUri:" . $currentRequestUri);
+                                $this->error("currentRequestUri:" . $cloningError->uri);
                             }
                         }
                     }else{
                         try{
                             if($key % 3 == 0){
                                 $this->info("sleep(1)");
-                                sleep(1);
+                                sleep(2);
                             }
                             $this->info("requestWiseconn()");
+                            $this->info("Cloning true");
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
 
