@@ -70,8 +70,8 @@ class CloneByFarmMeasureData extends Command
                                     $this->info("sleep(1)");
                                     sleep(2);
                                 }
-                                $valor= $key;
-                                $this->info("valor"+$valor);                  
+                                $valor= $key % 3;
+                                $this->info($valor);                  
                                 $this->info("requestWiseconn()");
                                 $this->info($cloningError->uri);
                                 $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
