@@ -55,9 +55,11 @@ class CloneByFarmMeasureData extends Command
     {
         //
         try{
+            $i=0;
             $farms=Farm::where('active_cloning',1)->get();
             foreach ($farms as $key => $farm) {
                 try{
+                    $i=$i+1;
                     $cloningErrors=CloningErrors::where("elements","/farms/id/measures")->get();
                     $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
                     $currentRequestElement='/farms/id/measures';
@@ -130,6 +132,7 @@ class CloneByFarmMeasureData extends Command
                                     }
                                 }
                             }
+                            $this->info($i);
                         } catch (\Exception $e) {
                             $this->error("Error:" . $e->getMessage());
                             $this->error("Linea:" . $e->getLine());
