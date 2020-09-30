@@ -96,9 +96,9 @@ class CloneByFarmMeasureData extends Command
                                 }
                             }catch (\Exception $e) {
                                 $this->error("Error:" . $e->getMessage());
-                                $error=explode("message", $e->getMessage(), 2); 
-                                $this->error("EN ESTA PINGA:" . $error[0]);
-                                $this->error("EN ESTA PINGA:" . $error[1]);
+                                // $error=explode("message", $e->getMessage(), 2); 
+                                // $this->error("EN ESTA PINGA:" . $error[0]);
+                                // $this->error("EN ESTA PINGA:" . $error[1]);
                                 $this->error("Linea:" . $e->getLine());                                
                                 $this->error("currentRequestUri:" . $cloningError->uri);
 
