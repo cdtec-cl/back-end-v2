@@ -96,8 +96,9 @@ class CloneByFarmMeasureData extends Command
                                 }
                             }catch (\Exception $e) {
                                 $this->error("Error:" . $e->getMessage());
-                                $error=json_decode($e->getMessage());
+                                $error=split("message", $línea_passwd, 2); 
                                 $this->error("Prueba:" . $error[0]);
+                                $this->error("Prueba:" . $error[1]);
                                 $this->error("Linea:" . $e->getLine());                                
                                 $this->error("currentRequestUri:" . $cloningError->uri);
 
