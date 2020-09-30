@@ -62,49 +62,49 @@ class CloneByFarmMeasureData extends Command
                     $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
                     $currentRequestElement='/farms/id/measures';
                     $id_wiseconn=$farm->id_wiseconn;
-                    if(count($cloningErrors)>0){
-                        $this->info("Cloning Error");
-                        foreach ($cloningErrors as $key => $cloningError) {
-                            try{
-                                if($key % 3 == 0){
-                                    $this->info("sleep(2)");
-                                    sleep(2);
-                                }
-                                $valor= $key % 3;
-                                $this->info($valor);                  
-                                $this->info("requestWiseconn()");
-                                $this->info($cloningError->uri);
-                                $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
-                                $measures=json_decode($measuresResponse->getBody()->getContents());
-                                foreach ($measures as $key => $value) {
-                                    $measure=Measure::where("id_wiseconn",$value->id)->first();
-                                    if(!is_null($measure)){
-                                        if($value->id[0].$value->id[1]== "1-"){                                      
-                                            if(isset($value->lastData)&&!is_null($value->lastData)&&isset($value->lastDataDate)&&!is_null($value->lastDataDate)){
-                                                $measureData=new MeasureData();
-                                                $measureData->value=isset($value->lastData)?$value->lastData:null;
-                                                $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
-                                                $measureData->id_measure=$measure->id;
-                                                $measureData->save();
-                                                $this->info("New MeasureData id:".$measureData->id);
-                                            }
-                                        }else{
-                                            $this->info("Elemento no registrado por id:".$value->id);
-                                        }
-                                    }
-                                    $cloningError->delete();
-                                }
-                            }catch (\Exception $e) {
-                                $this->error("Error:" . $e->getMessage());
-                                // $error=explode("message", $e->getMessage(), 2); 
-                                // $this->error("EN ESTA PINGA:" . $error[0]);
-                                // $this->error("EN ESTA PINGA:" . $error[1]);
-                                $this->error("Linea:" . $e->getLine());                                
-                                $this->error("currentRequestUri:" . $cloningError->uri);
+                    // if(count($cloningErrors)>0){
+                    //     $this->info("Cloning Error");
+                    //     foreach ($cloningErrors as $key => $cloningError) {
+                    //         try{
+                    //             if($key % 3 == 0){
+                    //                 $this->info("sleep(2)");
+                    //                 sleep(2);
+                    //             }
+                    //             $valor= $key % 3;
+                    //             $this->info($valor);                  
+                    //             $this->info("requestWiseconn()");
+                    //             $this->info($cloningError->uri);
+                    //             $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
+                    //             $measures=json_decode($measuresResponse->getBody()->getContents());
+                    //             foreach ($measures as $key => $value) {
+                    //                 $measure=Measure::where("id_wiseconn",$value->id)->first();
+                    //                 if(!is_null($measure)){
+                    //                     if($value->id[0].$value->id[1]== "1-"){                                      
+                    //                         if(isset($value->lastData)&&!is_null($value->lastData)&&isset($value->lastDataDate)&&!is_null($value->lastDataDate)){
+                    //                             $measureData=new MeasureData();
+                    //                             $measureData->value=isset($value->lastData)?$value->lastData:null;
+                    //                             $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
+                    //                             $measureData->id_measure=$measure->id;
+                    //                             $measureData->save();
+                    //                             $this->info("New MeasureData id:".$measureData->id);
+                    //                         }
+                    //                     }else{
+                    //                         $this->info("Elemento no registrado por id:".$value->id);
+                    //                     }
+                    //                 }
+                    //                 $cloningError->delete();
+                    //             }
+                    //         }catch (\Exception $e) {
+                    //             $this->error("Error:" . $e->getMessage());
+                    //             // $error=explode("message", $e->getMessage(), 2); 
+                    //             // $this->error("EN ESTA PINGA:" . $error[0]);
+                    //             // $this->error("EN ESTA PINGA:" . $error[1]);
+                    //             $this->error("Linea:" . $e->getLine());                                
+                    //             $this->error("currentRequestUri:" . $cloningError->uri);
 
-                            }
-                        }
-                    }else{
+                    //         }
+                    //     }
+                    // }else{
                         try{
                             if($key % 3 == 0){
                                 $this->info("sleep(1)");
@@ -142,7 +142,7 @@ class CloneByFarmMeasureData extends Command
                                 $cloningError->save();
                             }
                         }
-                    }
+                    // }
                 } catch (\Exception $e) {
                     $this->error("Error:" . $e->getMessage());
                     $this->error("Linea:" . $e->getLine());
