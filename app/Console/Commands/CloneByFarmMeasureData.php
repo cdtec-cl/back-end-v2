@@ -67,7 +67,7 @@ class CloneByFarmMeasureData extends Command
                         foreach ($cloningErrors as $key => $cloningError) {
                             try{
                                 if($key % 3 == 0){
-                                    $this->info("sleep(1)");
+                                    $this->info("sleep(2)");
                                     sleep(2);
                                 }
                                 $valor= $key % 3;
@@ -96,8 +96,11 @@ class CloneByFarmMeasureData extends Command
                                 }
                             }catch (\Exception $e) {
                                 $this->error("Error:" . $e->getMessage());
-                                $this->error("Linea:" . $e->getLine());
+                                $error=json_decode($e->getMessage());
+                                $this->error("Prueba:" . $error);
+                                $this->error("Linea:" . $e->getLine());                                
                                 $this->error("currentRequestUri:" . $cloningError->uri);
+
                             }
                         }
                     }else{
