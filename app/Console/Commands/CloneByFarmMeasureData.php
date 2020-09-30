@@ -114,9 +114,12 @@ class CloneByFarmMeasureData extends Command
                             }
                             // $this->info("requestWiseconn()");
                             // $this->info("Cloning true");
+                            $executionStartTime = microtime(true);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
-
+                            $executionEndTime = microtime(true);
+                            $seconds = $executionEndTime - $executionStartTime;
+                            $this->info($seconds);
                             foreach ($measures as $key => $value) {
                                 $measure=Measure::where("id_wiseconn",$value->id)->first();
                                 if(!is_null($measure)){
