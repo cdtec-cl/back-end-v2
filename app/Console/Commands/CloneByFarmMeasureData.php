@@ -109,11 +109,11 @@ class CloneByFarmMeasureData extends Command
                     // }else{
                         try{
                             if($key % 3 == 0){
-                                $this->info("sleep(1)");
-                                sleep(2);
+                                // $this->info("sleep(1)");
+                                sleep(1);
                             }
-                            $this->info("requestWiseconn()");
-                            $this->info("Cloning true");
+                            // $this->info("requestWiseconn()");
+                            // $this->info("Cloning true");
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
 
@@ -126,9 +126,9 @@ class CloneByFarmMeasureData extends Command
                                         $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
                                         $measureData->id_measure=$measure->id;
                                         $measureData->save();
-                                        $this->info("New MeasureData id:".$measureData->id);
+                                        // $this->info("New MeasureData id:".$measureData->id);
                                     }else{
-                                        $this->info("Elemento no registrado por id:".$value->id);
+                                        // $this->info("Elemento no registrado por id:".$value->id);
                                     }
                                 }
                             }
@@ -159,7 +159,7 @@ class CloneByFarmMeasureData extends Command
                     }
                 }
             }
-            $this->info("Success: Clone measures data by farm");
+            // $this->info("Success: Clone measures data by farm");
         } catch (\Exception $e) {
             $this->error("Error:" . $e->getMessage());
             $this->error("Linea:" . $e->getLine());
