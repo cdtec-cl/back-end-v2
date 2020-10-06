@@ -272,7 +272,12 @@ class CloneByZoneMeasures extends Command
             foreach ($zones as $key => $zone) {
                 $cloningErrors=CloningErrors::where("elements","/zones/id/measures")->get();
                 if(count($cloningErrors)>0){
-                    foreach ($cloningErrors as $key => $cloningError) {
+                    foreach ($cloningErrors as $key => $cloningError) {                        
+                        if($key % 3 == 0){
+                            $this->info("sleep(1)");
+                            sleep(1);
+                        }
+                        $this->info("requestWiseconn()");
                         $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
                         $measures=json_decode($measuresResponse->getBody()->getContents());
                         $this->info("==========Clonando pendientes por error en peticion (".count($measures)." elementos)");
@@ -286,6 +291,11 @@ class CloneByZoneMeasures extends Command
                         $currentRequestUri='/zones/'.$zone->id_wiseconn.'/measures';
                         $currentRequestElement='/zones/id/measures';
                         $id_wiseconn=$zone->id_wiseconn;
+                        if($key % 3 == 0){
+                            $this->info("sleep(1)");
+                            sleep(1);
+                        }
+                        $this->info("requestWiseconn()");
                         $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                         $measures=json_decode($measuresResponse->getBody()->getContents());
                         $this->info("==========Clonando nuevos elementos (".count($measures)." elementos)");
