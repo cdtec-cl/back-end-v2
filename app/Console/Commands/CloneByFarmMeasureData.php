@@ -8,6 +8,7 @@ use App\CloningErrors;
 use App\Farm;
 use App\Measure;
 use App\MeasureData;
+use Illuminate\Support\Facades\DB;
 class CloneByFarmMeasureData extends Command
 {
     /**
@@ -112,29 +113,31 @@ class CloneByFarmMeasureData extends Command
                                 // $this->info("sleep(1)");
                                 sleep(1);
                             }
-                            // $this->info("requestWiseconn()");
-                            // $this->info("Cloning true");
                             $executionStartTime = microtime(true);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             $executionEndTime = microtime(true);
                             $seconds = $executionEndTime - $executionStartTime;
-                            $this->info($seconds);
+                            // cc);                           
+                            $executionStartTime2 = microtime(true);
+                            $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
-                                $measure=Measure::where("id_wiseconn",$value->id)->first();
-                                if(!is_null($measure)){
+                                $measure2222=Measure::where("id_wiseconn",$value->id)->first();
+                                if(!is_null($measure2222)){
                                     if($value->id[0].$value->id[1]== "1-"){
-                                        $measureData=new MeasureData();
-                                        $measureData->value=isset($value->lastData)?$value->lastData:null;
-                                        $measureData->time=isset($value->lastDataDate)?$value->lastDataDate:null;
-                                        $measureData->id_measure=$measure->id;
-                                        $measureData->save();
-                                        // $this->info("New MeasureData id:".$measureData->id);
-                                    }else{
-                                        // $this->info("Elemento no registrado por id:".$value->id);
+                                        $arrayMeasures[] = [
+                                            'id_measure' => $measure2222->id, 
+                                            'value'      => isset($value->lastData)?$value->lastData:null,
+                                            'time'       => isset($value->lastDataDate)?$value->lastDataDate:null
+                                        ];
                                     }
                                 }
-                            }
+
+                            }     
+                            DB::table('measure_data')->insert($arrayMeasures);
+                            $executionEndTime2 = microtime(true);
+                            $seconds2 = $executionEndTime2 - $executionStartTime2;
+                            $this->info($seconds2);
                             $this->info($i);
                         } catch (\Exception $e) {
                             $this->error("Error:" . $e->getMessage());
