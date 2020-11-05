@@ -111,7 +111,7 @@ class CloneByFarmMeasureData extends Command
                         try{
                             if($key % 3 == 0){
                                 // $this->info("sleep(1)");
-                                sleep(1);
+                                sleep(2);
                             }
                             $executionStartTime = microtime(true);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
