@@ -154,7 +154,7 @@ class CloneByFarmMeasureData extends Command
                             $measuresResponse2 = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures2=json_decode($measuresResponse2->getBody()->getContents());
                             $this->info("MEASURESRESPONSE");
-                            $this->info($measuresResponse2 . "MEASURESRESPONSE");
+                            $this->info($measuresResponse2);
                             $this->info("MEASURES");
                             $this->info($measures2);
                             $arrayMeasures2 = []; 
