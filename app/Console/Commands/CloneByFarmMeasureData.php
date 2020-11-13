@@ -114,6 +114,7 @@ class CloneByFarmMeasureData extends Command
                                 $cloningError->id_wiseconn=$id_wiseconn;
                                 $cloningError->save();
                             }
+                            sleep(2);
                         }
                     // }
                 } catch (\Exception $e) {
