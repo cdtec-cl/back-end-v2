@@ -110,15 +110,13 @@ class CloneByFarmMeasureData extends Command
                     // }else{
                         try{
                             if($key % 3 == 0){
-                                // $this->info("sleep(1)");
-                                sleep(3);
+                                sleep(4);
                             }
                             $executionStartTime = microtime(true);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             $executionEndTime = microtime(true);
-                            $seconds = $executionEndTime - $executionStartTime;
-                            // cc);                           
+                            $seconds = $executionEndTime - $executionStartTime;                          
                             $executionStartTime2 = microtime(true);
                             $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
