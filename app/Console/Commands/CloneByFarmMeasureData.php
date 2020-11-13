@@ -63,10 +63,10 @@ class CloneByFarmMeasureData extends Command
             $farms=Farm::where('active_cloning',1)->get();
             $fechaData = Carbon::now();
             foreach ($farms as $key => $farm) {
+                $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
                 try{
                     $i=$i+1;
                     $cloningErrors=CloningErrors::where("elements","/farms/id/measures")->get();
-                    $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
                     $currentRequestElement='/farms/id/measures';
                     $id_wiseconn=$farm->id_wiseconn;
                     // if(count($cloningErrors)>0){
@@ -149,7 +149,8 @@ class CloneByFarmMeasureData extends Command
                             $this->error("Linea:" . $e->getLine());
                             $this->error("currentRequestUri:" . $currentRequestUri);
                             $this->info('Se ejecuto ');   
-                            sleep(4);
+                            sleep(3);
+                            $this->info($currentRequestUri);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             $this->info($measuresResponse);
