@@ -148,12 +148,14 @@ class CloneByFarmMeasureData extends Command
                             $this->error("Error:" . $e->getMessage());
                             $this->error("Linea:" . $e->getLine());
                             $this->error("currentRequestUri:" . $currentRequestUri);
-                            $this->info('Se ejecuto ');   
+                            $this->info('Se ejecuto');   
                             sleep(2);
                             $this->info($currentRequestUri . "CURRENT");
                             $measuresResponse2 = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures2=json_decode($measuresResponse2->getBody()->getContents());
-                            $this->info($measures2 . "MEASURES");
+                            $this->info("MEASURES");
+                            $this->info($measures2);
+                            $this->info("MEASURESRESPONSE");
                             $this->info($measuresResponse2 . "MEASURESRESPONSE");
                             $arrayMeasures2 = []; 
                             foreach ($measures2 as $key => $value) {
