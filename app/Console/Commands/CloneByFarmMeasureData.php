@@ -9,6 +9,7 @@ use App\Farm;
 use App\Measure;
 use App\MeasureData;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 class CloneByFarmMeasureData extends Command
 {
     /**
@@ -58,6 +59,7 @@ class CloneByFarmMeasureData extends Command
         try{
             $i=0;
             $farms=Farm::where('active_cloning',1)->get();
+            $fechaData = Carbon::now();
             foreach ($farms as $key => $farm) {
                 try{
                     $i=$i+1;
@@ -116,7 +118,8 @@ class CloneByFarmMeasureData extends Command
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             $executionEndTime = microtime(true);
-                            $seconds = $executionEndTime - $executionStartTime;                          
+                            $seconds = $executionEndTime - $executionStartTime;   
+                            $this->info($seconds);                       
                             $executionStartTime2 = microtime(true);
                             $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
@@ -126,7 +129,9 @@ class CloneByFarmMeasureData extends Command
                                         $arrayMeasures[] = [
                                             'id_measure' => $measure2222->id, 
                                             'value'      => isset($value->lastData)?$value->lastData:null,
-                                            'time'       => isset($value->lastDataDate)?$value->lastDataDate:null
+                                            'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
+                                            'created_at' => $fechaData,
+                                            'updated_at' => $fechaData
                                         ];
                                     }
                                 }
@@ -141,6 +146,7 @@ class CloneByFarmMeasureData extends Command
                             $this->error("Error:" . $e->getMessage());
                             $this->error("Linea:" . $e->getLine());
                             $this->error("currentRequestUri:" . $currentRequestUri);
+                            $this->info('Se ejecuto ');   
                             if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
                                 $cloningError=new CloningErrors();
                                 $cloningError->elements=$currentRequestElement;
