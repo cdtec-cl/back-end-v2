@@ -147,13 +147,35 @@ class CloneByFarmMeasureData extends Command
                             $this->error("Linea:" . $e->getLine());
                             $this->error("currentRequestUri:" . $currentRequestUri);
                             $this->info('Se ejecuto ');   
-                            if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
+                            sleep(2);
+
+                            $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
+                            $measures=json_decode($measuresResponse->getBody()->getContents());
+
+                            $arrayMeasures = []; 
+                            foreach ($measures as $key => $value) {
+                                $measure2222=Measure::where("id_wiseconn",$value->id)->first();
+                                if(!is_null($measure2222)){
+                                    if($value->id[0].$value->id[1]== "1-"){
+                                        $arrayMeasures[] = [
+                                            'id_measure' => $measure2222->id, 
+                                            'value'      => isset($value->lastData)?$value->lastData:null,
+                                            'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
+                                            'created_at' => $fechaData,
+                                            'updated_at' => $fechaData
+                                        ];
+                                    }
+                                }
+
+                            }     
+                            DB::table('measure_data')->insert($arrayMeasures);
+                           /* if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
                                 $cloningError=new CloningErrors();
                                 $cloningError->elements=$currentRequestElement;
                                 $cloningError->uri=$currentRequestUri;
                                 $cloningError->id_wiseconn=$id_wiseconn;
                                 $cloningError->save();
-                            }
+                            }*/
                         }
                     // }
                 } catch (\Exception $e) {
