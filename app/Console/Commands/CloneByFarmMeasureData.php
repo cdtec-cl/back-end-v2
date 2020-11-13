@@ -149,7 +149,7 @@ class CloneByFarmMeasureData extends Command
                             $this->error("Linea:" . $e->getLine());
                             $this->error("currentRequestUri:" . $currentRequestUri);
                             $this->info('Se ejecuto ');   
-                            sleep(1);
+                            sleep(4);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures=json_decode($measuresResponse->getBody()->getContents());
                             $this->info($measuresResponse);
@@ -171,6 +171,7 @@ class CloneByFarmMeasureData extends Command
                             }     
                             DB::table('measure_data')->insert($arrayMeasures);
                             $this->info('Se Agrego la data');
+                            $this->info($currentRequestUri);
                            /* if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
                                 $cloningError=new CloningErrors();
                                 $cloningError->elements=$currentRequestElement;
