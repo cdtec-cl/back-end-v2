@@ -153,10 +153,10 @@ class CloneByFarmMeasureData extends Command
                             $this->info($currentRequestUri . "CURRENT");
                             $measuresResponse2 = $this->requestWiseconn('GET',$currentRequestUri);
                             $measures2=json_decode($measuresResponse2->getBody()->getContents());
-                            $this->info("MEASURES");
-                            $this->info($measures2);
                             $this->info("MEASURESRESPONSE");
                             $this->info($measuresResponse2 . "MEASURESRESPONSE");
+                            $this->info("MEASURES");
+                            $this->info($measures2);
                             $arrayMeasures2 = []; 
                             foreach ($measures2 as $key => $value) {
                                 $measure2222=Measure::where("id_wiseconn",$value->id)->first();
