@@ -151,15 +151,15 @@ class CloneByFarmMeasureData extends Command
                             $this->info('Se ejecuto ');   
                             sleep(3);
                             $this->info($currentRequestUri);
-                            $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
-                            $measures=json_decode($measuresResponse->getBody()->getContents());
-                            $this->info($measuresResponse);
-                            $arrayMeasures = []; 
-                            foreach ($measures as $key => $value) {
+                            $measuresResponse2 = $this->requestWiseconn('GET',$currentRequestUri);
+                            $measures2=json_decode($measuresResponse2->getBody()->getContents());
+                            $this->info($measuresResponse2);
+                            $arrayMeasures2 = []; 
+                            foreach ($measures2 as $key => $value) {
                                 $measure2222=Measure::where("id_wiseconn",$value->id)->first();
                                 if(!is_null($measure2222)){
                                     if($value->id[0].$value->id[1]== "1-"){
-                                        $arrayMeasures[] = [
+                                        $arrayMeasures2[] = [
                                             'id_measure' => $measure2222->id, 
                                             'value'      => isset($value->lastData)?$value->lastData:null,
                                             'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
@@ -170,7 +170,7 @@ class CloneByFarmMeasureData extends Command
                                 }
 
                             }     
-                            DB::table('measure_data')->insert($arrayMeasures);
+                            DB::table('measure_data')->insert($arrayMeasures2);
                             $this->info('Se Agrego la data');
                             $this->info($currentRequestUri);
                            /* if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
