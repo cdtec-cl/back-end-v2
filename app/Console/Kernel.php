@@ -24,6 +24,7 @@ use App\Console\Commands\CloneByPumpsystemRealIrrigationsVolumes;
 use App\Console\Commands\CloneByPumpsystemZones;
 use App\Console\Commands\CloneByMeasureData;
 use App\Console\Commands\CloneMeasuresDataTemp;
+use App\Console\Commands\CloneCloningError;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -51,7 +52,8 @@ class Kernel extends ConsoleKernel
         CloneByPumpsystemRealIrrigationsVolumes::class,
         CloneByPumpsystemZones::class,
         CloneByMeasureData::class,
-        CloneMeasuresDataTemp::class
+        CloneMeasuresDataTemp::class, 
+        CloneCloningError::class
     ];
 
     /**
@@ -104,6 +106,9 @@ class Kernel extends ConsoleKernel
 
         // php artisan clonebyfarm:measuresdata:run
         $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();  
+
+        // php artisan clonebyfarm:measuresdata:run
+      //  $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();  
 
          
     }
