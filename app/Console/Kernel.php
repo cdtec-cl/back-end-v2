@@ -107,8 +107,8 @@ class Kernel extends ConsoleKernel
         // php artisan clonebyfarm:measuresdata:run
         $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();  
 
-        // php artisan clonebyfarm:measuresdata:run
-      //  $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();  
+        // php artisan cloning error
+        $schedule->command('clonecloningerror:run')->everyFiveMinutes();  
 
          
     }
