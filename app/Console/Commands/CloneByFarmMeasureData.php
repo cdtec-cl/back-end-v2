@@ -86,8 +86,8 @@ class CloneByFarmMeasureData extends Command
                                 if(!is_null($measure)){
                                     if($value->id[0].$value->id[1]== "1-"){
                                         $arrayMeasures[] = [
-                                            'id_measure' => $measure->id, 
-                                            'value'      => isset($value->lastData)?$value->lastData:null,
+                                            'id_measure' => $measure->id,
+                                            'value'      => isset($value->lastData)?$value->lastData:0,
                                             'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
                                             'created_at' => $fechaData,
                                             'updated_at' => $fechaData
