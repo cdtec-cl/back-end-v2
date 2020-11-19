@@ -288,7 +288,7 @@ class CloneByFarmMeasures extends Command
                                 $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
                                 $measures=json_decode($measuresResponse->getBody()->getContents());
                                 $this->info("==========Clonando nuevos elementos (".count($measures)." elementos)");
-                                $this->info("==========Clonando nuevos elementos (".$measures." elementos)");
+                           //     $this->info("==========Clonando nuevos elementos (".$measures." elementos)");
                                 
                                 foreach ($measures as $key => $measure) {
                                     $this->cloneBy($measure);
