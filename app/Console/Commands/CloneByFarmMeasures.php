@@ -265,7 +265,7 @@ class CloneByFarmMeasures extends Command
         try{
            // $farms=Farm::all();
 
-            $farms=Measure::whereIn('id_wiseconn', [204,431,482])->get(); 
+            $farms=Farm::whereIn('id_wiseconn', [204,431,482])->get(); 
             foreach ($farms as $key => $farm) {
                 if($farm->active_cloning==1){
                     try{
