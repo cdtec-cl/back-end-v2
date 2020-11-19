@@ -269,7 +269,7 @@ class CloneByFarmMeasures extends Command
             foreach ($farms as $key => $farm) {
                 if($farm->active_cloning==1){
                     try{
-                        $cloningErrors=CloningErrors::where("elements","/farms/id/measures")->get();
+                      /*  $cloningErrors=CloningErrors::where("elements","/farms/id/measures")->get();
                         if(count($cloningErrors)>0){
                             foreach ($cloningErrors as $key => $cloningError) {
                                 $measuresResponse = $this->requestWiseconn('GET',$cloningError->uri);
@@ -280,7 +280,7 @@ class CloneByFarmMeasures extends Command
                                 }
                                 $cloningError->delete();
                             }
-                        }else{
+                        }else{*/
                             try{
                                 $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
                                 $currentRequestElement='/farms/id/measures';
@@ -305,7 +305,7 @@ class CloneByFarmMeasures extends Command
                                     $cloningError->save();
                                 }
                             }
-                        }
+                        
                     } catch (\Exception $e) {
                         $this->error("Error:" . $e->getMessage());
                         $this->error("Linea:" . $e->getLine());
