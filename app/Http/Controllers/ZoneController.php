@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use App\Mail\GraphicImage;
 use App\Zone;
 use App\ZoneGraph;
 use App\Graph;
@@ -21,9 +23,14 @@ use App\Polygon;
 use App\PhysicalConnection;
 use App\CloningErrors;
 use App\ZoneImages;
+use App\Path;
+use App\ZoneAlert;
+use App\ZoneAlertMail;
+use App\ZoneCalicata;
+use App\ZoneReport;
 use Image;
 use File;
-
+use View;
 class ZoneController extends Controller
 {
     protected function requestWiseconn($client,$method,$uri){
@@ -444,18 +451,17 @@ class ZoneController extends Controller
                             })->with("pumpSystem")->with("irrigations")->with("farm")->get()
                         ];
                         return response()->json($response, 200);
-                    }else{                
-                        return response()->json(['message'=>'Zona no existente'],404);
-                    }
-
-                } catch (\Exception $e) {
-                    return response()->json([
-                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
-                        'error' => $e->getMessage(),
-                        'linea' => $e->getLine()
-                    ], 500);
-                }
+            }else{                
+                return response()->json(['message'=>'Zona no existente'],404);
             }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
             public function wiseconnMeasures($id){
                 try {
                     $zone=Zone::where('id_wiseconn',$id)->first();
@@ -516,9 +522,9 @@ class ZoneController extends Controller
                         $newZone->graph1_url=isset($requestZone->graph1_url)?$requestZone->graph1_url:null;
                         $newZone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:null;
                         $newZone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
-                        $newZone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
-                        $newZone->floor_cb=$requestZone->floor_cb==1?true:false;  
-                        $newZone->weather_cb=$requestZone->weather_cb==1?true:false;  
+                        $newZone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:"";
+                        $newZone->floor_cb=isset($requestZone->floor_cb)&&$requestZone->floor_cb==1?true:false;  
+                        $newZone->weather_cb=isset($requestZone->weather_cb)&&$requestZone->weather_cb==1?true:false;  
                         $newZone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:null;
                         $newZone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:null;
                         $newZone->plant=isset($requestZone->plant)?$requestZone->plant:null;
@@ -527,6 +533,18 @@ class ZoneController extends Controller
                         $newZone->installation_type=isset($requestZone->installation_type)?$requestZone->installation_type:null;
 
                         $newZone->save();
+
+                        $requestPaths=json_decode($request->get('paths'));
+                        foreach ($requestPaths as $key => $value) {
+                            $zonePath=Path::where("id_zone",$newZone->id)->where("lat",$value->lat)->where("lng",$value->lng)->first();
+                            if(is_null($zonePath)){
+                                $newZonePath= new Path();
+                                $newZonePath->id_zone=$newZone->id;
+                                $newZonePath->lat=$value->lat;
+                                $newZonePath->lng=$value->lng;
+                                $newZonePath->save();
+                            }
+                        }
 
                         $requestMeasures=json_decode($request->get('measures'));
                         foreach ($requestMeasures as $key => $value) {
@@ -591,23 +609,23 @@ class ZoneController extends Controller
                         $zone->name=$requestZone->name;
                         $zone->latitude=$requestZone->latitude;
                         $zone->longitude=$requestZone->longitude;
-                        $zone->surface=$requestZone->surface;
-                        $zone->species=$requestZone->species;
-                        $zone->variety=$requestZone->variety;
-                        $zone->plantation_year=$requestZone->plantation_year;
-                        $zone->emitter_flow=$requestZone->emitter_flow;
-                        $zone->distance_between_emitters=$requestZone->distance_between_emitters;
-                        $zone->plantation_frame=$requestZone->plantation_frame;
-                        $zone->probe_type=$requestZone->probe_type;
-                        $zone->type_irrigation=$requestZone->type_irrigation;
-                        $zone->weather=$requestZone->weather;
-                        $zone->soil_type=$requestZone->soil_type;
+                        $zone->surface=isset($requestZone->surface)?$requestZone->surface:null;
+                        $zone->species=isset($requestZone->species)?$requestZone->species:null;
+                        $zone->variety=isset($requestZone->variety)?$requestZone->variety:null;
+                        $zone->plantation_year=isset($requestZone->plantation_year)?$requestZone->plantation_year:null;
+                        $zone->emitter_flow=isset($requestZone->emitter_flow)?$requestZone->emitter_flow:null;
+                        $zone->distance_between_emitters=isset($requestZone->distance_between_emitters)?$requestZone->distance_between_emitters:null;
+                        $zone->plantation_frame=isset($requestZone->plantation_frame)?$requestZone->plantation_frame:null;
+                        $zone->probe_type=isset($requestZone->probe_type)?$requestZone->probe_type:null;
+                        $zone->type_irrigation=isset($requestZone->type_irrigation)?$requestZone->type_irrigation:null;
+                        $zone->weather=isset($requestZone->weather)?$requestZone->weather:null;
+                        $zone->soil_type=isset($requestZone->soil_type)?$requestZone->soil_type:null;
                         $zone->graph1_url=isset($requestZone->graph1_url)?$requestZone->graph1_url:$zone->graph1_url;
                         $zone->graph2_url=isset($requestZone->graph2_url)?$requestZone->graph2_url:$zone->graph2_url;
                         $zone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
-                        $zone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:null;
-                        $zone->floor_cb=$requestZone->floor_cb==1?true:false;  
-                        $zone->weather_cb=$requestZone->weather_cb==1?true:false;  
+                        $zone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:"";
+                        $zone->floor_cb=isset($requestZone->floor_cb)&&$requestZone->floor_cb==1?true:false;  
+                        $zone->weather_cb=isset($requestZone->weather_cb)&&$requestZone->weather_cb==1?true:false;  
 
                         $zone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:$zone->installation_date;
                         $zone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:$zone->number_roots;
@@ -616,6 +634,18 @@ class ZoneController extends Controller
                         $zone->sprinkler_probe_distance=isset($requestZone->sprinkler_probe_distance)?$requestZone->sprinkler_probe_distance:$zone->sprinkler_probe_distance;
                         $zone->installation_type=isset($requestZone->installation_type)?$requestZone->installation_type:$zone->installation_type;
                         $zone->update();
+
+                        $requestPaths=json_decode($request->get('paths'));
+                        foreach ($requestPaths as $key => $value) {
+                            $zonePath=Path::where("id_zone",$zone->id)->where("lat",$value->lat)->where("lng",$value->lng)->first();
+                            if(is_null($zonePath)){
+                                $newZonePath= new Path();
+                                $newZonePath->id_zone=$zone->id;
+                                $newZonePath->lat=$value->lat;
+                                $newZonePath->lng=$value->lng;
+                                $newZonePath->save();
+                            }
+                        }
 
                         $requestMeasures=json_decode($request->get('measures'));
                         foreach ($requestMeasures as $key => $value) {
@@ -657,7 +687,7 @@ class ZoneController extends Controller
                         }
                     }else{
                         $response = [
-                        'message'=> 'Zona no existente',
+                            'message'=> 'Zona no existente',
                         ];
                         return response()->json($response, 404);
                     }
@@ -679,7 +709,11 @@ class ZoneController extends Controller
 
             public function deleteImage(Request $request,$id){
                 try {
-                    $zoneImages=ZoneImages::where("id_zone",$id)->where("image",$request->get("url"))->first();
+                    $zone=Zone::find($id);
+                    if(is_null($zone)){
+                        return response()->json(['message'=>'Zona no existente'],404);
+                    }
+                    $zoneImages=ZoneImages::where("id_zone",$zone->id)->where("image",$request->get("url"))->first();
                     if(!is_null($zoneImages)){
                         if(file_exists(public_path("images/".$request->get("filename")))){
                             unlink(public_path("images/".$request->get("filename")));
@@ -700,5 +734,487 @@ class ZoneController extends Controller
                     ], 500);
                 }
             }
-
+            
+            public function startcloning(Request $request,$id){
+                try {
+                    $zone=Zone::find($id);
+                    if(is_null($zone)){
+                        return response()->json(['message'=>'Zona no existente'],404);
+                    }
+                    $zone->origen="historico";
+                    $zone->initTime=$request->get("initTime");
+                    $zone->endTime=$request->get("endTime");
+                    $zone->progress=0;
+                    $zone->update();
+                    $response = [
+                        'message'=> 'Configuración de clonado exitosa',
+                    ];
+                    return response()->json($response, 200);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
+                }
+            }
+            public function deletePaths($id){
+                try {
+                    $zone=Zone::find($id);
+                    if(is_null($zone)){
+                        return response()->json(['message'=>'Zona no existente'],404);
+                    }
+                    Path::where("id_zone",$zone->id)->delete();
+                    $response = [
+                        'message'=> 'Puntos del mapa eliminados satisfactoriamente',
+                    ];
+                    return response()->json($response, 200);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                        'error' => $e->getMessage(),
+                        'linea' => $e->getLine()
+                    ], 500);
+                }
+            }
+    public function registerAlert(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'min_value'            => 'required|integer',
+            'max_value'            => 'required|numeric',
+            'out_range'            => 'required|string|max:45',
+        ],[
+            'min_value.required'   => 'El valor mínimo es requerido',
+            'min_value.integer'    => 'El valor mínimo debe ser númerico',
+            'max_value.required'   => 'El valor máximo es requerido',
+            'max_value.integer'    => 'El valor máximo debe ser númerico',
+            'out_range.required'   => 'El fuera de rango es requerido',
+            'out_range.string'     => 'El latitude debe ser una cadena de texto',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
         }
+        try{
+            $zone=Zone::find($id);
+            if(is_null($zone)){
+                return response()->json(['message'=>'Zona no existente'],404);
+            }
+            $zoneAlert=new ZoneAlert();
+            $zoneAlert->id_zone=$zone->id;
+            $zoneAlert->min_value=$request->get('min_value');
+            $zoneAlert->max_value=$request->get('max_value');
+            $zoneAlert->out_range=$request->get('out_range');
+            $zoneAlert->enabled=$request->get('enabled')?1:0;
+            $zoneAlert->save();
+
+            ZoneAlertMail::where('id_zone_alert', $zoneAlert->id)->delete();
+            foreach ($request->get('mails') as $key => $mail) {
+                $zoneAlertMail=new ZoneAlertMail();
+                $zoneAlertMail->id_zone_alert=$zoneAlert->id;
+                $zoneAlertMail->mail=$mail;
+                $zoneAlertMail->save();
+            }
+
+            $response = [
+                'message'=> 'Alerta registrada satisfactoriamente',
+                'data' =>ZoneAlert::find($zoneAlert->id),
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function updateAlert(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'min_value'            => 'required|integer',
+            'max_value'            => 'required|numeric',
+            'out_range'            => 'required|string|max:45',
+        ],[
+            'min_value.required'   => 'El valor mínimo es requerido',
+            'min_value.integer'    => 'El valor mínimo debe ser númerico',
+            'max_value.required'   => 'El valor máximo es requerido',
+            'max_value.integer'    => 'El valor máximo debe ser númerico',
+            'out_range.required'   => 'El fuera de rango es requerido',
+            'out_range.string'     => 'El latitude debe ser una cadena de texto',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $zoneAlert=ZoneAlert::find($id);
+            if(is_null($zoneAlert)){
+                return response()->json(['message'=>'Alerta no existente'],404);
+            }
+            $zoneAlert->min_value=$request->get('min_value');
+            $zoneAlert->max_value=$request->get('max_value');
+            $zoneAlert->out_range=$request->get('out_range');
+            $zoneAlert->enabled=$request->get('enabled')?1:0;
+            $zoneAlert->update();
+
+            ZoneAlertMail::where('id_zone_alert', $zoneAlert->id)->delete();
+            foreach ($request->get('mails') as $key => $mail) {
+                $zoneAlertMail=new ZoneAlertMail();
+                $zoneAlertMail->id_zone_alert=$zoneAlert->id;
+                $zoneAlertMail->mail=$mail;
+                $zoneAlertMail->save();
+            }
+
+            $response = [
+                'message'=> 'Alerta actualizada satisfactoriamente',
+                'data' => ZoneAlert::find($zoneAlert->id),
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function deleteAlert($id){
+        try {
+            $zoneAlert=ZoneAlert::find($id);
+            if(is_null($zoneAlert)){
+                return response()->json(['message'=>'Alerta no existente'],404);
+            }
+            ZoneAlertMail::where('id_zone_alert', $zoneAlert->id)->delete();
+            $response = [
+                'message'=> 'Alerta eliminada satisfactoriamente',
+                'data' => $zoneAlert,
+            ];
+            $zoneAlert->delete();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function registerCalicata(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'date'                => 'required',
+            'comments'            => 'required|string|max:45',
+        ],[
+            'date.required'       => 'La fecha es requerida',
+            'comments.required'   => 'El comentario es requerido',
+            'comments.string'     => 'El comentario debe ser una cadena de texto',
+            'comments.max'        => 'El comentario debe contener como máximo 45 caracteres',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $zone=Zone::find($id);
+            if(is_null($zone)){
+                return response()->json(['message'=>'Zona no existente'],404);
+            }
+            $zoneCalicata=new ZoneCalicata();
+            $zoneCalicata->id_zone=$zone->id;
+            $zoneCalicata->date=gmdate($request->get('date'));
+            $zoneCalicata->comments=$request->get('comments');
+            $filename=$request->file("image_file")?$this->SavePhoto($request->file("image_file")):null;
+            $zoneCalicata->image_url= $filename?asset($filename):asset('/images/default.jpg');
+            $zoneCalicata->save();
+            $response = [
+                'message'=> 'Calicata registrada satisfactoriamente',
+                'data' => $zoneCalicata,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function updateCalicata(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'date'                => 'required',
+            'comments'            => 'required|string|max:45',
+        ],[
+            'date.required'       => 'La fecha es requerida',
+            'comments.required'   => 'El comentario es requerido',
+            'comments.string'     => 'El comentario debe ser una cadena de texto',
+            'comments.max'        => 'El comentario debe contener como máximo 45 caracteres',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $zoneCalicata=ZoneCalicata::find($id);
+            if(is_null($zoneCalicata)){
+                return response()->json(['message'=>'Calicata no existente'],404);
+            }
+            $zoneCalicata->date=$request->get('date');
+            $zoneCalicata->comments=$request->get('comments');
+            $filename=$request->file("image_file")?$this->SavePhoto($request->file("image_file")):null;
+            $zoneCalicata->image_url= $filename?asset($filename):$zoneCalicata->image_url;
+            $zoneCalicata->update();
+            $response = [
+                'message'=> 'Calicata actualizada satisfactoriamente',
+                'data' => $zoneCalicata,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function deleteCalicata($id){
+        try {
+            $zoneCalicata=ZoneCalicata::find($id);
+            if(is_null($zoneCalicata)){
+                return response()->json(['message'=>'Alerta no existente'],404);
+            }
+            $response = [
+                'message'=> 'Calicata eliminada satisfactoriamente',
+                'data' => $zoneCalicata,
+            ];
+            $zoneCalicata->delete();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function registerReport(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'probe_name'                => 'required|string|max:45',
+            'surface'                   => 'required|string|max:45',
+            'species'                   => 'required|string|max:45',
+            'variety'                   => 'required|string|max:45',
+            'planting_year'             => 'required|string|max:45',
+            'emitter_flow'              => 'required|string|max:45',
+            'distance_between_emitters' => 'required|string|max:45',
+            'plantation_frame'          => 'required|string|max:45',
+            'probe_type'                => 'required|string|max:45',
+            'type_irrigation'           => 'required|string|max:45',
+            'weather'                   => 'required|string|max:45',
+            'soil_type'                 => 'required|string|max:45',
+        ],[
+            'probe_name.required'                => 'El nombre de sonda es requerido',
+            'probe_name.string'                  => 'El nombre de sonda debe ser una cadena de texto',
+            'probe_name.max'                     => 'El nombre de sonda debe contener como máximo 45 caracteres',
+            'surface.required'                   => 'La superficie es requerido',
+            'surface.string'                     => 'La superficie debe ser una cadena de texto',
+            'surface.max'                        => 'La superficie debe contener como máximo 45 caracteres',
+            'species.required'                   => 'La especie es requerido',
+            'species.string'                     => 'La especie debe ser una cadena de texto',
+            'species.max'                        => 'La especie debe contener como máximo 45 caracteres',
+            'variety.required'                   => 'La variedad es requerido',
+            'variety.string'                     => 'La variedad debe ser una cadena de texto',
+            'variety.max'                        => 'La variedad debe contener como máximo 45 caracteres',
+            'planting_year.required'             => 'El año de plantación es requerido',
+            'planting_year.string'               => 'El año de plantación debe ser una cadena de texto',
+            'planting_year.max'                  => 'El año de plantación debe contener como máximo 45 caracteres',
+            'emitter_flow.required'              => 'El caudal del emisor es requerido',
+            'emitter_flow.string'                => 'El caudal del emisor debe ser una cadena de texto',
+            'emitter_flow.max'                   => 'El caudal del emisor debe contener como máximo 45 caracteres',
+            'distance_between_emitters.required' => 'La distancia entre emisores es requerido',
+            'distance_between_emitters.string'   => 'La distancia entre emisores debe ser una cadena de texto',
+            'distance_between_emitters.max'      => 'La distancia entre emisores debe contener como máximo 45 caracteres',
+            'plantation_frame.required'          => 'El marco de plantación es requerido',
+            'plantation_frame.string'            => 'El marco de plantación debe ser una cadena de texto',
+            'plantation_frame.max'               => 'El marco de plantación debe contener como máximo 45 caracteres',
+            'probe_type.required'                => 'El tipo de sonda es requerido',
+            'probe_type.string'                  => 'El tipo de sonda debe ser una cadena de texto',
+            'probe_type.max'                     => 'El tipo de sonda debe contener como máximo 45 caracteres',
+            'type_irrigation.required'           => 'El tipo de riego es requerido',
+            'type_irrigation.string'             => 'El tipo de riego debe ser una cadena de texto',
+            'type_irrigation.max'                => 'El tipo de riego debe contener como máximo 45 caracteres',
+            'weather.required'                   => 'El clima es requerido',
+            'weather.string'                     => 'El clima debe ser una cadena de texto',
+            'weather.max'                        => 'El clima debe contener como máximo 45 caracteres',
+            'soil_type.required'                 => 'El tipo de suelo es requerido',
+            'soil_type.string'                   => 'El tipo de suelo debe ser una cadena de texto',
+            'soil_type.max'                      => 'El tipo de suelo debe contener como máximo 45 caracteres',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $zone=Zone::find($id);
+            if(is_null($zone)){
+                return response()->json(['message'=>'Zona no existente'],404);
+            }
+            $zoneReport=new ZoneReport();
+            $zoneReport->id_zone=$zone->id;
+            $zoneReport->probe_name=$request->get('probe_name');
+            $zoneReport->surface=$request->get('surface');
+            $zoneReport->species=$request->get('species');
+            $zoneReport->variety=$request->get('variety');
+            $zoneReport->planting_year=$request->get('planting_year');
+            $zoneReport->emitter_flow=$request->get('emitter_flow');
+            $zoneReport->distance_between_emitters=$request->get('distance_between_emitters');
+            $zoneReport->plantation_frame=$request->get('plantation_frame');
+            $zoneReport->probe_type=$request->get('probe_type');
+            $zoneReport->type_irrigation=$request->get('type_irrigation');
+            $zoneReport->weather=$request->get('weather');
+            $zoneReport->soil_type=$request->get('soil_type');
+            $zoneReport->save();
+            $response = [
+                'message'=> 'Calicata registrada satisfactoriamente',
+                'data' => $zoneReport,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function updateReport(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'probe_name'                => 'required|string|max:45',
+            'surface'                   => 'required|string|max:45',
+            'species'                   => 'required|string|max:45',
+            'variety'                   => 'required|string|max:45',
+            'planting_year'             => 'required|string|max:45',
+            'emitter_flow'              => 'required|string|max:45',
+            'distance_between_emitters' => 'required|string|max:45',
+            'plantation_frame'          => 'required|string|max:45',
+            'probe_type'                => 'required|string|max:45',
+            'type_irrigation'           => 'required|string|max:45',
+            'weather'                   => 'required|string|max:45',
+            'soil_type'                 => 'required|string|max:45',
+        ],[
+            'probe_name.required'                => 'El nombre de sonda es requerido',
+            'probe_name.string'                  => 'El nombre de sonda debe ser una cadena de texto',
+            'probe_name.max'                     => 'El nombre de sonda debe contener como máximo 45 caracteres',
+            'surface.required'                   => 'La superficie es requerido',
+            'surface.string'                     => 'La superficie debe ser una cadena de texto',
+            'surface.max'                        => 'La superficie debe contener como máximo 45 caracteres',
+            'species.required'                   => 'La especie es requerido',
+            'species.string'                     => 'La especie debe ser una cadena de texto',
+            'species.max'                        => 'La especie debe contener como máximo 45 caracteres',
+            'variety.required'                   => 'La variedad es requerido',
+            'variety.string'                     => 'La variedad debe ser una cadena de texto',
+            'variety.max'                        => 'La variedad debe contener como máximo 45 caracteres',
+            'planting_year.required'             => 'El año de plantación es requerido',
+            'planting_year.string'               => 'El año de plantación debe ser una cadena de texto',
+            'planting_year.max'                  => 'El año de plantación debe contener como máximo 45 caracteres',
+            'emitter_flow.required'              => 'El caudal del emisor es requerido',
+            'emitter_flow.string'                => 'El caudal del emisor debe ser una cadena de texto',
+            'emitter_flow.max'                   => 'El caudal del emisor debe contener como máximo 45 caracteres',
+            'distance_between_emitters.required' => 'La distancia entre emisores es requerido',
+            'distance_between_emitters.string'   => 'La distancia entre emisores debe ser una cadena de texto',
+            'distance_between_emitters.max'      => 'La distancia entre emisores debe contener como máximo 45 caracteres',
+            'plantation_frame.required'          => 'El marco de plantación es requerido',
+            'plantation_frame.string'            => 'El marco de plantación debe ser una cadena de texto',
+            'plantation_frame.max'               => 'El marco de plantación debe contener como máximo 45 caracteres',
+            'probe_type.required'                => 'El tipo de sonda es requerido',
+            'probe_type.string'                  => 'El tipo de sonda debe ser una cadena de texto',
+            'probe_type.max'                     => 'El tipo de sonda debe contener como máximo 45 caracteres',
+            'type_irrigation.required'           => 'El tipo de riego es requerido',
+            'type_irrigation.string'             => 'El tipo de riego debe ser una cadena de texto',
+            'type_irrigation.max'                => 'El tipo de riego debe contener como máximo 45 caracteres',
+            'weather.required'                   => 'El clima es requerido',
+            'weather.string'                     => 'El clima debe ser una cadena de texto',
+            'weather.max'                        => 'El clima debe contener como máximo 45 caracteres',
+            'soil_type.required'                 => 'El tipo de suelo es requerido',
+            'soil_type.string'                   => 'El tipo de suelo debe ser una cadena de texto',
+            'soil_type.max'                      => 'El tipo de suelo debe contener como máximo 45 caracteres',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        try{
+            $zoneReport=ZoneReport::find($id);
+            if(is_null($zoneReport)){
+                return response()->json(['message'=>'Reporte no existente'],404);
+            }
+            $zoneReport->probe_name=$request->get('probe_name');
+            $zoneReport->surface=$request->get('surface');
+            $zoneReport->species=$request->get('species');
+            $zoneReport->variety=$request->get('variety');
+            $zoneReport->planting_year=$request->get('planting_year');
+            $zoneReport->emitter_flow=$request->get('emitter_flow');
+            $zoneReport->distance_between_emitters=$request->get('distance_between_emitters');
+            $zoneReport->plantation_frame=$request->get('plantation_frame');
+            $zoneReport->probe_type=$request->get('probe_type');
+            $zoneReport->type_irrigation=$request->get('type_irrigation');
+            $zoneReport->weather=$request->get('weather');
+            $zoneReport->soil_type=$request->get('soil_type');
+            $zoneReport->update();
+            $response = [
+                'message'=> 'Reporte actualizada satisfactoriamente',
+                'data' => $zoneReport,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function deleteReport($id){
+        try {
+            $zoneReport=ZoneReport::find($id);
+            if(is_null($zoneReport)){
+                return response()->json(['message'=>'Reporte no existente'],404);
+            }
+            $response = [
+                'message'=> 'Reporte eliminado satisfactoriamente',
+                'data' => $zoneReport,
+            ];
+            $zoneReport->delete();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function sendGraphicImage(Request $request){        
+        try{
+            //image
+            $id=uniqid();
+            $svgFilename='images/graphics/'.$id.'.svg';
+            file_put_contents($svgFilename,$request->get('svg_format'));
+
+            if($request->get('email') && $request->get('svg_format') && $request->get('event_date') && $request->get('event_time')){
+                Mail::to($request->get('email'))->send(new GraphicImage(
+                    $request->get('svg_format'),
+                    $request->get('event_date'),
+                    $request->get('event_time'),
+                    $request->get('comment'),
+                    public_path($svgFilename)
+                ));
+            }
+            $response = [
+                'message'=> 'Imagen enviada a "'.$request->get('email').'"',
+                'data' => $request->all(),
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+   
+    public function testGraphicImage(){
+        return view('emails.graphic-image');
+    }
+}

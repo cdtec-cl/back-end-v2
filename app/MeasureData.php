@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MeasureData extends Model
 {
-    protected $fillable = [        
-        'value','time','id_measure'
+    protected $fillable = [
+        'value','time','id_measure','origen','id_wiseconn'
     ];
 }

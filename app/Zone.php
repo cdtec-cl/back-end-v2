@@ -10,6 +10,7 @@ use App\NorthEastBound;
 use App\Measure;
 use App\ZoneGraph;
 use App\ZoneImages;
+use App\ZoneCalicata;
 class Zone extends Model
 {
     protected $fillable = [
@@ -40,9 +41,24 @@ class Zone extends Model
         'sprinkler_probe_distance', //distancia sonda aspersor
         'installation_type', //tipo de instalacion
         'image_url',
-        'title_second_graph'
+        'title_second_graph',
+        'origen',
+        'initTime',
+        'endTime',
+        'progress'
     ];
-    protected $with = ['path','southWest','northEast','type','measures','zoneGraphs','zoneImages'];
+    protected $with = [
+        'path',
+        'southWest',
+        'northEast',
+        'type',
+        'measures',
+        'zoneGraphs',
+        'zoneImages',
+        'zoneAlert',
+        'zoneCalicata',
+        'zoneReport'
+    ];
     protected $hidden   = [
         'id_zone',
         'id_bound',
@@ -77,6 +93,15 @@ class Zone extends Model
     }
     public function zoneImages(){
         return $this->hasMany(ZoneImages::class,'id_zone');        
+    }
+    public function zoneAlert() {
+        return $this->hasOne(ZoneAlert::class,'id_zone','id');
+    }
+    public function zoneCalicata(){
+        return $this->hasMany(ZoneCalicata::class,'id_zone');        
+    }
+    public function zoneReport() {
+        return $this->hasOne(ZoneReport::class,'id_zone','id');
     }
     
 }

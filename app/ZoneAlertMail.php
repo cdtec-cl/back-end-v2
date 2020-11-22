@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ZoneGraph extends Model
+class ZoneAlertMail extends Model
 {
     protected $fillable = [
-        'id_graph',
-        'id_zone',
-    ];    
+        'id_zone_alert',
+        'mail',
+    ]; 
 }
