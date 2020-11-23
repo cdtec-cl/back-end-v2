@@ -41,6 +41,7 @@ Route::group(['middleware' => ['api']], function() {
 	//
 	Route::get('sensortypes', 'SensorTypeController@all');
 	// zones
+	Route::get('zones/testgraphicimage', 'ZoneController@testGraphicImage');
 	Route::post('zones/store', 'ZoneController@store');
 	Route::get('zones/{id}', 'ZoneController@get');
 	Route::post('zones/update/{id}', 'ZoneController@update');
@@ -52,6 +53,19 @@ Route::group(['middleware' => ['api']], function() {
 	Route::get('zones/{id}/realIrrigations', 'ZoneController@realIrrigations');
 	Route::post('zones/{id}/updateandmeasures', 'ZoneController@updateAndMeasures');
 	Route::post('zones/{id}/deleteimage', 'ZoneController@deleteImage');
+	Route::post('zones/{id}/startcloning', 'ZoneController@startcloning');
+	Route::get('zones/{id}/deletepaths', 'ZoneController@deletePaths');
+	Route::post('zones/sendgraphicimage', 'ZoneController@sendGraphicImage');
+	Route::post('zones/{id}/registeralert', 'ZoneController@registerAlert');
+	Route::post('zones/updatealert/{id}', 'ZoneController@updateAlert');
+	Route::delete('zones/deletealert/{id}', 'ZoneController@deleteAlert');
+	Route::post('zones/{id}/registercalicata', 'ZoneController@registerCalicata');
+	Route::post('zones/updatecalicata/{id}', 'ZoneController@updateCalicata');	
+	Route::delete('zones/deletecalicata/{id}', 'ZoneController@deleteCalicata');
+	Route::post('zones/{id}/registerreport', 'ZoneController@registerReport');
+	Route::post('zones/updatereport/{id}', 'ZoneController@updateReport');	
+	Route::delete('zones/deletereport/{id}', 'ZoneController@deleteReport');
+
 	// paths
 	Route::post('path/store', 'PathController@store');
 	// bounds

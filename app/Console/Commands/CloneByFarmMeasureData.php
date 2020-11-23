@@ -48,6 +48,16 @@ class CloneByFarmMeasureData extends Command
         ]);
     }
 
+    protected function cloneBy($measure,$measureData,$measuresDataCount){
+        print_r(MeasureData::where("id_measure",$measure->id)->where("time",$measureData->time)->first());
+        if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$measureData->time)->first())){
+            $newMeasureData = $this->measureDataCreate($measure,$measureData);
+            $this->info("New MeasureData id:".$newMeasureData->id." cantidad de MeasureData:".$measuresDataCount);
+        }else{
+            $this->info("Elemento existente");
+        }
+    }
+
     /**
      * Execute the console command.
      *
@@ -82,20 +92,27 @@ class CloneByFarmMeasureData extends Command
                             $executionStartTime2 = microtime(true);
                             $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
+                                print_r($value);
                                 $measure=Measure::where("id_wiseconn",$value->id)->first();
                                 if(!is_null($measure)){
-                                    if($value->id[0].$value->id[1]== "1-"){
-                                        $arrayMeasures[] = [
-                                            'id_measure' => $measure->id,
-                                            'value'      => isset($value->lastData)?$value->lastData:0,
-                                            'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
-                                            'created_at' => $fechaData,
-                                            'updated_at' => $fechaData
-                                        ];
+                                    if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$value->lastDataDate)->first())){
+                                        if($value->id[0].$value->id[1]== "1-"){
+                                            $arrayMeasures[] = [
+                                                'id_measure' => $measure->id,
+                                                'value'      => isset($value->lastData)?$value->lastData:0,
+                                                'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
+                                                'created_at' => $fechaData,
+                                                'updated_at' => $fechaData
+                                            ];
+                                        }
+                                     
+                                    }else{
+                                        $this->info("Elemento existente");
                                     }
+                                    
                                 }
 
-                            }     
+                            }    
                             DB::table('measure_data')->insert($arrayMeasures);
                             $executionEndTime2 = microtime(true);
                             $seconds2 = $executionEndTime2 - $executionStartTime2;
