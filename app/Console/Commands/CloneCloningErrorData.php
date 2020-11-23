@@ -84,11 +84,13 @@ class CloneCloningError extends Command
                         DB::table('measure_data')->insert($arrayMeasures);
                        
                         $cloning->delete();
+                        sleep(1);
 
                     } catch (\Exception $e) {
                         $this->error("Error:" . $e->getMessage());
                         $this->error("Linea:" . $e->getLine());
                         $this->error("currentRequestUri:" . $currentRequestUri);
+                        sleep(1);
                        /* if(is_null(CloningErrors::where("elements",$currentRequestElement)->where("uri",$currentRequestUri)->where("id_wiseconn",$id_wiseconn)->first())){
                             $cloningError=new CloningErrors();
                             $cloningError->elements=$currentRequestElement;
