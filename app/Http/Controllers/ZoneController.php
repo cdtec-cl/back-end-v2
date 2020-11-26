@@ -914,13 +914,22 @@ class ZoneController extends Controller
             if(is_null($zone)){
                 return response()->json(['message'=>'Zona no existente'],404);
             }
-            $zoneCalicata=new ZoneCalicata();
-            $zoneCalicata->id_zone=$zone->id;
-            $zoneCalicata->date=gmdate($request->get('date'));
-            $zoneCalicata->comments=$request->get('comments');
-            $filename=$request->file("image_file")?$this->SavePhoto($request->file("image_file")):null;
-            $zoneCalicata->image_url= $filename?asset($filename):asset('/images/default.jpg');
-            $zoneCalicata->save();
+            $zoneCalicata=ZoneCalicata::where('id_zone',$zone->id)->where('date',gmdate($request->get('date')))->first();
+            if(is_null($zoneCalicata)){                
+                $zoneCalicata=new ZoneCalicata();
+                $zoneCalicata->id_zone=$zone->id;
+                $zoneCalicata->date=gmdate($request->get('date'));
+                $zoneCalicata->comments=$request->get('comments');
+                $filename=$request->file("image_file")?$this->SavePhoto($request->file("image_file")):null;
+                $zoneCalicata->image_url= $filename?asset($filename):asset('/images/default.jpg');
+                $zoneCalicata->save();
+            }else{
+                $zoneCalicata->date=gmdate($request->get('date'));
+                $zoneCalicata->comments=$request->get('comments');
+                $filename=$request->file("image_file")?$this->SavePhoto($request->file("image_file")):null;
+                $zoneCalicata->image_url= $filename?asset($filename):asset('/images/default.jpg');
+                $zoneCalicata->update();
+            }
             $response = [
                 'message'=> 'Calicata registrada satisfactoriamente',
                 'data' => $zoneCalicata,
@@ -1186,22 +1195,26 @@ class ZoneController extends Controller
     }
     public function sendGraphicImage(Request $request){        
         try{
-            //image
-            $id=uniqid();
-            $svgFilename='images/graphics/'.$id.'.svg';
-            file_put_contents($svgFilename,$request->get('svg_format'));
-
-            if($request->get('email') && $request->get('svg_format') && $request->get('event_date') && $request->get('event_time')){
-                Mail::to($request->get('email'))->send(new GraphicImage(
-                    $request->get('svg_format'),
-                    $request->get('event_date'),
-                    $request->get('event_time'),
-                    $request->get('comment'),
-                    public_path($svgFilename)
-                ));
-            }
+            $emails = explode(",", $request->get('emails'));
+            if(count($emails)>0){
+                //image
+                $id=uniqid();
+                $svgFilename='images/graphics/'.$id.'.svg';
+                file_put_contents($svgFilename,$request->get('svg_format'));
+                foreach ($emails as $key => $email) {
+                    if($request->get('svg_format') && $request->get('event_date') && $request->get('event_time')){
+                        Mail::to($email)->send(new GraphicImage(
+                            $request->get('svg_format'),
+                            $request->get('event_date'),
+                            $request->get('event_time'),
+                            $request->get('comment'),
+                            public_path($svgFilename)
+                        ));
+                    }
+                }
+            }            
             $response = [
-                'message'=> 'Imagen enviada a "'.$request->get('email').'"',
+                'message'=> 'Imagen enviada a '.$request->get('emails'),
                 'data' => $request->all(),
             ];
             return response()->json($response, 200);
