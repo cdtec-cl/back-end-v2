@@ -50,6 +50,10 @@ class SendZoneAlertsEmails extends Command
         $currentStateHumidity=floatval($explodeResult[0]);
         $saturationZone=floatval($explodeResult[1]);
         $stressZone=floatval($explodeResult[3]);
+        print_r($explodeResult);
+        $this->info($currentStateHumidity);
+        $this->info($saturationZone);
+        $this->info($stressZone);
         //Estrés < suma humedad = hay estrés
         if($currentStateHumidity>$stressZone){
             return "Hay zona de estrés en el sector ".$name;
