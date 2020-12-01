@@ -50,18 +50,10 @@ class SendZoneAlertsEmails extends Command
         $currentStateHumidity=floatval($explodeResult[0]);
         $saturationZone=floatval($explodeResult[1]);
         $stressZone=floatval($explodeResult[3]);
-        print_r($explodeResult);
-        $this->info($currentStateHumidity);
-        $this->info($saturationZone);
-        $this->info($stressZone);
-        print_r($currentStateHumidity<$stressZone);
-        print_r($currentStateHumidity>$saturationZone);
         //Estrés < suma humedad = hay estrés
         if($currentStateHumidity<$stressZone){
-            $this->info('holaaa 1');
             return "Hay zona de estrés en el sector ".$name;
         }elseif($currentStateHumidity>$saturationZone){
-            $this->info('holaaa 2');
             return "Hay zona de saturación del sector ".$name;
         }
         return null;
@@ -78,8 +70,10 @@ class SendZoneAlertsEmails extends Command
             if($zoneAlert->enabled==1){//habilitado
                 $zone=Zone::find($zoneAlert->id_zone);
                 $alertMessage=strpos($zone->image_url,'images/default.jpg')===false?$this->getAlertMessage($zone->name,$zone->image_url):null;
+                print_r($alertMessage);
                 if(!is_null($alertMessage)){
                     if(count($zoneAlert->mails)>0){
+                        print_r($zoneAlert);
                         foreach ($zoneAlert->mails as $key => $mail) {
                             if(is_null($zoneAlert->last_mail_send_date)&&!is_null($mail->mail)){
                                 Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
@@ -87,11 +81,12 @@ class SendZoneAlertsEmails extends Command
                                 $zoneAlert->update();
                                 $this->info("Mail enviado a: ".$mail->mail);
                             }else{
+                                $this->info('paso por aca');
                                 $datework = is_null($zoneAlert->last_mail_send_date)?(Carbon::now()):Carbon::createFromDate($zoneAlert->last_mail_send_date);
                                 $now = Carbon::now();
                                 $diffInMinutes = $datework->diffInMinutes($now);
                                 $diffInHours = $datework->diffInHours($now);
-                                
+                                $this->info($zoneAlert->out_range);
                                 switch ($zoneAlert->out_range) {
                                     case '5 minutos':
                                         if($diffInMinutes>=5){
