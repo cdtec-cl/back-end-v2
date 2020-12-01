@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use GuzzleHttp\Client;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Carbon\Carbon;
 use App\Mail\GraphicImage;
 use App\Zone;
@@ -31,6 +33,7 @@ use App\ZoneReport;
 use Image;
 use File;
 use View;
+use PDF;
 class ZoneController extends Controller
 {
     protected function requestWiseconn($client,$method,$uri){
@@ -1229,5 +1232,100 @@ class ZoneController extends Controller
    
     public function testGraphicImage(){
         return view('emails.graphic-image');
+    }
+
+    public function generateReportType(Request $request, $farm_id, $zone_id, $type){
+        $zone = Zone::find($zone_id);
+            if(is_null($zone)){
+                return response()->json([
+                    'message'=>'Zona no existente',
+                    'data'=>$zone
+                ],404);
+            }
+        $farm = Farm::find($farm_id);
+            if(is_null($farm)){
+                return response()->json([
+                    'message'=>'Campo no existente',
+                    'data'=>$farm
+                ],404);
+            }
+        switch ($type) {
+            case 'installation':
+                $data=[
+                    "date"=>  date("d/m/y"),
+                    "zone_name"=>$zone->name,
+                    "farm_name"=>$farm->name,
+                    "account_name"=>$farm->account?$farm->account->name:null,
+                    "account_email"=>$farm->account?$farm->account->email:null,
+                    "account_telefono"=>$farm->account?$farm->account->telefono:null,
+                    "general_detail"=>$request->get('general_detail'),
+                    "species"=>$request->get('species'),
+                    "variety"=>$request->get('variety'),
+                    "HA_surface"=>$request->get('HA_surface'),
+                    "planting_year"=>$request->get('planting_year'),
+                    "soil_monitoring"=>$request->get('soil_monitoring'),
+                    "irrigation_system"=>$request->get('irrigation_system'),
+                    "system_precipitation"=>$request->get('system_precipitation'),
+                    "distance_between_emitters"=>$request->get('distance_between_emitters'),
+                    "sector_plantation_frame"=>$request->get('sector_plantation_frame'),
+                    "plant"=>$request->get('plant'),
+                    "plant_probe_distance"=>$request->get('plant_probe_distance'),
+                    "probe_dropper_distance"=>$request->get('probe_dropper_distance'),
+                    "zone_plantation_frame"=>$request->get('zone_plantation_frame'),
+                    "type_installation"=>$request->get('type_installation'),
+                    "general_remarks"=>$request->get('general_remarks'),
+                ];
+                break;
+            case 'management':
+                # code...
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $filename='files/'.uniqid('report-'.$type.'-'). time();
+        $publicPathName=public_path($filename);
+        $urlPathName=url($filename);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.invoice', compact('data','type'))->save($publicPathName);
+        $response = [
+            'message'=> 'Reporte generado satisfactoriamente',
+            'data' => $urlPathName,
+        ];
+        return response()->json($response, 200);
+    }
+    public function downloadReport(){
+        $data=[
+            "name"=>"Prueba"
+        ];
+        $pdf = PDF::loadView('pdf.invoice', compact('data'));
+        return $pdf->download('invoice.pdf');
+    }
+    public function testReport(){
+        $data=[
+            "date"=>  date("d/m/y"),
+            "zone_name"=>"test",
+            "farm_name"=>"test",
+            "account_name"=>"test",
+            "account_email"=>"test",
+            "account_telefono"=>"test",
+            "general_detail"=>"test",
+            "species"=>"test",
+            "variety"=>"test",
+            "HA_surface"=>"test",
+            "planting_year"=>"test",
+            "soil_monitoring"=>"test",
+            "irrigation_system"=>"test",
+            "system_precipitation"=>"test",
+            "distance_between_emitters"=>"test",
+            "sector_plantation_frame"=>"test",
+            "plant"=>"test",
+            "plant_probe_distance"=>"test",
+            "probe_dropper_distance"=>"test",
+            "zone_plantation_frame"=>"test",
+            "type_installation"=>"test",
+            "general_remarks"=>"test",
+        ];
+        return view('pdf.invoice', compact('data'));
     }
 }

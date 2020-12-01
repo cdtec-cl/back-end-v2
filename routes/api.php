@@ -41,7 +41,9 @@ Route::group(['middleware' => ['api']], function() {
 	//
 	Route::get('sensortypes', 'SensorTypeController@all');
 	// zones
-	Route::get('zones/testgraphicimage', 'ZoneController@testGraphicImage');
+	Route::post('zones/generatereport/{id}', 'ZoneController@generateReport');
+	Route::post('zones/generatereporttype/{farm_id}/{zone_id}/{type}', 'ZoneController@generateReportType');
+	Route::get('zones/downloadreport', 'ZoneController@downloadReport');
 	Route::post('zones/store', 'ZoneController@store');
 	Route::get('zones/{id}', 'ZoneController@get');
 	Route::post('zones/update/{id}', 'ZoneController@update');
