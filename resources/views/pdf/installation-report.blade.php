@@ -95,6 +95,97 @@
 			.p-05{
 				padding: 5%;
 			}
+
+			table {
+            border: 1px solid;
+            border-collapse: collapse;
+            margin: 30px 0px;
+        }
+
+        td, th {
+            border: 1px solid;
+            padding: 0 10px;
+            /*text-align: center;*/
+        }
+
+        /* style one */
+        table.makeit_rwd_default {
+            margin: 0 auto;
+            border-collapse: collapse;
+            font-family: Agenda-Light, sans-serif;
+            font-weight: 100;
+            background: #333;
+            color: #fff;
+            text-rendering: optimizeLegibility;
+            border-radius: 5px;
+        }
+
+        table.makeit_rwd_default caption {
+            font-size: 2rem;
+            color: #444;
+            margin: 1rem;
+        }
+
+        table.makeit_rwd_default thead th {
+            font-weight: 600;
+        }
+
+        table.makeit_rwd_default thead th, table.makeit_rwd_default tbody td {
+            padding: .8rem;
+            font-size: 1.4rem;
+        }
+
+        table.makeit_rwd_default tbody td {
+            padding: .8rem;
+            font-size: 1.4rem;
+            color: #444;
+            background: #eee;
+        }
+
+        table.makeit_rwd_default tbody tr:not(:last-child) {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* STYLE 2 */
+        table.makeit_rwd_default2 {
+            margin: 0 auto;
+            border-collapse: collapse;
+            font-family: Agenda-Light, sans-serif;
+            font-weight: 100;
+            background: #333;
+            color: #fff;
+            text-rendering: optimizeLegibility;
+            border-radius: 5px;
+        }
+
+        table.makeit_rwd_default2 caption {
+            font-size: 2rem;
+            color: #444;
+            margin: 1rem;
+        }
+
+        table.makeit_rwd_default2 thead th {
+            font-weight: 600;
+        }
+
+        table.makeit_rwd_default2 thead th, table.makeit_rwd_default2 tbody td {
+            padding: .8rem;
+            font-size: 1.4rem;
+        }
+
+        table.makeit_rwd_default2 tbody td {
+            padding: .8rem;
+            font-size: 1.4rem;
+            color: #444;
+            background: #eee;
+        }
+
+        table.makeit_rwd_default2 tbody tr:not(:last-child) {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
 		</style>
 	</head>
 	<body>
@@ -129,15 +220,15 @@
 				</tr>  
 				<tr>
 				    <th scope="row" data-header=" ">Contacto</th>
-				    <td data-header="Deposit">Victor Lizana</td>
+				    <td data-header="Deposit">{{$data['account_name']}}</td>
 				</tr>  
 				<tr>
-				    <th scope="row" data-header=" ">Fono</th>
-				    <td data-header="Deposit">56 9 967795652</td>
+				    <th scope="row" data-header=" ">Teléfono</th>
+				    <td data-header="Deposit">{{$data['account_telefono']}}</td>
 				</tr>  
 				<tr>
 				    <th scope="row" data-header=" ">Correo</th>
-				    <td data-header="Deposit">victorjlizana@gmail.com</td>
+				    <td data-header="Deposit">{{$data['account_email']}}</td>
 				</tr>  
 			</tbody>
 		</table>
@@ -170,6 +261,66 @@
 				    <th scope="row" data-header=" ">Año de Plantación</th>
 				    <td data-header="Deposit">{{$data['planting_year']}}</td>
 				</tr>   
+			</tbody>
+		</table>
+		<table class="makeit_rwd">
+			<thead>
+			    <tr>
+			        <th>Sonda </th>
+			        <th  colspan="2">Sensores</th>
+			        <th  colspan="2">Datos Visuales</th>
+			    </tr>
+			    <tr>
+			        <th rowspan="2">Profundidad (cm)</th>
+			        <th>T° y HR</th>
+			        <th>Salinidad</th>
+			        <th>Humedad a Mano</th>
+			        <th>Textura</th>
+			    </tr>
+			</thead>
+			<tbody>
+			    <tr>
+			        <td>10</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 3,5</td>
+			        <td>Franco Arenosa</td>
+			    </tr>
+			    <tr>
+			        <td>20</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 3,5</td>
+			        <td>Franco Arenosa</td>
+			    </tr>
+			    <tr>
+			        <td>50</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 3,5</td>
+			        <td>Franco Arenosa</td>
+			    </tr>
+			    <tr>
+			        <td>10</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 4</td>
+			        <td>Arenosa</td>
+			    </tr>
+			    <tr>
+			        <td>60</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 4</td>
+			        <td>Arenosa</td>
+			    </tr>
+			    <tr>
+			        <td>70</td>
+			        <td>SI</td>
+			        <td>NO</td>
+			        <td>H 4</td>
+			        <td>Arenosa</td>
+			    </tr>
 			</tbody>
 		</table>
 		<h1>Observaciones Generales</h1>

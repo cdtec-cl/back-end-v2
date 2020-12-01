@@ -1249,6 +1249,7 @@ class ZoneController extends Controller
                     'data'=>$farm
                 ],404);
             }
+        $view='pdf.installation-report';
         switch ($type) {
             case 'installation':
                 $data=[
@@ -1275,8 +1276,34 @@ class ZoneController extends Controller
                     "type_installation"=>$request->get('type_installation'),
                     "general_remarks"=>$request->get('general_remarks'),
                 ];
+                $view='pdf.installation-report';
                 break;
             case 'management':
+                $data=[
+                    "date"=>  date("d/m/y"),
+                    "zone_name"=>$zone->name,
+                    "farm_name"=>$farm->name,
+                    "account_name"=>$farm->account?$farm->account->name:null,
+                    "account_email"=>$farm->account?$farm->account->email:null,
+                    "account_telefono"=>$farm->account?$farm->account->telefono:null,
+                    "poscosecha_2019"=>$request->get('poscosecha_2019'),
+                    "caida_de_hoja"=>$request->get('caida_de_hoja'),
+                    "brotacion"=>$request->get('brotacion'),
+                    "cuaja"=>$request->get('cuaja'),
+                    "maduracion"=>$request->get('maduracion'),
+                    "raices"=>$request->get('raices'),
+                    "tecnica_y_administracion"=>$request->get('tecnica_y_administracion'),
+                    "first_general_remarks"=>$request->get('first_general_remarks'),
+                    "graph1_url"=>$request->get('graph1_url'),
+                    "second_general_remarks"=>$request->get('second_general_remarks'),
+                    "kc_sonda"=>$request->get('kc_sonda'),
+                    "huella_agua"=>$request->get('huella_agua'),
+                    "estacion_de_clima"=>$request->get('estacion_de_clima'),
+                    "equipo_de_riego"=>$request->get('equipo_de_riego'),
+                    "raices"=>$request->get('raices'),
+                    "third_general_remarks"=>$request->get('third_general_remarks'),
+                ];
+                $view='pdf.management-report';
                 # code...
                 break;
             default:
@@ -1287,7 +1314,7 @@ class ZoneController extends Controller
         $filename='files/'.uniqid('report-'.$type.'-'). time();
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('pdf.invoice', compact('data','type'))->save($publicPathName);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName);
         $response = [
             'message'=> 'Reporte generado satisfactoriamente',
             'data' => $urlPathName,
@@ -1298,10 +1325,10 @@ class ZoneController extends Controller
         $data=[
             "name"=>"Prueba"
         ];
-        $pdf = PDF::loadView('pdf.invoice', compact('data'));
+        $pdf = PDF::loadView('pdf.installation-report', compact('data'));
         return $pdf->download('invoice.pdf');
     }
-    public function testReport(){
+    public function testReport($type){
         $data=[
             "date"=>  date("d/m/y"),
             "zone_name"=>"test",
@@ -1326,6 +1353,7 @@ class ZoneController extends Controller
             "type_installation"=>"test",
             "general_remarks"=>"test",
         ];
-        return view('pdf.invoice', compact('data'));
+        $view=$type=="installation"?"pdf.installation-report":"pdf.management-report";
+        return view($view, compact('data'));
     }
 }
