@@ -94,48 +94,64 @@ class SendZoneAlertsEmails extends Command
                                         if($diffInMinutes>=5){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '15 minutos':
                                         if($diffInMinutes>=15){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '30 minutos':
                                         if($diffInMinutes>=30){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break; 
                                     case '45 minutos':
                                         if($diffInMinutes>=45){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '1 hora':
                                         if($diffInHours>=1){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '2 horas':
                                         if($diffInHours>=2){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '3 horas':
                                         if($diffInHours>=3){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     case '6 horas':
                                         if($diffInHours>=6){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
+                                            $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
+                                            $zoneAlert->update();
                                         }
                                         break;
                                     default:
@@ -145,8 +161,7 @@ class SendZoneAlertsEmails extends Command
                             }  
                         }
                      
-                        $zoneAlert->last_mail_send_date=Carbon::now()->toDateTimeString();
-                        $zoneAlert->update();
+                        
                     }
                 }
             }
