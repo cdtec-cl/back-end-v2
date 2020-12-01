@@ -115,7 +115,7 @@ class Kernel extends ConsoleKernel
      //   $schedule->command('clonecloningerror:run')->everyFiveMinutes();  
 
         // php artisan sendzonealertsemails:run
-       // $schedule->command('sendzonealertsemails:run')->everyMinute();        
+      $schedule->command('sendzonealertsemails:run')->everyMinute();        
 
          
     }
