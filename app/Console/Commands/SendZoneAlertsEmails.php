@@ -80,6 +80,7 @@ class SendZoneAlertsEmails extends Command
                                 $this->info("Mail enviado a: ".$mail->mail);
                             }else{
                                 $this->info('paso por aca');
+                                $this->info($zoneAlert->last_mail_send_date);
                                 $datework = is_null($zoneAlert->last_mail_send_date)?(Carbon::now()):Carbon::createFromDate($zoneAlert->last_mail_send_date);
                                 $now = Carbon::now();
                                 $diffInMinutes = $datework->diffInMinutes($now);
