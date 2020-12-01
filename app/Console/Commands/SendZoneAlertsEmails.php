@@ -81,7 +81,7 @@ class SendZoneAlertsEmails extends Command
                             }else{
                                 $this->info('paso por aca');
                                 $this->info($zoneAlert->last_mail_send_date);
-                                $datework = isset($zoneAlert->last_mail_send_date)?(Carbon::now()):Carbon::createFromDate($zoneAlert->last_mail_send_date);
+                                $datework = !(isset($zoneAlert->last_mail_send_date)) ? (Carbon::now()):Carbon::createFromDate($zoneAlert->last_mail_send_date);
                                 print(isset($zoneAlert->last_mail_send_date));
                                 print_r($datework);
                                 $now = Carbon::now();
