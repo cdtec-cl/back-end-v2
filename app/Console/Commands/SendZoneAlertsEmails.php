@@ -54,6 +54,8 @@ class SendZoneAlertsEmails extends Command
         $this->info($currentStateHumidity);
         $this->info($saturationZone);
         $this->info($stressZone);
+        print_r($currentStateHumidity<$stressZone);
+        print_r($currentStateHumidity>$saturationZone);
         //Estrés < suma humedad = hay estrés
         if($currentStateHumidity<$stressZone){
             $this->info('holaaa 1');
