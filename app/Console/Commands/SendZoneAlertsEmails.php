@@ -70,10 +70,8 @@ class SendZoneAlertsEmails extends Command
             if($zoneAlert->enabled==1){//habilitado
                 $zone=Zone::find($zoneAlert->id_zone);
                 $alertMessage=strpos($zone->image_url,'images/default.jpg')===false?$this->getAlertMessage($zone->name,$zone->image_url):null;
-                print_r($alertMessage);
                 if(!is_null($alertMessage)){
                     if(count($zoneAlert->mails)>0){
-                        print_r($zoneAlert);
                         foreach ($zoneAlert->mails as $key => $mail) {
                             if(is_null($zoneAlert->last_mail_send_date)&&!is_null($mail->mail)){
                                 Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
@@ -87,6 +85,7 @@ class SendZoneAlertsEmails extends Command
                                 $diffInMinutes = $datework->diffInMinutes($now);
                                 $diffInHours = $datework->diffInHours($now);
                                 $this->info($zoneAlert->out_range);
+                                $this->info($diffInMinutes);
                                 switch ($zoneAlert->out_range) {
                                     case '5 minutos':
                                         if($diffInMinutes>=5){
