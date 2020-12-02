@@ -96,7 +96,6 @@ class CloneByFarmMeasureData extends Command
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
                                         if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$value->lastDataDate)->first())){
-                                            
                                                 $arrayMeasures[] = [
                                                     'id_measure' => $measure->id,
                                                     'value'      => isset($value->lastData)?$value->lastData:0,
@@ -106,7 +105,7 @@ class CloneByFarmMeasureData extends Command
                                                 ];
                                         
                                         }else{
-                                            $this->info("Elemento existente");
+                                         //   $this->info("Elemento existente");
                                         }
                                         
                                     }
