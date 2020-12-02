@@ -30,6 +30,7 @@ use App\ZoneAlert;
 use App\ZoneAlertMail;
 use App\ZoneCalicata;
 use App\ZoneReport;
+use App\ZoneReportType;
 use Image;
 use File;
 use View;
@@ -1314,10 +1315,42 @@ class ZoneController extends Controller
         $filename='files/'.uniqid('report-'.$type.'-'). time();
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
+        $zoneReportType = ZoneReportType::where('id_zone',$zone_id)->where('type',$type)->first();
+        if(is_null($zoneReportType)){
+            $zoneReportType= new ZoneReportType();
+            $zoneReportType->id_zone=$zone->id;
+            $zoneReportType->type=$type;
+            $zoneReportType->download_url=$urlPathName;
+            $zoneReportType->save();
+        }else{
+            $zoneReportType->download_url=$urlPathName;
+            $zoneReportType->update();
+        }
         $response = [
             'message'=> 'Reporte generado satisfactoriamente',
             'data' => $urlPathName,
+        ];
+        return response()->json($response, 200);
+    }
+    public function downloadReportType($zone_id, $type){
+        $zone = Zone::find($zone_id);
+        if(is_null($zone)){
+            return response()->json([
+                'message'=>'Zona no existente',
+                'data'=>$zone
+            ],404);
+        }
+        $zoneReportType = ZoneReportType::where('id_zone',$zone_id)->where('type',$type)->first();
+        if(is_null($zoneReportType)){
+            return response()->json([
+                'message'=>'No existe un reporte de zona del tipo seleccionado',
+                'data'=>$zoneReportType
+            ],404);
+        }
+        $response = [
+            'message'=> 'Reporte descargado satisfactoriamente',
+            'data' => $zoneReportType,
         ];
         return response()->json($response, 200);
     }

@@ -89,7 +89,7 @@
 				width: 100%;
 			}
 			.main-title{				
-			    font-size: 70px;
+			    font-size: 50px;
 			    text-align: center;
 			}
 			.p-05{
@@ -185,7 +185,12 @@
             border-top: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
         }
-
+        .d-flex{
+        	display: flex;
+        }
+        .w-50{
+        	width: 50%;
+        }
 		</style>
 	</head>
 	<body>
@@ -271,7 +276,7 @@
 			        <th  colspan="2">Datos Visuales</th>
 			    </tr>
 			    <tr>
-			        <th rowspan="2">Profundidad (cm)</th>
+			        <th>Profundidad (cm)</th>
 			        <th>T° y HR</th>
 			        <th>Salinidad</th>
 			        <th>Humedad a Mano</th>
