@@ -92,24 +92,24 @@ class CloneByFarmMeasureData extends Command
                             $executionStartTime2 = microtime(true);
                             $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
-                                print_r($value);
-                                $measure=Measure::where("id_wiseconn",$value->id)->first();
-                                if(!is_null($measure)){
-                                    if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$value->lastDataDate)->first())){
-                                        if($value->id[0].$value->id[1]== "1-"){
-                                            $arrayMeasures[] = [
-                                                'id_measure' => $measure->id,
-                                                'value'      => isset($value->lastData)?$value->lastData:0,
-                                                'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
-                                                'created_at' => $fechaData,
-                                                'updated_at' => $fechaData
-                                            ];
+                                if($value->id[0].$value->id[1]== "1-"){
+                                    $measure=Measure::where("id_wiseconn",$value->id)->first();
+                                    if(!is_null($measure)){
+                                        if(is_null(MeasureData::where("id_measure",$measure->id)->where("time",$value->lastDataDate)->first())){
+                                            
+                                                $arrayMeasures[] = [
+                                                    'id_measure' => $measure->id,
+                                                    'value'      => isset($value->lastData)?$value->lastData:0,
+                                                    'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
+                                                    'created_at' => $fechaData,
+                                                    'updated_at' => $fechaData
+                                                ];
+                                        
+                                        }else{
+                                            $this->info("Elemento existente");
                                         }
-                                     
-                                    }else{
-                                        $this->info("Elemento existente");
+                                        
                                     }
-                                    
                                 }
 
                             }    
