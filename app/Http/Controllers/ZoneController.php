@@ -1312,7 +1312,7 @@ class ZoneController extends Controller
                 break;
         }
 
-        $filename='files/'.uniqid('report-'.$type.'-'). time();
+        $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
