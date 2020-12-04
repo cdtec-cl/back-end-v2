@@ -1384,7 +1384,23 @@ class ZoneController extends Controller
             "probe_dropper_distance"=>"test",
             "zone_plantation_frame"=>"test",
             "type_installation"=>"test",
-            "general_remarks"=>"test",
+            "first_general_remarks"=>"test",
+            "poscosecha_2019"=>"test",
+            "caida_de_hoja"=>"test",
+            "brotacion"=>"test",
+            "cuaja"=>"test",
+            "maduracion"=>"test",
+            "raices"=>"test",
+            "tecnica_y_administracion"=>"test",
+            "graph1_url"=>"test",
+            "second_general_remarks"=>"test",
+            "kc_sonda"=>"test",
+            "huella_agua"=>"test",
+            "tecnica_administracion"=>"test",
+            "estacion_de_clima"=>"test",
+            "equipo_de_riego"=>"test",
+            "third_general_remarks"=>"test",
+            "general_remarks"=>"test"
         ];
         $view=$type=="installation"?"pdf.installation-report":"pdf.management-report";
         return view($view, compact('data'));

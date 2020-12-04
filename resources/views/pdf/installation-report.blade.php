@@ -34,44 +34,44 @@
 			  font-size: 1.2rem;
 			}
 
-			table caption {
+			.table-style caption {
 			  font-weight: 400;
 			  text-transform: uppercase;
 			  font-family: "Ubuntu", sans-serif;
 			  line-height: 1;
 			  margin-bottom: 0.75em;
 			}
-			table th {
+			.table-style th {
 			  font-weight: 400;
 			  text-transform: capitalize;
 			  font-family: "Ubuntu", sans-serif;
-			  padding: 1.2307em 1.0833em 1.0833em;
+			  padding: 5px;
 			  line-height: 1.333;
 			  background-color: #1f4278;
 			  color: #ffffff;
 			}
 
-			table td,
-			table th {
+			.table-style td,
+			.table-style th {
 			  text-align: left;
 			}
-			table td {
-			  padding: 0.92307em 1em 0.7692em;
+			.table-style td {
+			  padding: 5px;
 			  font-family: "Archivo Narrow", sans-serif;
 			}
-			table tbody tr:nth-of-type(even) {
+			.table-style tbody tr:nth-of-type(even) {
 			  background-color: #cccccc;
 			}
-			table tbody tr:nth-of-type(odd) {
+			.table-style tbody tr:nth-of-type(odd) {
 			  background-color: #e6e6e6;
 			}
-			table tbody th {
+			.table-style tbody th {
 			  border-top: 1px solid #d5d5d2;
 			}
-			table tbody td {
+			.table-style tbody td {
 			  border-top: 1px solid #d5d5d2;
 			}
-			table.wdn_responsive_table thead th abbr {
+			.table-style.wdn_responsive_table thead th abbr {
 			  border-bottom: none;
 			}
 			/*other styles*/
@@ -86,10 +86,10 @@
 				width: 25%;
 			}
 			.img-logo{
-				width: 100%;
+				width: 50%;
 			}
-			.main-title{				
-			    font-size: 50px;
+			.main-title{
+			    font-size: 70px;
 			    text-align: center;
 			}
 			.p-05{
@@ -97,310 +97,334 @@
 			}
 
 			table {
-            border: 1px solid;
-            border-collapse: collapse;
-            margin: 30px 0px;
-        }
+	            /*border: 1px solid;*/
+	            border-collapse: collapse;
+	            margin: 30px 0px;
+	        }
 
-        td, th {
-            border: 1px solid;
-            padding: 0 10px;
-            /*text-align: center;*/
-        }
+	        td, th {
+	            /*border: 1px solid;*/
+	            padding: 0 10px;
+	            /*text-align: center;*/
+	        }
 
-        /* style one */
-        table.makeit_rwd_default {
-            margin: 0 auto;
-            border-collapse: collapse;
-            font-family: Agenda-Light, sans-serif;
-            font-weight: 100;
-            background: #333;
-            color: #fff;
-            text-rendering: optimizeLegibility;
-            border-radius: 5px;
-        }
+	        /* style one */
+	        .table-style.makeit_rwd_default {
+	            margin: 0 auto;
+	            border-collapse: collapse;
+	            font-family: Agenda-Light, sans-serif;
+	            font-weight: 100;
+	            background: #333;
+	            color: #fff;
+	            text-rendering: optimizeLegibility;
+	            border-radius: 5px;
+	        }
 
-        table.makeit_rwd_default caption {
-            font-size: 2rem;
-            color: #444;
-            margin: 1rem;
-        }
+	        .table-style.makeit_rwd_default caption {
+	            font-size: 2rem;
+	            color: #444;
+	            margin: 1rem;
+	        }
 
-        table.makeit_rwd_default thead th {
-            font-weight: 600;
-        }
+	        .table-style.makeit_rwd_default thead th {
+	            font-weight: 600;
+	        }
 
-        table.makeit_rwd_default thead th, table.makeit_rwd_default tbody td {
-            padding: .8rem;
-            font-size: 1.4rem;
-        }
+	        .table-style.makeit_rwd_default thead th, table.makeit_rwd_default tbody td {
+	            padding: 5px;
+	            font-size: 1.4rem;
+	        }
 
-        table.makeit_rwd_default tbody td {
-            padding: .8rem;
-            font-size: 1.4rem;
-            color: #444;
-            background: #eee;
-        }
+	        .table-style.makeit_rwd_default tbody td {
+	            padding: 5px;
+	            font-size: 1.4rem;
+	            color: #444;
+	            background: #eee;
+	        }
 
-        table.makeit_rwd_default tbody tr:not(:last-child) {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-        }
+	        .table-style.makeit_rwd_default tbody tr:not(:last-child) {
+	            border-top: 1px solid #ddd;
+	            border-bottom: 1px solid #ddd;
+	        }
 
-        /* STYLE 2 */
-        table.makeit_rwd_default2 {
-            margin: 0 auto;
-            border-collapse: collapse;
-            font-family: Agenda-Light, sans-serif;
-            font-weight: 100;
-            background: #333;
-            color: #fff;
-            text-rendering: optimizeLegibility;
-            border-radius: 5px;
-        }
+	        /* STYLE 2 */
+	        .table-style.makeit_rwd_default2 {
+	            margin: 0 auto;
+	            border-collapse: collapse;
+	            font-family: Agenda-Light, sans-serif;
+	            font-weight: 100;
+	            background: #333;
+	            color: #fff;
+	            text-rendering: optimizeLegibility;
+	            border-radius: 5px;
+	        }
 
-        table.makeit_rwd_default2 caption {
-            font-size: 2rem;
-            color: #444;
-            margin: 1rem;
-        }
+	        .table-style.makeit_rwd_default2 caption {
+	            font-size: 2rem;
+	            color: #444;
+	            margin: 1rem;
+	        }
 
-        table.makeit_rwd_default2 thead th {
-            font-weight: 600;
-        }
+	        .table-style.makeit_rwd_default2 thead th {
+	            font-weight: 600;
+	        }
 
-        table.makeit_rwd_default2 thead th, table.makeit_rwd_default2 tbody td {
-            padding: .8rem;
-            font-size: 1.4rem;
-        }
+	        .table-style.makeit_rwd_default2 thead th, table.makeit_rwd_default2 tbody td {
+	            padding: 5px;
+	            font-size: 1.4rem;
+	        }
 
-        table.makeit_rwd_default2 tbody td {
-            padding: .8rem;
-            font-size: 1.4rem;
-            color: #444;
-            background: #eee;
-        }
+	        .table-style.makeit_rwd_default2 tbody td {
+	            padding: 5px;
+	            font-size: 1.4rem;
+	            color: #444;
+	            background: #eee;
+	        }
 
-        table.makeit_rwd_default2 tbody tr:not(:last-child) {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-        }
-        .d-flex{
-        	display: flex;
-        }
-        .w-50{
-        	width: 50%;
-        }
+	        .table-style.makeit_rwd_default2 tbody tr:not(:last-child) {
+	            border-top: 1px solid #ddd;
+	            border-bottom: 1px solid #ddd;
+	        }
+	        .d-flex{
+	        	display: flex;
+	        }
+	        .w-50{
+	        	width: 50%;
+	        }
 		</style>
 	</head>
 	<body>
-		<table class="wdn_responsive_table flush-left" id="t182720">
-   			<tbody>  
-		        <tr>
-		            <th scope="row" data-header=" ">Informe de Instalación CDTEC</th>
-		            <td data-header="Deposit">Certificado por CDTEC</td>
-		        </tr>  
-		        <tr>
-		            <th scope="row" data-header=" ">Fecha</th>
-		            <td data-header="Deposit">{{$data['date']}}</td>
-		        </tr>  
-  			</tbody>
-  		</table>
-  		<div class="d-flex">
-  			<div class="w-50">
-  			 	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
-  			</div>
-  			<div class="w-50">
-  				<h1 class="main-title">
-					{{$data['zone_name']}}
-				</h1>
-			</div>
-  		</div>
-  		<h1>Información</h1>
-		<table class="wdn_responsive_table flush-left" id="t182720">
-			<tbody>  
-				<tr>
-				    <th scope="row" data-header=" ">Campo</th>
-				    <td data-header="Deposit">{{$data['farm_name']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Contacto</th>
-				    <td data-header="Deposit">{{$data['account_name']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Teléfono</th>
-				    <td data-header="Deposit">{{$data['account_telefono']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Correo</th>
-				    <td data-header="Deposit">{{$data['account_email']}}</td>
-				</tr>  
-			</tbody>
-		</table>
-		<h1>Detalles de Instalación</h1>
-		<div>
-			<p id="primer-parrafo">
-				{{$data['general_detail']}}
-			</p>
+		<div class="">
+			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+	   			<tbody>  
+			        <tr>
+			            <th scope="row" data-header=" ">Informe de Instalación CDTEC</th>
+			            <td data-header="Deposit">Certificado por CDTEC</td>
+			        </tr>  
+			        <tr>
+			            <th scope="row" data-header=" ">Fecha</th>
+			            <td data-header="Deposit">{{$data['date']}}</td>
+			        </tr>
+	  			</tbody>
+	  		</table>
+	  		<table class="" id="">
+	   			<tbody>  
+			        <tr>
+			            <th scope="row" data-header=" ">
+			            	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
+			            </th>
+			            <td data-header="Deposit">
+			            	<h1 class="main-title">
+								{{$data['zone_name']}}
+							</h1>
+						</td>
+			        </tr> 
+	  			</tbody>
+	  		</table>
+	  	</div>
+	  	<div class="">
+	  		<h1>Información</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+				<tbody>  
+					<tr>
+					    <th scope="row" data-header=" ">Campo</th>
+					    <td data-header="Deposit">{{$data['farm_name']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Contacto</th>
+					    <td data-header="Deposit">{{$data['account_name']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Teléfono</th>
+					    <td data-header="Deposit">{{$data['account_telefono']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Correo</th>
+					    <td data-header="Deposit">{{$data['account_email']}}</td>
+					</tr>  
+				</tbody>
+			</table>
 		</div>
-		<h1>Datos Sector Sonda Monitoreo de Suelo</h1>
-		<table class="wdn_responsive_table flush-left" id="t182720">
-			<tbody>  
-				<tr>
-				    <th scope="row" data-header=" ">Sector</th>
-				    <td data-header="Deposit">{{$data['zone_name']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Especie</th>
-				    <td data-header="Deposit">{{$data['species']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Variedad</th>
-				    <td data-header="Deposit">{{$data['variety']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Superficie HA</th>
-				    <td data-header="Deposit">{{$data['HA_surface']}}</td>
-				</tr> 
-				<tr>
-				    <th scope="row" data-header=" ">Año de Plantación</th>
-				    <td data-header="Deposit">{{$data['planting_year']}}</td>
-				</tr>   
-			</tbody>
-		</table>
-		<table class="makeit_rwd">
-			<thead>
-			    <tr>
-			        <th>Sonda </th>
-			        <th  colspan="2">Sensores</th>
-			        <th  colspan="2">Datos Visuales</th>
-			    </tr>
-			    <tr>
-			        <th>Profundidad (cm)</th>
-			        <th>T° y HR</th>
-			        <th>Salinidad</th>
-			        <th>Humedad a Mano</th>
-			        <th>Textura</th>
-			    </tr>
-			</thead>
-			<tbody>
-			    <tr>
-			        <td>10</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 3,5</td>
-			        <td>Franco Arenosa</td>
-			    </tr>
-			    <tr>
-			        <td>20</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 3,5</td>
-			        <td>Franco Arenosa</td>
-			    </tr>
-			    <tr>
-			        <td>50</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 3,5</td>
-			        <td>Franco Arenosa</td>
-			    </tr>
-			    <tr>
-			        <td>10</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 4</td>
-			        <td>Arenosa</td>
-			    </tr>
-			    <tr>
-			        <td>60</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 4</td>
-			        <td>Arenosa</td>
-			    </tr>
-			    <tr>
-			        <td>70</td>
-			        <td>SI</td>
-			        <td>NO</td>
-			        <td>H 4</td>
-			        <td>Arenosa</td>
-			    </tr>
-			</tbody>
-		</table>
-		<h1>Observaciones Generales</h1>
-		<div>
-			<p id="primer-parrafo-0">
-				{{$data['general_remarks']}}
-			</p>
+	  	<div class="">
+			<h1>Detalles de Instalación</h1>
+			<div>
+				<p id="primer-parrafo">
+					{{$data['general_detail']}}
+				</p>
+			</div>
+	  	</div>
+	  	<div class="">
+			<h1>Datos Sector Sonda Monitoreo de Suelo</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+				<tbody>  
+					<tr>
+					    <th scope="row" data-header=" ">Sector</th>
+					    <td data-header="Deposit">{{$data['zone_name']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Especie</th>
+					    <td data-header="Deposit">{{$data['species']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Variedad</th>
+					    <td data-header="Deposit">{{$data['variety']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Superficie HA</th>
+					    <td data-header="Deposit">{{$data['HA_surface']}}</td>
+					</tr> 
+					<tr>
+					    <th scope="row" data-header=" ">Año de Plantación</th>
+					    <td data-header="Deposit">{{$data['planting_year']}}</td>
+					</tr>   
+				</tbody>
+			</table>
+			<table class="makeit_rwd">
+				<thead>
+				    <tr>
+				        <th>Sonda </th>
+				        <th  colspan="2">Sensores</th>
+				        <th  colspan="2">Datos Visuales</th>
+				    </tr>
+				    <tr>
+				        <th>Profundidad (cm)</th>
+				        <th>T° y HR</th>
+				        <th>Salinidad</th>
+				        <th>Humedad a Mano</th>
+				        <th>Textura</th>
+				    </tr>
+				</thead>
+				<tbody>
+				    <tr>
+				        <td>10</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 3,5</td>
+				        <td>Franco Arenosa</td>
+				    </tr>
+				    <tr>
+				        <td>20</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 3,5</td>
+				        <td>Franco Arenosa</td>
+				    </tr>
+				    <tr>
+				        <td>50</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 3,5</td>
+				        <td>Franco Arenosa</td>
+				    </tr>
+				    <tr>
+				        <td>10</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 4</td>
+				        <td>Arenosa</td>
+				    </tr>
+				    <tr>
+				        <td>60</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 4</td>
+				        <td>Arenosa</td>
+				    </tr>
+				    <tr>
+				        <td>70</td>
+				        <td>SI</td>
+				        <td>NO</td>
+				        <td>H 4</td>
+				        <td>Arenosa</td>
+				    </tr>
+				</tbody>
+			</table>
+	  	</div>
+	  	<div class="">
+	  		<h1>Observaciones Generales</h1>
+			<div>
+				<p id="primer-parrafo-0">
+					{{$data['general_remarks']}}
+				</p>
+			</div>
+	  	</div>
+	  	<div class="">
+			<h1>Datos Sector de Riego</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+				<tbody>  
+					<tr>
+					    <th scope="row" data-header=" ">Sector</th>
+					    <td data-header="Deposit">{{$data['zone_name']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Sistema de Riego</th>
+					    <td data-header="Deposit">{{$data['irrigation_system']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Precipitación del sistema</th>
+					    <td data-header="Deposit">{{$data['system_precipitation']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Distancia entre los emisores</th>
+					    <td data-header="Deposit">{{$data['distance_between_emitters']}}</td>
+					</tr> 
+					<tr>
+					    <th scope="row" data-header=" ">Marco de plantación</th>
+					    <td data-header="Deposit">{{$data['sector_plantation_frame']}}</td>
+					</tr>   
+				</tbody>
+			</table>	  		
+	  	</div>
+	  	<div class="">
+			<h1>Aspectos de la zona de Instalación</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+				<tbody>  
+					<tr>
+					    <th scope="row" data-header=" ">Planta</th>
+					    <td data-header="Deposit">{{$data['plant']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Distancia planta - sonda</th>
+					    <td data-header="Deposit">{{$data['plant_probe_distance']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Distancia sonda - gotero</th>
+					    <td data-header="Deposit">{{$data['probe_dropper_distance']}}</td>
+					</tr>  
+					<tr>
+					    <th scope="row" data-header=" ">Distancia entre los emisores</th>
+					    <td data-header="Deposit">{{$data['distance_between_emitters']}}</td>
+					</tr> 
+					<tr>
+					    <th scope="row" data-header=" ">Marco de plantación</th>
+					    <td data-header="Deposit">{{$data['zone_plantation_frame']}}</td>
+					</tr>   
+				</tbody>
+			</table>
+			<h1>Observaciones Generales</h1>
+			<div>
+				<p id="primer-parrafo-0">
+					{{$data['general_remarks']}}
+				</p>
+			</div>
 		</div>
-		<h1>Datos Sector de Riego</h1>
-		<table class="wdn_responsive_table flush-left" id="t182720">
-			<tbody>  
-				<tr>
-				    <th scope="row" data-header=" ">Sector</th>
-				    <td data-header="Deposit">{{$data['zone_name']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Sistema de Riego</th>
-				    <td data-header="Deposit">{{$data['irrigation_system']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Precipitación del sistema</th>
-				    <td data-header="Deposit">{{$data['system_precipitation']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Distancia entre los emisores</th>
-				    <td data-header="Deposit">{{$data['distance_between_emitters']}}</td>
-				</tr> 
-				<tr>
-				    <th scope="row" data-header=" ">Marco de plantación</th>
-				    <td data-header="Deposit">{{$data['sector_plantation_frame']}}</td>
-				</tr>   
-			</tbody>
-		</table>
-		<h1>Aspectos de la zona de Instalación</h1>
-		<table class="wdn_responsive_table flush-left" id="t182720">
-			<tbody>  
-				<tr>
-				    <th scope="row" data-header=" ">Planta</th>
-				    <td data-header="Deposit">{{$data['plant']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Distancia planta - sonda</th>
-				    <td data-header="Deposit">{{$data['plant_probe_distance']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Distancia sonda - gotero</th>
-				    <td data-header="Deposit">{{$data['probe_dropper_distance']}}</td>
-				</tr>  
-				<tr>
-				    <th scope="row" data-header=" ">Distancia entre los emisores</th>
-				    <td data-header="Deposit">{{$data['distance_between_emitters']}}</td>
-				</tr> 
-				<tr>
-				    <th scope="row" data-header=" ">Marco de plantación</th>
-				    <td data-header="Deposit">{{$data['zone_plantation_frame']}}</td>
-				</tr>   
-			</tbody>
-		</table>
-		<h1>Observaciones Generales</h1>
-		<div>
-			<p id="primer-parrafo-0">
-				{{$data['general_remarks']}}
-			</p>
-		</div>
-		<h1>Imágenes Sector</h1>
-		<div class="d-flex">
-			<div class="w-25 p-05">
-				<img class="" src="http://localhost:8000/images/1605389530-34.jpg" style="width: 100%;">
-			</div>
-			<div class="w-25 p-05">
-				<img class="" src="http://localhost:8000/images/1605389530-34.jpg" style="width: 100%;">
-			</div>
-			<div class="w-25 p-05">
-				<img class="" src="http://localhost:8000/images/1605389530-34.jpg" style="width: 100%;">
-			</div>
+	  	<div class="">
+			<h1>Imágenes Sector</h1>
+			<table class="" id="">
+				<tbody>  
+					<tr>
+						<th scope="row" data-header=" ">
+							<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
+						</th>
+						<td data-header="Deposit">
+							<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
+						</td>
+						<td data-header="Deposit">
+							<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
+						</td>
+					</tr> 
+	  			</tbody>
+	  		</table>
 		</div>
 	</body>
 </html>
