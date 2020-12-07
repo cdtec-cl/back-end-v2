@@ -31,6 +31,8 @@ use App\ZoneAlertMail;
 use App\ZoneCalicata;
 use App\ZoneReport;
 use App\ZoneReportType;
+use App\ManagementZoneReport;
+use App\InstallationZoneReport;
 use Image;
 use File;
 use View;
@@ -1253,8 +1255,8 @@ class ZoneController extends Controller
         $view='pdf.installation-report';
         switch ($type) {
             case 'installation':
-                $data=[
-                    "date"=>  date("d/m/y"),
+                $data=InstallationZoneReport::create([
+                    "id_zone"=>$zone->id,
                     "zone_name"=>$zone->name,
                     "farm_name"=>$farm->name,
                     "account_name"=>$farm->account?$farm->account->name:null,
@@ -1276,12 +1278,13 @@ class ZoneController extends Controller
                     "zone_plantation_frame"=>$request->get('zone_plantation_frame'),
                     "type_installation"=>$request->get('type_installation'),
                     "general_remarks"=>$request->get('general_remarks'),
-                ];
+                    "download_url"=>null
+                ]);
                 $view='pdf.installation-report';
                 break;
             case 'management':
-                $data=[
-                    "date"=>  date("d/m/y"),
+                $data=ManagementZoneReport::create([
+                    "id_zone"=>$zone->id,
                     "zone_name"=>$zone->name,
                     "farm_name"=>$farm->name,
                     "account_name"=>$farm->account?$farm->account->name:null,
@@ -1299,34 +1302,32 @@ class ZoneController extends Controller
                     "second_general_remarks"=>$request->get('second_general_remarks'),
                     "kc_sonda"=>$request->get('kc_sonda'),
                     "huella_agua"=>$request->get('huella_agua'),
+                    "tecnica_administracion"=>$request->get('tecnica_administracion'),
                     "estacion_de_clima"=>$request->get('estacion_de_clima'),
                     "equipo_de_riego"=>$request->get('equipo_de_riego'),
                     "raices"=>$request->get('raices'),
                     "third_general_remarks"=>$request->get('third_general_remarks'),
-                ];
+                    "download_url"=>null
+                ]);
                 $view='pdf.management-report';
-                # code...
                 break;
             default:
-                # code...
                 break;
         }
 
-        $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
+        $filename='files/'.uniqid('report-'.$type.'-'). time();
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
-        $zoneReportType = ZoneReportType::where('id_zone',$zone_id)->where('type',$type)->first();
-        if(is_null($zoneReportType)){
-            $zoneReportType= new ZoneReportType();
-            $zoneReportType->id_zone=$zone->id;
-            $zoneReportType->type=$type;
-            $zoneReportType->download_url=$urlPathName;
-            $zoneReportType->save();
-        }else{
-            $zoneReportType->download_url=$urlPathName;
-            $zoneReportType->update();
-        }
+        $zoneReportType= new ZoneReportType();
+        $zoneReportType->id_zone=$zone->id;
+        $zoneReportType->type=$type;
+        $zoneReportType->download_url=$urlPathName;
+        $zoneReportType->save();
+
+        $data->download_url=$urlPathName;
+        $data->update();
+
         $response = [
             'message'=> 'Reporte generado satisfactoriamente',
             'data' => $urlPathName,
@@ -1341,7 +1342,10 @@ class ZoneController extends Controller
                 'data'=>$zone
             ],404);
         }
-        $zoneReportType = ZoneReportType::where('id_zone',$zone_id)->where('type',$type)->first();
+        $zoneReportType = ZoneReportType::where('id_zone',$zone_id)
+            ->where('type',$type)
+            ->orderBy('created_at', 'desc')
+            ->first();
         if(is_null($zoneReportType)){
             return response()->json([
                 'message'=>'No existe un reporte de zona del tipo seleccionado',
@@ -1404,5 +1408,74 @@ class ZoneController extends Controller
         ];
         $view=$type=="installation"?"pdf.installation-report":"pdf.management-report";
         return view($view, compact('data'));
+    }
+    public function getReports($id,$type){
+        $zone = Zone::find($id);
+        if(is_null($zone)){
+            return response()->json([
+                'message'=>'Zona no existente',
+                'data'=>$zone
+            ],404);
+        }
+        $data=[];
+        switch ($type) {
+            case "installation":
+                $data=InstallationZoneReport::where("id_zone",$zone->id)->get();
+                break;
+            case "management":
+                $data=ManagementZoneReport::where("id_zone",$zone->id)->get();
+                break;
+            default:
+                # code...
+                break;
+        }
+        $response = [
+            'message'=> 'Listado de reportes',
+            'data' => $data,
+        ];
+        return response()->json($response, 200);
+    }
+    public function updateReportType(Request $request,$id,$type){
+        $data = $type=="installation" ? InstallationZoneReport::find($id)->update($request->all()):ManagementZoneReport::find($id)->update($request->all());
+        if(is_null($data)){
+            return response()->json([
+                'message'=>'Reporte no existente',
+                'data'=>$data
+            ],404);
+        }
+        $response = [
+            'message'=> 'Actualizar reporte',
+            'data' => $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id)
+        ];
+        return response()->json($response, 200);
+    }
+    public function deleteReportType($id,$type){
+        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
+        if(is_null($data)){
+            return response()->json([
+                'message'=>'Reporte no existente',
+                'data'=>$data
+            ],404);
+        }
+        $response = [
+            'message'=> 'Eliminar reporte',
+            'data' => $data
+        ];
+        $data->delete();
+        return response()->json($response, 200);
+    }
+    public function seeReportType($id,$type){
+        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
+        if(is_null($data)){
+            return response()->json([
+                'message'=>'Reporte no existente',
+                'data'=>$data
+            ],404);
+        }
+        $response = [
+            'message'=> 'Reporte encontrado',
+            'data' => $data
+        ];
+        return response()->json($response, 200);
     }
 }

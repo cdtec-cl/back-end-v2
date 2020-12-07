@@ -90,7 +90,7 @@
 				width: 50%;
 			}
 			.main-title{
-			    font-size: 70px;
+			    font-size: 30px;
 			    text-align: center;
 			}
 			.p-05{
@@ -212,7 +212,7 @@
 			        </tr>  
 			        <tr>
 			            <th scope="row" data-header=" ">Fecha</th>
-			            <td data-header="Deposit">{{$data['date']}}</td>
+			            <td data-header="Deposit">{{$data['created_at']}}</td>
 			        </tr>  
 	  			</tbody>
 	  		</table>
