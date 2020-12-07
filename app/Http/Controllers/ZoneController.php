@@ -261,7 +261,7 @@ class ZoneController extends Controller
                 return response()->json(['message'=>'Zona no existente'],404);
             }
             $measures = Measure::where("id_zone",$zone->id)->get();
-            $measuresGraph= MeasureGraph::query()->join('measures', 'measures.id', '=', 'measure_graphs.id_measure')->get();
+            $measuresGraph= MeasureGraph::query()->join('measures', 'measures.id', '=', 'measure_graphs.id_measure')->where('measures.id_zone',$id)->get();
             $wiseconnMeasures=[];
             //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
             //$cloningErrors=CloningErrors::where("elements","/zones/id/measures")->where("uri","/zones/".$zone->id_wiseconn."/measures")->where("id_wiseconn",$zone->id_wiseconn)->get();
