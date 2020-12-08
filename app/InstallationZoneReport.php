@@ -29,6 +29,8 @@ class InstallationZoneReport extends Model
         'zone_plantation_frame',
         'type_installation',
         'general_remarks',
+        'first_general_remarks',
+        'second_general_remarks',
         'download_url'
     ];
     protected $with = ['zone'];

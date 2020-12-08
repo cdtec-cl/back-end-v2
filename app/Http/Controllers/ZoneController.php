@@ -1235,10 +1235,6 @@ class ZoneController extends Controller
         }
     }
    
-    public function testGraphicImage(){
-        return view('emails.graphic-image');
-    }
-
     public function generateReportType(Request $request, $farm_id, $zone_id, $type){
         $zone = Zone::find($zone_id);
             if(is_null($zone)){
@@ -1280,6 +1276,8 @@ class ZoneController extends Controller
                     "zone_plantation_frame"=>$request->get('zone_plantation_frame'),
                     "type_installation"=>$request->get('type_installation'),
                     "general_remarks"=>$request->get('general_remarks'),
+                    "first_general_remarks"=>$request->get('first_general_remarks'),
+                    "second_general_remarks"=>$request->get('second_general_remarks'),
                     "download_url"=>null
                 ]);
                 $view='pdf.installation-report';
@@ -1299,15 +1297,15 @@ class ZoneController extends Controller
                     "maduracion"=>$request->get('maduracion'),
                     "raices"=>$request->get('raices'),
                     "tecnica_y_administracion"=>$request->get('tecnica_y_administracion'),
-                    "first_general_remarks"=>$request->get('first_general_remarks'),
                     "graph1_url"=>$request->get('graph1_url'),
-                    "second_general_remarks"=>$request->get('second_general_remarks'),
                     "kc_sonda"=>$request->get('kc_sonda'),
                     "huella_agua"=>$request->get('huella_agua'),
                     "tecnica_administracion"=>$request->get('tecnica_administracion'),
                     "estacion_de_clima"=>$request->get('estacion_de_clima'),
                     "equipo_de_riego"=>$request->get('equipo_de_riego'),
                     "raices"=>$request->get('raices'),
+                    "first_general_remarks"=>$request->get('first_general_remarks'),
+                    "second_general_remarks"=>$request->get('second_general_remarks'),
                     "third_general_remarks"=>$request->get('third_general_remarks'),
                     "download_url"=>null
                 ]);
@@ -1317,7 +1315,7 @@ class ZoneController extends Controller
                 break;
         }
 
-        $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
+        $filename='files/'.uniqid('report-'.$type.'-'). time();
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
@@ -1369,11 +1367,11 @@ class ZoneController extends Controller
     }
     public function testReport($type){
         $data=[
-            "date"=>  date("d/m/y"),
+            "created_at"=>  date("d/m/y"),
             "zone_name"=>"test",
             "farm_name"=>"test",
             "account_name"=>"test",
-            "account_email"=>"test",
+            "account_email"=>"test@test.com",
             "account_telefono"=>"test",
             "general_detail"=>"test",
             "species"=>"test",
@@ -1438,13 +1436,48 @@ class ZoneController extends Controller
         return response()->json($response, 200);
     }
     public function updateReportType(Request $request,$id,$type){
-        $data = $type=="installation" ? InstallationZoneReport::find($id)->update($request->all()):ManagementZoneReport::find($id)->update($request->all());
+        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
         if(is_null($data)){
             return response()->json([
                 'message'=>'Reporte no existente',
                 'data'=>$data
             ],404);
         }
+        $data->update($request->all());
+        $zone = Zone::find($data->id_zone);
+        if(is_null($zone)){
+            return response()->json([
+                'message'=>'Zona no existente',
+                'data'=>$zone
+            ],404);
+        }
+
+        $view='pdf.installation-report';
+        switch ($type) {
+            case 'installation':
+                $view='pdf.installation-report';
+                break;
+            case 'management':
+                $view='pdf.management-report';
+                break;
+            default:
+                break;
+        }
+
+        $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
+        $publicPathName=public_path($filename);
+        $urlPathName=url($filename);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
+
+        $zoneReportType= new ZoneReportType();
+        $zoneReportType->id_zone=$zone->id;
+        $zoneReportType->type=$type;
+        $zoneReportType->download_url=$urlPathName;
+        $zoneReportType->save();
+
+        $data->download_url=$urlPathName;
+        $data->update();
+
         $response = [
             'message'=> 'Actualizar reporte',
             'data' => $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id)
