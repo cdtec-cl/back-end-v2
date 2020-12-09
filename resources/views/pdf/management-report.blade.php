@@ -9,11 +9,41 @@
 			  width: 100%;
 			  max-width: 100%;
 			  border-collapse: collapse;
+			  font-size: 10px;
 			}
 			h1 {
-			  font-size: 2rem;
-			  color: #1f4278;
-			  font-family: "Ubuntu", sans-serif;
+    			font-size: 10px;
+				color: #1f4278;
+				font-family: Arial, Helvetica, sans-serif;
+			  	/*font-family: "Ubuntu", sans-serif;*/
+			}
+			.section-title-1{
+				border-bottom: 2px solid #164170;
+			}
+			.section-title-2{
+    			font-size: 15px;
+				color: #77b1cd;
+			  	font-family: "Ubuntu", sans-serif;
+				border-bottom: 2px solid #164170;
+			}
+			.info-table tbody tr th{
+			  	font-family: "Ubuntu", sans-serif;
+				font-weight: bold;
+				text-align: left;
+			}
+			.info-table tbody tr td{
+				text-align: right;
+				color: #52869e;
+			}
+			.table-bg-blue{
+			  border-collapse: separate;
+				border-spacing: 2px;
+			}
+			.table-bg-blue thead tr td,
+			.table-bg-blue thead tr th,
+			.table-bg-blue tbody tr td,
+			.table-bg-blue tbody tr th{
+				background-color: #bfd8f2;
 			}
 			h2 {
 			  font-size: 1.3rem;
@@ -87,10 +117,11 @@
 				width: 25%;
 			}
 			.img-logo{
-				width: 50%;
+				width: 100%;
+				height:50px;
 			}
 			.main-title{
-			    font-size: 30px;
+			    font-size: 20px;
 			    text-align: center;
 			}
 			.p-05{
@@ -98,7 +129,7 @@
 			}
 
 			table {
-	            /*border: 1px solid;*/
+	            font-size: 10px;
 	            border-collapse: collapse;
 	            margin: 30px 0px;
 	        }
@@ -192,6 +223,12 @@
 	        .w-50{
 	        	width: 50%;
 	        }
+	        .w-100{
+	        	width: 100%;
+	        }
+	        .d-flex{
+	        	display: flex;
+	        }
 	        .paragraph-container{
 	        	background-color: #3ab3eb;
 				padding: 20px;
@@ -200,26 +237,45 @@
 	        	color:red;
 	        	font-size:40px;
 	        }
+	        p{
+	        	font-size:10px;
+	        }
 		</style>
 	</head>
 	<body>
 		<div class="">
 			<table class="table-style wdn_responsive_table flush-left" id="t182720">
 	   			<tbody>  
-			        <tr>
-			            <th scope="row" data-header=" ">Informe de gestión de riego/productividad</th>
-			            <td data-header="Deposit">Certificado por CDTEC</td>
-			        </tr>  
-			        <tr>
-			            <th scope="row" data-header=" ">Fecha</th>
-			            <td data-header="Deposit">{{$data['created_at']}}</td>
-			        </tr>  
+	   				<tr>
+			            <th scope="row" data-header=" " style="font-weight:bold;">Informe de gestión de riego/productividad</th>
+						<td data-header="Deposit" style="
+							background-color:blue;
+							color:#fff;
+							font-weight:bold;
+							text-align: center;">
+							Certificado por CDTEC
+						</td>
+					</tr>  
+					<tr>
+						<th scope="row" data-header=" " style="
+						background-color:#d5d5d2;
+						color: #52869e;
+						padding:2px;">
+							Fecha
+						</th>
+						<td data-header="Deposit" style="
+						background-color:#fff;
+						text-align: center;
+						padding:2px;">
+							{{$data['created_at']}}
+						</td>
+					</tr>
 	  			</tbody>
 	  		</table>
 	  		<table class="" id="">
 	   			<tbody>  
 			        <tr>
-			            <th scope="row" data-header=" ">
+			            <th scope="row" data-header=" " style="width: 400px;">
 			            	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
 			            </th>
 			            <td data-header="Deposit">
@@ -232,7 +288,7 @@
 	  		</table>
 	  	</div>
 	  	<div>
-	  		<h1>Objetivos, interpretación y generalidades para mejorar la gestión de riego</h1>
+	  		<h1 class="section-title-1">Objetivos, interpretación y generalidades para mejorar la gestión de riego</h1>
 	  		<div class="paragraph-container">
 	  			<strong>
 	  				Los 3 Objetivo de CDTEC al hacer Gestión de Riego son, productividad, eficiencia en el uso de los recursos y sustentabilidad. Integrar información dinámica de agua, planta, riego, clima con productividad, diferenciado por etapa fenológica (fechas aprox).
@@ -265,37 +321,31 @@
 	  		</div>
 	  	</div>
 	  	<div>
-  			<h1>Información</h1>
-			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+  			<h1 class="section-title-1">Información</h1>
+			<table class="info-table" id="t182720">
 				<tbody>  
 					<tr>
-					    <th scope="row" data-header=" ">Campo</th>
-					    <td data-header="Deposit">{{$data['farm_name']}}</td>
+					    <th scope="row" data-header=" " >Campo</th>
+					    <td data-header="Deposit" >{{$data['farm_name']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Contacto</th>
-					    <td data-header="Deposit">{{$data['account_name']}}</td>
+					    <th scope="row" data-header=" " >Contacto</th>
+					    <td data-header="Deposit" >{{$data['account_name']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Teléfono</th>
-					    <td data-header="Deposit">{{$data['account_telefono']}}</td>
+					    <th scope="row" data-header=" " >Teléfono</th>
+					    <td data-header="Deposit" >{{$data['account_telefono']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Correo</th>
-					    <td data-header="Deposit">{{$data['account_email']}}</td>
+					    <th scope="row" data-header=" " >Correo</th>
+					    <td data-header="Deposit" >{{$data['account_email']}}</td>
 					</tr>  
 				</tbody>
 			</table>
 		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
 		<div>
-			<h1>Dinamica de agua por fenología</h1>
-			<h3>Observaciones Generales</h3>
+			<h1 class="section-title-2">Dinamica de agua por fenología</h1>
+			<h1 class="section-title-1">Observaciones Generales</h1>
 			<div>
 				<p id="primer-parrafo-0" class="danger-text">
 					{{$data['first_general_remarks']}}
@@ -303,63 +353,53 @@
 			</div>
 		</div>
 		<div>
-			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+			<table class="table-style wdn_responsive_table flush-left" id="t182720" style="
+			  border-collapse: separate;
+			  border-spacing: 0px 20px;">
 				<tbody>  
 					<tr>
-					    <th scope="row" data-header=" ">Sector</th>
-					    <td data-header="Deposit">{{$data['zone_name']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Sector</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['zone_name']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Poscosecha 2019</th>
-					    <td data-header="Deposit">{{$data['poscosecha_2019']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Poscosecha 2019</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['poscosecha_2019']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Caída de hoja</th>
-					    <td data-header="Deposit">{{$data['caida_de_hoja']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Caída de hoja</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['caida_de_hoja']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Brotación</th>
-					    <td data-header="Deposit">{{$data['brotacion']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Brotación</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['brotacion']}}</td>
 					</tr> 
 					<tr>
-					    <th scope="row" data-header=" ">Cuaja</th>
-					    <td data-header="Deposit">{{$data['cuaja']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Cuaja</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['cuaja']}}</td>
 					</tr>   
 					<tr>
-					    <th scope="row" data-header=" ">Maduración</th>
-					    <td data-header="Deposit">{{$data['maduracion']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Maduración</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['maduracion']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Raíces</th>
-					    <td data-header="Deposit">{{$data['raices']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Raíces</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['raices']}}</td>
 					</tr> 
 					<tr>
-					    <th scope="row" data-header=" ">Técnica y su administración</th>
-					    <td data-header="Deposit">{{$data['tecnica_y_administracion']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Técnica y su administración</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['tecnica_y_administracion']}}</td>
 					</tr>  
 				</tbody>
 			</table>
 		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
 		<div>
-			<h1>Gráfica Sonda Monitoreo de Suelo</h1>
+			<h1  class="section-title-1">Gráfica Sonda Monitoreo de Suelo</h1>
 			<div class="">
 				<img style="width: 100%;" src="{{$data['graph1_url']}}"> 
 			</div>
 		</div>
 		<div>
-			<h3>Observaciones Generales</h3>
+			<h1 class="section-title-1">Observaciones Generales</h1>
 			<div>
 				<p id="primer-parrafo-1" class="danger-text">
 					{{$data['second_general_remarks']}}
@@ -367,53 +407,62 @@
 			</div>
 		</div>
 		<div>
-			<h1>Balance hídrico</h1>
-			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+			<h1  class="section-title-1">Balance hídrico</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720" style="
+			  border-collapse: separate;
+			  border-spacing: 0px 20px;">
 				<tbody>  
 					<tr>
-					    <th scope="row" data-header=" ">KC sonda</th>
-					    <td data-header="Deposit">{{$data['kc_sonda']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">KC sonda</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['kc_sonda']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Huella del agua</th>
-					    <td data-header="Deposit">{{$data['huella_agua']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Huella del agua</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['huella_agua']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Técnica y su administración</th>
-					    <td data-header="Deposit">{{$data['tecnica_administracion']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Técnica y su administración</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['tecnica_administracion']}}</td>
 					</tr>  				
 				</tbody>
 			</table>
 		</div>
 		<div>
-			<h1>Operación de Equipos</h1>
-			<table class="table-style wdn_responsive_table flush-left" id="t182720">
+			<h1 class="section-title-1">Operación de Equipos</h1>
+			<table class="table-style wdn_responsive_table flush-left" id="t182720" style="
+			  border-collapse: separate;
+			  border-spacing: 0px 20px;">
 				<tbody>  
 					<tr>
-					    <th scope="row" data-header=" ">Estación de Clima</th>
-					    <td data-header="Deposit">{{$data['estacion_de_clima']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Estación de Clima</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['estacion_de_clima']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Equipo de Riego</th>
-					    <td data-header="Deposit">{{$data['equipo_de_riego']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Equipo de Riego</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['equipo_de_riego']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Raíces</th>
-					    <td data-header="Deposit">{{$data['raices']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Raíces</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['raices']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" ">Técnica y su administración</th>
-					    <td data-header="Deposit">{{$data['tecnica_y_administracion']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Técnica y su administración</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['tecnica_y_administracion']}}</td>
 					</tr>  
 				</tbody>
 			</table>
 		</div>
 		<div>
-			<h3>Observaciones Generales</h3>
+			<h1 class="section-title-1">Observaciones Generales</h1>
 			<div>
 				<p id="primer-parrafo-2" class="danger-text">
 					{{$data['third_general_remarks']}}
 				</p>
+			</div>
+		</div>
+		<div style="position: relative;">
+			<div style="width: 300px;position: absolute;bottom: 5px;right: 50px;">
+				<img src="{{ asset('images/Imagen1logo.png') }}" alt="" class="w-100">
 			</div>
 		</div>
   	</body>

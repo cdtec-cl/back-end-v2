@@ -265,8 +265,8 @@
 			        <tr>
 			            <th scope="row" data-header=" " 
    						style="width: 400px;">
-			            	<img src="https://www.tibs.org.tw/images/default.jpg" alt="" class="img-logo">
-			            	<!-- <img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo"> -->
+			            	<!-- <img src="https://www.tibs.org.tw/images/default.jpg" alt="" class="img-logo"> -->
+			            	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
 			            </th>
 			            <td data-header="Deposit" style="">
 			            	<h1 class="main-title">
@@ -534,7 +534,7 @@
 		</div>
 		<br><br>
 		<div style="position: relative;">
-		  	<div class="">
+			<div class="">
 				<h1 class="section-title-1">Imágenes Sector</h1>
 				<table class="" id="">
 					<tbody>  
@@ -545,12 +545,12 @@
 							</td>
 							@endforeach
 						</tr> 
-		  			</tbody>
-		  		</table>
+					</tbody>
+				</table>
 			</div>
 			<div style="width: 300px;position: absolute;bottom: 5px;right: 50px;">
 				<img src="{{ asset('images/Imagen1logo.png') }}" alt="" class="w-100">
-			</div>			
+			</div>
 		</div>
 	</body>
 </html>

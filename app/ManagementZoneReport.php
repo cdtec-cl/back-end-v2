@@ -8,6 +8,7 @@ class ManagementZoneReport extends Model
 {
     protected $fillable = [
         'id_zone',
+        'zone_name',
         'farm_name',
         'account_name',
         'account_email',

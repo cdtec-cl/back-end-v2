@@ -1319,7 +1319,13 @@ class ZoneController extends Controller
         $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type','zone_images'))->save($publicPathName)->stream('download.pdf');
+        $compact=$type=="installation"? compact('data','type','zone_images') :  compact('data','type');
+        /*$response = [
+            'message'=> 'Reporte generado satisfactoriamente',
+            'data' => $compact,
+        ];
+        return response()->json($response, 200);*/
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view,$compact)->save($publicPathName)->stream('download.pdf');
         $zoneReportType= new ZoneReportType();
         $zoneReportType->id_zone=$zone->id;
         $zoneReportType->type=$type;
@@ -1407,8 +1413,9 @@ class ZoneController extends Controller
             "third_general_remarks"=>"test",
             "general_remarks"=>"test"
         ];
+        $zone_images=[];
         $view=$type=="installation"?"pdf.installation-report":"pdf.management-report";
-        return view($view, compact('data'));
+        return view($view, compact('data','zone_images'));
     }
     public function getReports($id,$type){
         $zone = Zone::find($id);
