@@ -1314,11 +1314,12 @@ class ZoneController extends Controller
             default:
                 break;
         }
+        $zone_images=$zone->zoneImages;
 
         $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type','zone_images'))->save($publicPathName)->stream('download.pdf');
         $zoneReportType= new ZoneReportType();
         $zoneReportType->id_zone=$zone->id;
         $zoneReportType->type=$type;
@@ -1480,7 +1481,7 @@ class ZoneController extends Controller
 
         $response = [
             'message'=> 'Actualizar reporte',
-            'data' => $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id)
+            'data' => $type=="installation" ? InstallationZoneReport::find($id) : ManagementZoneReport::find($id)
         ];
         return response()->json($response, 200);
     }

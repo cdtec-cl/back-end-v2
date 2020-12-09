@@ -8,17 +8,19 @@
 			  width: 100%;
 			  max-width: 100%;
 			  border-collapse: collapse;
+			  font-size: 10px;
 			}
 			h1 {
-    			font-size: 20px;
+    			font-size: 10px;
 				color: #1f4278;
-			  	font-family: "Ubuntu", sans-serif;
+				font-family: Arial, Helvetica, sans-serif;
+			  	/*font-family: "Ubuntu", sans-serif;*/
 			}
 			.section-title-1{
 				border-bottom: 2px solid #164170;
 			}
 			.section-title-2{
-    			font-size: 30px;
+    			font-size: 15px;
 				color: #77b1cd;
 			  	font-family: "Ubuntu", sans-serif;
 				border-bottom: 2px solid #164170;
@@ -114,10 +116,11 @@
 				width: 25%;
 			}
 			.img-logo{
-				width: 50%;
+				width: 100%;
+				height:50px;
 			}
 			.main-title{
-			    font-size: 30px;
+			    font-size: 20px;
 			    text-align: center;
 			}
 			.p-05{
@@ -125,7 +128,7 @@
 			}
 
 			table {
-	            /*border: 1px solid;*/
+	            font-size: 10px;
 	            border-collapse: collapse;
 	            margin: 30px 0px;
 	        }
@@ -222,12 +225,15 @@
 	        .w-100{
 	        	width: 100%;
 	        }
+	        p{
+	        	font-size:10px;
+	        }
 		</style>
 	</head>
 	<body>
 		<div class="">
 			<table class="table-style wdn_responsive_table flush-left" id="t182720">
-	   			<tbody>  
+	   			<tbody style="font-size: 7px;">  
 			        <tr>
 			            <th scope="row" data-header=" " style="font-weight:bold;">Informe de Instalación CDTEC</th>
 						<td data-header="Deposit" style="
@@ -241,20 +247,28 @@
 					<tr>
 						<th scope="row" data-header=" " style="
 						background-color:#d5d5d2;
-						color: #52869e;">
+						color: #52869e;
+						padding:2px;">
 							Certificado por CDTEC
 						</th>
-						<td data-header="Deposit" style="background-color:#fff;">{{$data['created_at']}}</td>
+						<td data-header="Deposit" style="
+						background-color:#fff;
+						text-align: center;
+						padding:2px;">
+							{{$data['created_at']}}
+						</td>
 					</tr>
 				</tbody>
 			</table>
 			<table class="" id="">
 				<tbody>  
 			        <tr>
-			            <th scope="row" data-header=" ">
-			            	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
+			            <th scope="row" data-header=" " 
+   						style="width: 400px;">
+			            	<img src="https://www.tibs.org.tw/images/default.jpg" alt="" class="img-logo">
+			            	<!-- <img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo"> -->
 			            </th>
-			            <td data-header="Deposit">
+			            <td data-header="Deposit" style="">
 			            	<h1 class="main-title">
 								{{$data['zone_name']}}
 							</h1>
@@ -304,7 +318,7 @@
 				<tbody>  
 					<tr style="background-color: #fff;border-bottom: 1px solid black;">
 					    <th scope="row" data-header=" " style="
-   						width: 600px;
+   						width: 30%;
 			  			font-family: 'Ubuntu', sans-serif;
 					    border-top: none;
 					    background-color: #fff;
@@ -313,26 +327,56 @@
 							Sector
 						</th>
 					    <td data-header="Deposit" style="
+					    width: 70%;
 					    border-top: none;
 					    text-align: right;
-					    font-size: 30px;
+					    font-size: 15px;
     					border-bottom: 3px solid #264e7a;">{{$data['zone_name']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Especie</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['species']}}</td>
+					    <th scope="row" data-header=" " style="
+					    background-color:#d5d5d2;
+					    color:#000;
+					    width:30%;">
+							Especie
+						</th>
+					    <td data-header="Deposit" style="
+					    background-color:#bfd8f2;
+					    text-align:right;
+					    width:70%;">
+							{{$data['species']}}
+						</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Variedad</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['variety']}}</td>
+					    <th scope="row" data-header=" " style="
+					    background-color:#d5d5d2;
+					    color:#000;
+					    width:30%;">Variedad</th>
+					    <td data-header="Deposit" style="
+					    background-color:#bfd8f2;
+					    text-align:right;
+					    width:70%;">{{$data['variety']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Superficie HA</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['HA_surface']}}</td>
+					    <th scope="row" data-header=" " style="
+					    background-color:#d5d5d2;
+					    color:#000;
+					    width:30%;">Superficie HA</th>
+					    <td data-header="Deposit" style="
+					    background-color:#bfd8f2;
+					    text-align:right;
+					    width:70%;
+					    ">{{$data['HA_surface']}}</td>
 					</tr> 
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Año de Plantación</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['planting_year']}}</td>
+					    <th scope="row" data-header=" " style="
+					    background-color:#d5d5d2;
+					    color:#000;
+					    width:30%;">Año de Plantación</th>
+					    <td data-header="Deposit" style="
+					    background-color:#bfd8f2;
+					    text-align:right;
+					    width:70%;">{{$data['planting_year']}}</td>
 					</tr>   
 				</tbody>
 			</table>
@@ -415,7 +459,7 @@
 				<tbody>  
 					<tr style="background-color: #fff;border-bottom: 1px solid black;">
 					    <th scope="row" data-header=" " style="
-   						width: 600px;
+   						width:30%;
 			  			font-family: 'Ubuntu', sans-serif;
 					    border-top: none;
 					    background-color: #fff;
@@ -424,26 +468,27 @@
 							Sector
 						</th>
 					    <td data-header="Deposit" style="
+   						width:70%;
 					    border-top: none;
 					    text-align: right;
-					    font-size: 30px;
-    					border-bottom: 3px solid #264e7a;">{{$data['zone_name']}}</td>
+					    font-size: 15px;
+    					border-bottom: 3px solid #264e7a;text-align:right;">{{$data['zone_name']}}</td>
 					</tr>   
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Sistema de Riego</th>
-					    <td data-header="Deposit"  style="background-color: #bfd8f2;">{{$data['irrigation_system']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Sistema de Riego</th>
+					    <td data-header="Deposit"  style="background-color: #bfd8f2;width:70%;text-align:right;">{{$data['irrigation_system']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Precipitación del sistema</th>
-					    <td data-header="Deposit"  style="background-color: #bfd8f2;">{{$data['system_precipitation']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Precipitación del sistema</th>
+					    <td data-header="Deposit"  style="background-color: #bfd8f2;width:70%;text-align:right;">{{$data['system_precipitation']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Distancia entre los emisores</th>
-					    <td data-header="Deposit"  style="background-color: #bfd8f2;">{{$data['distance_between_emitters']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Distancia entre los emisores</th>
+					    <td data-header="Deposit"  style="background-color: #bfd8f2;width:70%;text-align:right;">{{$data['distance_between_emitters']}}</td>
 					</tr> 
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Marco de plantación</th>
-					    <td data-header="Deposit"  style="background-color: #bfd8f2;">{{$data['sector_plantation_frame']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Marco de plantación</th>
+					    <td data-header="Deposit"  style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['sector_plantation_frame']}}</td>
 					</tr>   
 				</tbody>
 			</table>	  		
@@ -455,24 +500,24 @@
 			  border-spacing: 0px 20px;">
 				<tbody>  
 					<tr>
-					    <th scope="row" data-header=" " style="width: 600px;background-color:#d5d5d2;color:#000;">Planta</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['plant']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Planta</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['plant']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Distancia planta - sonda</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['plant_probe_distance']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Distancia planta - sonda</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['plant_probe_distance']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Distancia sonda - gotero</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['probe_dropper_distance']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Distancia sonda - gotero</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['probe_dropper_distance']}}</td>
 					</tr>  
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Distancia entre los emisores</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['distance_between_emitters']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Distancia entre los emisores</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['distance_between_emitters']}}</td>
 					</tr> 
 					<tr>
-					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;">Marco de plantación</th>
-					    <td data-header="Deposit" style="background-color: #bfd8f2;">{{$data['zone_plantation_frame']}}</td>
+					    <th scope="row" data-header=" " style="background-color:#d5d5d2;color:#000;width:30%;">Marco de plantación</th>
+					    <td data-header="Deposit" style="background-color: #bfd8f2;text-align:right;width:70%;">{{$data['zone_plantation_frame']}}</td>
 					</tr>   
 				</tbody>
 			</table>
@@ -487,21 +532,18 @@
 				</div>
 		  	</div>
 		</div>
+		<br><br>
 		<div style="position: relative;">
 		  	<div class="">
 				<h1 class="section-title-1">Imágenes Sector</h1>
 				<table class="" id="">
 					<tbody>  
 						<tr>
-							<th scope="row" data-header=" ">
-								<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
-							</th>
-							<td data-header="Deposit">
-								<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
+							@foreach ($zone_images as $element)
+							<th scope="row" data-header=" " style="width:150px;">
+								<img class="w-100" src="{{$element->image}}">
 							</td>
-							<td data-header="Deposit">
-								<img class="" src="http://localhost:8000/images/1605389530-34.jpg">
-							</td>
+							@endforeach
 						</tr> 
 		  			</tbody>
 		  		</table>
