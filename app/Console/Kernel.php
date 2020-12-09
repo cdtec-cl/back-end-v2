@@ -81,7 +81,7 @@ class Kernel extends ConsoleKernel
         // php artisan clonebyfarm:irrigations:volumes:run
       //  $schedule->command('clonebyfarm:irrigations:volumes:run')->everyTenMinutes();
         // php artisan clonebyfarm:realirrigations:volumes:run
-      //  $schedule->command('clonebyfarm:realirrigations:volumes:run')->everyTenMinutes();
+        $schedule->command('clonebyfarm:realirrigations:volumes:run')->everyTenMinutes();
         // php artisan clonebyfarm:alarms:run
         // $schedule->command('clonebyfarm:alarms:run')->everyFiveMinutes();
         // php artisan clonebyzone:pumpsystems:run
@@ -109,7 +109,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('clonemeasuresdatatemp:run')->everyFifteenMinutes();
 
         // php artisan clonebyfarm:measuresdata:run
-     //   $schedule->command('clonebyfarm:measuresdata:run')->cron('2 * * * * *');  
+      $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();
 
         // php artisan cloning error
      //   $schedule->command('clonecloningerror:run')->everyFiveMinutes();  
