@@ -1314,12 +1314,14 @@ class ZoneController extends Controller
             default:
                 break;
         }
-        $zone_images=$zone->zoneImages;
 
         $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $compact=$type=="installation"? compact('data','type','zone_images') :  compact('data','type');
+
+        $zone_images=$zone->zoneImages?$zone->zoneImages:[];
+
+        $compact=strtolower($type)=="installation"? compact('data','type','zone_images') :  compact('data','type');
         /*$response = [
             'message'=> 'Reporte generado satisfactoriamente',
             'data' => $compact,
@@ -1414,7 +1416,7 @@ class ZoneController extends Controller
             "general_remarks"=>"test"
         ];
         $zone_images=[];
-        $view=$type=="installation"?"pdf.installation-report":"pdf.management-report";
+        $view=strtolower($type)=="installation"?"pdf.installation-report":"pdf.management-report";
         return view($view, compact('data','zone_images'));
     }
     public function getReports($id,$type){
@@ -1444,7 +1446,7 @@ class ZoneController extends Controller
         return response()->json($response, 200);
     }
     public function updateReportType(Request $request,$id,$type){
-        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
+        $data = strtolower($type)=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
         if(is_null($data)){
             return response()->json([
                 'message'=>'Reporte no existente',
@@ -1475,7 +1477,12 @@ class ZoneController extends Controller
         $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
-        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, compact('data','type'))->save($publicPathName)->stream('download.pdf');
+
+        $zone_images=$zone->zoneImages?$zone->zoneImages:[];
+
+        $compact=strtolower($type)=="installation"? compact('data','type','zone_images') :  compact('data','type');
+
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView($view, $compact)->save($publicPathName)->stream('download.pdf');
 
         $zoneReportType= new ZoneReportType();
         $zoneReportType->id_zone=$zone->id;
@@ -1488,12 +1495,12 @@ class ZoneController extends Controller
 
         $response = [
             'message'=> 'Actualizar reporte',
-            'data' => $type=="installation" ? InstallationZoneReport::find($id) : ManagementZoneReport::find($id)
+            'data' => strtolower($type)=="installation" ? InstallationZoneReport::find($id) : ManagementZoneReport::find($id)
         ];
         return response()->json($response, 200);
     }
     public function deleteReportType($id,$type){
-        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
+        $data = strtolower($type)=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
         if(is_null($data)){
             return response()->json([
                 'message'=>'Reporte no existente',
@@ -1508,7 +1515,7 @@ class ZoneController extends Controller
         return response()->json($response, 200);
     }
     public function seeReportType($id,$type){
-        $data = $type=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
+        $data = strtolower($type)=="installation" ? InstallationZoneReport::find($id):ManagementZoneReport::find($id);
         if(is_null($data)){
             return response()->json([
                 'message'=>'Reporte no existente',

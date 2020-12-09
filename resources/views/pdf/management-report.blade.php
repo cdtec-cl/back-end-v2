@@ -238,7 +238,7 @@
 	        	font-size:40px;
 	        }
 	        p{
-	        	font-size:10px;
+	        	font-size:15px;
 	        }
 		</style>
 	</head>

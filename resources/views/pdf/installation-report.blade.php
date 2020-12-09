@@ -226,7 +226,7 @@
 	        	width: 100%;
 	        }
 	        p{
-	        	font-size:10px;
+	        	font-size:15px;
 	        }
 		</style>
 	</head>
@@ -264,7 +264,7 @@
 				<tbody>  
 			        <tr>
 			            <th scope="row" data-header=" " 
-   						style="width: 400px;">
+   						style="width: 200px;">
 			            	<!-- <img src="https://www.tibs.org.tw/images/default.jpg" alt="" class="img-logo"> -->
 			            	<img src="{{ asset('images/logo.jpg') }}" alt="" class="img-logo">
 			            </th>
@@ -283,19 +283,19 @@
 				<tbody>  
 					<tr>
 					    <th scope="row" data-header=" ">Campo</th>
-					    <td data-header="Deposit">{{$data['farm_name']}}</td>
+					    <td data-header="Deposit" style="font-weight: bold;">{{$data['farm_name']}}</td>
 					</tr>  
 					<tr>
 					    <th scope="row" data-header=" ">Contacto</th>
-					    <td data-header="Deposit">{{$data['account_name']}}</td>
+					    <td data-header="Deposit" style="font-weight: bold;">{{$data['account_name']}}</td>
 					</tr>  
 					<tr>
 					    <th scope="row" data-header=" ">Teléfono</th>
-					    <td data-header="Deposit">{{$data['account_telefono']}}</td>
+					    <td data-header="Deposit" style="font-weight: bold;">{{$data['account_telefono']}}</td>
 					</tr>  
 					<tr>
 					    <th scope="row" data-header=" ">Correo</th>
-					    <td data-header="Deposit"><a href="#">{{$data['account_email']}}</a></td>
+					    <td data-header="Deposit" style="font-weight: bold;"><a href="#">{{$data['account_email']}}</a></td>
 					</tr>  
 				</tbody>
 			</table>
