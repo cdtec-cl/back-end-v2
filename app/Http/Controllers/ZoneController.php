@@ -566,12 +566,12 @@ class ZoneController extends Controller
                             if(is_null($measure)){
                                 $newMeasure= new Measure();
                                 $newMeasure->name=$value->name;
-                                $newMeasure->id_wiseconn=$value->id;
+                                $newMeasure->id_wiseconn=$value->id_wiseconn;
                                 $newMeasure->id_zone=$newZone->id;
                                 $newMeasure->save();
                             }else{
                                 $measure->name=$value->name;
-                                $measure->id_wiseconn=$value->id;
+                                $measure->id_wiseconn=$value->id_wiseconn;
                                 $measure->id_zone=$newZone->id;
                                 $measure->update();
                             }
@@ -690,7 +690,7 @@ class ZoneController extends Controller
                             $measure=Measure::find($value->id);
                             if(!is_null($measure)){
                                 $measure->name=$value->name;
-                                $measure->id_wiseconn=$value->id;
+                                $measure->id_wiseconn=$value->id_wiseconn;
                                 $measure->id_zone=$zone->id;
                                 $measure->update();
                             }
