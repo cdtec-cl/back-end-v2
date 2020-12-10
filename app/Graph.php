@@ -8,6 +8,7 @@ use App\MeasureGraph;
 class Graph extends Model
 {
     protected $fillable = [
+        'id_zone',
         'title',
         'description',
         'active',

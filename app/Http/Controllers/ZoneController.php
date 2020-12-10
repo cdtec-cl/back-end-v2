@@ -505,6 +505,12 @@ class ZoneController extends Controller
             }
             public function updateAndMeasures(Request $request,$id){
                 try {
+                   /* $response = [
+                        'message'=> 'Registro de zona y measures',
+                        'data'=> $request->all(),
+                    ];
+                    return response()->json($response, 200);*/
+
                     $localZone=Zone::find($id);
                     $apiZone=Zone::where('id_wiseconn',$id)->first();
                     $zone=!is_null($apiZone)?($apiZone):($localZone);
@@ -571,7 +577,7 @@ class ZoneController extends Controller
                             }
                         }
 
-                        $requestGraphs=json_decode($request->get('graphs'));
+                        $requestGraphs=$requestZone->graphs;
                         foreach ($requestGraphs as $key => $value) {
                             $graph=Graph::find($value->id);
                             if(!is_null($graph)){
@@ -579,6 +585,30 @@ class ZoneController extends Controller
                                 $graph->description=isset($value->description)?$value->description:null;
                                 $graph->active=isset($value->active)&&$value->active=="0"?false:true;
                                 $graph->update();
+                                foreach ($value->measure_graphs as $key => $measure_graph) {
+                                    $measureGraph=MeasureGraph::find($measure_graph->id);
+                                    if(!is_null($measureGraph)){
+                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                        if(isset($measure_graph->id_measure)){
+                                            $measure=Measure::where('id_wiseconn',$measure_graph->id_measure)->first();
+                                            if(!is_null($measure)){
+                                                $measureGraph->id_measure=$measure->id;
+                                            }
+                                        }
+                                        $measureGraph->update();
+                                    }
+                                }
+                                $zoneGraph=new ZoneGraph();
+                                $zoneGraph->id_graph=$graph->id;
+                                $zoneGraph->id_zone=$newZone->id;
+                                $zoneGraph->save();
+                            }else{
+                                $graph= new Graph();
+                                $graph->id_zone=$newZone->id;
+                                $graph->title=isset($value->title)?$value->title:null;
+                                $graph->description=isset($value->description)?$value->description:null;
+                                $graph->active=isset($value->active)&&$value->active=="0"?false:true;
+                                $graph->save();
                                 foreach ($value->measure_graphs as $key => $measure_graph) {
                                     $measureGraph=MeasureGraph::find($measure_graph->id);
                                     if(!is_null($measureGraph)){
@@ -666,7 +696,7 @@ class ZoneController extends Controller
                             }
                         }
 
-                        $requestGraphs=json_decode($request->get('graphs'));
+                        $requestGraphs=$requestZone->graphs;
                         foreach ($requestGraphs as $key => $value) {
                             $graph=Graph::find($value->id);
                             if(!is_null($graph)){
@@ -682,6 +712,30 @@ class ZoneController extends Controller
                                         $measureGraph->update();
                                     }
                                 }
+                            }else{
+                                $graph= new Graph();
+                                $graph->id_zone=$zone->id;
+                                $graph->title=isset($value->title)?$value->title:null;
+                                $graph->description=isset($value->description)?$value->description:null;
+                                $graph->active=isset($value->active)&&$value->active=="0"?false:true;
+                                $graph->save();
+                                foreach ($value->measure_graphs as $key => $measure_graph) {
+                                    $measureGraph=MeasureGraph::find($measure_graph->id);
+                                    if(!is_null($measureGraph)){
+                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                        if(isset($measure_graph->id_measure)){
+                                            $measure=Measure::where('id_wiseconn',$measure_graph->id_measure)->first();
+                                            if(!is_null($measure)){
+                                                $measureGraph->id_measure=$measure->id;
+                                            }
+                                        }
+                                        $measureGraph->update();
+                                    }
+                                }
+                                $zoneGraph=new ZoneGraph();
+                                $zoneGraph->id_graph=$graph->id;
+                                $zoneGraph->id_zone=$zone->id;
+                                $zoneGraph->save();
                             }
                         }
                         for ($i=0; $i < intval($request->get("zoneImagesCount")); $i++) { 
@@ -1315,7 +1369,7 @@ class ZoneController extends Controller
                 break;
         }
 
-        $filename='files/'.uniqid('report-'.$type.'-'). time().'.pdf';
+        $filename='files/'.uniqid('report-'.$type.'-'). time();
         $publicPathName=public_path($filename);
         $urlPathName=url($filename);
 

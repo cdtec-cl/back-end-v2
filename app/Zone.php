@@ -11,6 +11,7 @@ use App\Measure;
 use App\ZoneGraph;
 use App\ZoneImages;
 use App\ZoneCalicata;
+use App\Graph;
 class Zone extends Model
 {
     protected $fillable = [
@@ -57,7 +58,8 @@ class Zone extends Model
         'zoneImages',
         'zoneAlert',
         'zoneCalicata',
-        'zoneReport'
+        'zoneReport',
+        'graphs'
     ];
     protected $hidden   = [
         'id_zone',
@@ -103,5 +105,8 @@ class Zone extends Model
     public function zoneReport() {
         return $this->hasOne(ZoneReport::class,'id_zone','id');
     }
-    
+    public function graphs()
+    {
+        return $this->hasMany(Graph::class,'id_zone');
+    }
 }
