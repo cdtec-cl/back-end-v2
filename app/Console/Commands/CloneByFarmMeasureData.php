@@ -92,7 +92,7 @@ class CloneByFarmMeasureData extends Command
                             $executionStartTime2 = microtime(true);
                             $arrayMeasures = []; 
                             foreach ($measures as $key => $value) {
-                                if($value->id[0].$value->id[1]== "1-"){
+                                if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "6-"){
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
                                         $arrayMeasures[] = [
