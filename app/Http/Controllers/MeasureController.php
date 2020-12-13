@@ -377,11 +377,10 @@ class MeasureController extends Controller{
     public function getMinMaxMeasures(Request $request, $id){
 
         try {
-            
             $measuresSensorMinMax= Measure::query()->join('measure_data', 'measures.id', '=', 'measure_data.id_measure')
             ->where('measures.id_zone',$id)
             ->whereBetween("measure_data.time",[$request->input("initTime"),$request->input("endTime")])
-            ->select(\DB::raw('measures.name, min(measure_data.value) as min, max(measure_data.value) as max'))
+            ->select(\DB::raw('measures.name, AVG(measure_data.value),  min(measure_data.value) as min, max(measure_data.value) as max'))
             ->groupByRaw('measures.id')->get(); 
 
             $response = [
