@@ -370,6 +370,37 @@ class MeasureController extends Controller{
         }
 
     }
+    /**
+     * Retorna la data de sensores por zona con su min y max.
+     */
+
+    public function getMinMaxMeasures(Request $request, $id){
+
+        try {
+            
+            $measuresSensorMinMax= Measure::query()->join('measure_data', 'measures.id', '=', 'measure_data.id_measure')
+            ->where('measures.id_zone',$id)
+            ->whereBetween("measure_data.time",[$request->input("initTime"),$request->input("endTime")])
+            ->select(\DB::raw('measures.name, max(measure_data.value), min(measure_data.value)'))
+            ->groupByRaw('measures.id')->get(); 
+
+            $response = [
+                'message'=> 'Sensores encontrado satisfactoriamente para su minimo y maximo',               
+                'id'  => $id, 
+                'initTime' => $request->input("initTime"),
+                'emdtime' => $request->input("endTime"), 
+                'data' => $measuresSensorMinMax
+            ];              
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+
+    }
 
 
 

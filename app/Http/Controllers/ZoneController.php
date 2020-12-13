@@ -262,6 +262,7 @@ class ZoneController extends Controller
             }
             $measures = Measure::where("id_zone",$zone->id)->get();
             $measuresGraph= MeasureGraph::query()->join('measures', 'measures.id', '=', 'measure_graphs.id_measure')->where('measures.id_zone',$id)->get();
+            $graph = Graph::where("id_zone",$zone->id)->get();
             $wiseconnMeasures=[];
             //forzando no clonar desde controlador por lentitud en tiempo de respuesta 
             //$cloningErrors=CloningErrors::where("elements","/zones/id/measures")->where("uri","/zones/".$zone->id_wiseconn."/measures")->where("id_wiseconn",$zone->id_wiseconn)->get();
@@ -312,7 +313,8 @@ class ZoneController extends Controller
             $response = [
                 'message'=> 'Measure encontrado satisfactoriamente',
                 'data' => Measure::where("id_zone",$zone->id)->get(),
-                'graphs' => $measuresGraph
+                'graphsMeasure' => $measuresGraph,
+                'graphs' => $graph
             ];
             return response()->json($response, 200);
         } catch (\Exception $e) {
@@ -586,16 +588,21 @@ class ZoneController extends Controller
                                 $graph->active=isset($value->active)&&$value->active=="0"?false:true;
                                 $graph->update();
                                 foreach ($value->measure_graphs as $key => $measure_graph) {
-                                    $measureGraph=MeasureGraph::find($measure_graph->id);
-                                    if(!is_null($measureGraph)){
-                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
-                                        if(isset($measure_graph->id_measure)){
-                                            $measure=Measure::where('id_wiseconn',$measure_graph->id_measure)->first();
-                                            if(!is_null($measure)){
-                                                $measureGraph->id_measure=$measure->id;
+                                    if(!is_null($measure_graph->id_measure)){
+                                        if(isset($measure_graph->id)){
+                                            $measureGraph=MeasureGraph::find($measure_graph->id);
+                                            if(!is_null($measureGraph)){
+                                                $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                                $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                                $measureGraph->update();
                                             }
+                                        }else{
+                                            $measureGraph=new MeasureGraph();
+                                            $measureGraph->id_graph=$graph->id;
+                                            $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                            $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                            $measureGraph->save();
                                         }
-                                        $measureGraph->update();
                                     }
                                 }
                                 $zoneGraph=new ZoneGraph();
@@ -610,16 +617,21 @@ class ZoneController extends Controller
                                 $graph->active=isset($value->active)&&$value->active=="0"?false:true;
                                 $graph->save();
                                 foreach ($value->measure_graphs as $key => $measure_graph) {
-                                    $measureGraph=MeasureGraph::find($measure_graph->id);
-                                    if(!is_null($measureGraph)){
-                                        $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
-                                        if(isset($measure_graph->id_measure)){
-                                            $measure=Measure::where('id_wiseconn',$measure_graph->id_measure)->first();
-                                            if(!is_null($measure)){
-                                                $measureGraph->id_measure=$measure->id;
+                                    if(!is_null($measure_graph->id_measure)){
+                                        if(isset($measure_graph->id)){
+                                            $measureGraph=MeasureGraph::find($measure_graph->id);
+                                            if(!is_null($measureGraph)){
+                                                $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                                $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                                $measureGraph->update();
                                             }
+                                        }else{
+                                            $measureGraph=new MeasureGraph();
+                                            $measureGraph->id_graph=$graph->id;
+                                            $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                            $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                            $measureGraph->save();
                                         }
-                                        $measureGraph->update();
                                     }
                                 }
                                 $zoneGraph=new ZoneGraph();
@@ -705,11 +717,19 @@ class ZoneController extends Controller
                                 $graph->active=isset($value->active)&&$value->active=="0"?false:true;
                                 $graph->update();
                                 foreach ($value->measure_graphs as $key => $measure_graph) {
-                                    $measureGraph=MeasureGraph::find($measure_graph->id);
-                                    if(!is_null($measureGraph)){
+                                    if(isset($measure_graph->id)){
+                                        $measureGraph=MeasureGraph::find($measure_graph->id);
+                                        if(!is_null($measureGraph)){
+                                            $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
+                                            $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                            $measureGraph->update();
+                                        }
+                                    }else{
+                                        $measureGraph=new MeasureGraph();
+                                        $measureGraph->id_graph=$graph->id;
                                         $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
                                         $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
-                                        $measureGraph->update();
+                                        $measureGraph->save();
                                     }
                                 }
                             }else{
