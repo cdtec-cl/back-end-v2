@@ -12,7 +12,8 @@ class ZoneAlert extends Model
         'max_value',
         'out_range',
         'enabled',
-        'last_mail_send_date'
+        'last_mail_send_date',
+        'type'
     ];
     protected $with = [
         'mails',

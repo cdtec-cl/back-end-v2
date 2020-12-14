@@ -60,7 +60,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::post('zones/{id}/startcloning', 'ZoneController@startcloning');
 	Route::get('zones/{id}/deletepaths', 'ZoneController@deletePaths');
 	Route::post('zones/sendgraphicimage', 'ZoneController@sendGraphicImage');
-	Route::post('zones/{id}/registeralert', 'ZoneController@registerAlert');
+	Route::post('zones/{id}/registeralert/{type}', 'ZoneController@registerAlert');
 	Route::post('zones/updatealert/{id}', 'ZoneController@updateAlert');
 	Route::delete('zones/deletealert/{id}', 'ZoneController@deleteAlert');
 	Route::post('zones/{id}/registercalicata', 'ZoneController@registerCalicata');
