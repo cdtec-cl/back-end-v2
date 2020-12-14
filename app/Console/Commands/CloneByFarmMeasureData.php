@@ -101,7 +101,9 @@ class CloneByFarmMeasureData extends Command
                                             'time'       => isset($value->lastDataDate)?$value->lastDataDate:null,
                                             'created_at' => $fechaData,
                                             'updated_at' => $fechaData
-                                        ];  
+                                        ]; 
+                                        $measure->lastDataDate=$value->lastDataDate;
+                                        $measure->update(); 
                                     }
                                 }
 
