@@ -866,18 +866,38 @@ class ZoneController extends Controller
                 }
             }
     public function registerAlert(Request $request,$id,$type){
-        $validator = Validator::make($request->all(), [
-            'min_value'            => 'required|integer',
-            'max_value'            => 'required|integer',
-            'out_range'            => 'required|string|max:45',
-        ],[
-            'min_value.required'   => 'El valor mínimo es requerido',
-            'min_value.integer'    => 'El valor mínimo debe ser númerico',
-            'max_value.required'   => 'El valor máximo es requerido',
-            'max_value.integer'    => 'El valor máximo debe ser númerico',
-            'out_range.required'   => 'El fuera de rango es requerido',
-            'out_range.string'     => 'El latitude debe ser una cadena de texto',
-        ]);
+        $validator=null;
+        switch ($type) {
+            case 'local':
+                $validator = Validator::make($request->all(), [
+                    'min_value'            => 'required|integer',
+                    'max_value'            => 'required|integer',
+                    'out_range'            => 'required|string|max:45',
+                ],[
+                    'min_value.required'   => 'El valor mínimo es requerido',
+                    'min_value.integer'    => 'El valor mínimo debe ser númerico',
+                    'max_value.required'   => 'El valor máximo es requerido',
+                    'max_value.integer'    => 'El valor máximo debe ser númerico',
+                    'out_range.required'   => 'El fuera de rango es requerido',
+                    'out_range.string'     => 'El latitude debe ser una cadena de texto',
+                ]);
+                break;
+            case 'api':
+                $validator = Validator::make($request->all(), [
+                    'min_value'            => 'required',
+                    'max_value'            => 'required',
+                    'out_range'            => 'required|string|max:45',
+                ],[
+                    'min_value.required'   => 'El valor mínimo es requerido',
+                    'max_value.required'   => 'El valor máximo es requerido',
+                    'out_range.required'   => 'El fuera de rango es requerido',
+                    'out_range.string'     => 'El latitude debe ser una cadena de texto',
+                ]);
+                break;
+            default:
+                # code...
+                break;
+        }
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
@@ -916,19 +936,39 @@ class ZoneController extends Controller
             ], 500);
         }
     }
-    public function updateAlert(Request $request,$id){
-        $validator = Validator::make($request->all(), [
-            'min_value'            => 'required|integer',
-            'max_value'            => 'required|integer',
-            'out_range'            => 'required|string|max:45',
-        ],[
-            'min_value.required'   => 'El valor mínimo es requerido',
-            'min_value.integer'    => 'El valor mínimo debe ser númerico',
-            'max_value.required'   => 'El valor máximo es requerido',
-            'max_value.integer'    => 'El valor máximo debe ser númerico',
-            'out_range.required'   => 'El rango es requerido',
-            'out_range.string'     => 'El rango debe ser una cadena de texto',
-        ]);
+    public function updateAlert(Request $request,$id){       
+        $validator=null;
+        switch ($type) {
+            case 'local':
+                $validator = Validator::make($request->all(), [
+                    'min_value'            => 'required|integer',
+                    'max_value'            => 'required|integer',
+                    'out_range'            => 'required|string|max:45',
+                ],[
+                    'min_value.required'   => 'El valor mínimo es requerido',
+                    'min_value.integer'    => 'El valor mínimo debe ser númerico',
+                    'max_value.required'   => 'El valor máximo es requerido',
+                    'max_value.integer'    => 'El valor máximo debe ser númerico',
+                    'out_range.required'   => 'El fuera de rango es requerido',
+                    'out_range.string'     => 'El latitude debe ser una cadena de texto',
+                ]);
+                break;
+            case 'api':
+                $validator = Validator::make($request->all(), [
+                    'min_value'            => 'required',
+                    'max_value'            => 'required',
+                    'out_range'            => 'required|string|max:45',
+                ],[
+                    'min_value.required'   => 'El valor mínimo es requerido',
+                    'max_value.required'   => 'El valor máximo es requerido',
+                    'out_range.required'   => 'El fuera de rango es requerido',
+                    'out_range.string'     => 'El latitude debe ser una cadena de texto',
+                ]);
+                break;
+            default:
+                # code...
+                break;
+        }
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
