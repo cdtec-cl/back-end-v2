@@ -42,12 +42,23 @@
 		</style>
 	</head>
 	<body>
-		<div >
-  
+		<div>  
 		  <!--Signature-->
 		  <p class="signature">
-		    <span class="name">Estimados;</span><br>
-		    Junto con saludar, se le informa: {{$alertMessage}}    
+		    <span class="name">
+		    	{{$alertMessage["title"]}}
+		    </span>
+		    <br>   
+		  </p>
+		  <p class="signature">
+		    <span class="name">
+		    	Estimados;
+		    </span>
+		    <br>
+		    Junto con saludar, informamos lo siguiente: <br> {{$alertMessage["content"]}}    
+		  </p>
+		  <p class="signature">
+		    <span class="name">Saludos</span><br>		    
 		  </p>
 		  <!--Logo-->
 		  <!-- <img src="http://www.alimsag.cl/wp-content/uploads/2019/05/nutraline-logo.png" class="logo" alt="Company Logo" title="Go to our website"> -->

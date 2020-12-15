@@ -97,7 +97,7 @@ class Zone extends Model
         return $this->hasMany(ZoneImages::class,'id_zone');        
     }
     public function zoneAlert() {
-        return $this->hasOne(ZoneAlert::class,'id_zone','id');
+        return $this->hasMany(ZoneAlert::class,'id_zone','id');
     }
     public function zoneCalicata(){
         return $this->hasMany(ZoneCalicata::class,'id_zone');        

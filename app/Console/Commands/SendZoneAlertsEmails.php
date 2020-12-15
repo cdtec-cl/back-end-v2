@@ -58,21 +58,39 @@ class SendZoneAlertsEmails extends Command
                 $stressZone=floatval($explodeResult[3]);
                 //Estrés < suma humedad = 'hay estrés'
                 if($currentStateHumidity<$stressZone){
-                    return "Hay zona de estrés en el sector ".$name;
+                    return [
+                        "title"=>"Zona de riego", 
+                        "content"=>"La humedad de la sonda ".$name." se encuentra por debajo de la humedad definida para riego."
+                    ];
                 }elseif($currentStateHumidity>$saturationZone){
-                    return "Hay zona de saturación del sector ".$name;
+                    return [
+                        "title"=>"Máxima humedad", 
+                        "content"=>"La humedad de la sonda ".$name.", tiempo de riego excesivo según parámetro de máxima humedad definida."
+                    ];
                 }
                 break;
             case 'local':
                 $min_value=$zoneAlert->min_value;
                 $max_value=$zoneAlert->max_value;
                 $measure=Measure::where('sensorType','Temperature')->where('id_zone',$zone->id)->orderBy('created_at', 'asc')->first();
-                //valor minimo < valor actual temperatura = 'Existe temperatura alta en '
-                if($min_value<$measure->lastData){
-                    return "Existe temperatura alta en ".$name;
-                }elseif($max_value>$measure->lastData){
-                    return "Existe temperatura baja en ".$name;
+                if(!is_null($measure)){
+                    //valor minimo < valor actual temperatura = 'Existe temperatura alta en '
+                    if($min_value<$measure->lastData){
+                        return [
+                            "title"=>"Temperatura alta", 
+                            "content"=>"Existe temperatura alta en ".$name
+                        ];
+                    }elseif($max_value>$measure->lastData){
+                        return [
+                            "title"=>"Temperatura baja", 
+                            "content"=>"Existe temperatura baja en ".$name
+                        ];
+                    }   
                 }
+                return [
+                    "title"=>null, 
+                    "content"=>null
+                ];
                 break;
             default:
                 # code...
@@ -92,8 +110,8 @@ class SendZoneAlertsEmails extends Command
         foreach ($zoneAlerts as $key => $zoneAlert) {
             if($zoneAlert->enabled==1){//habilitado
                 $zone=Zone::find($zoneAlert->id_zone);
-                $alertMessage=strpos($zone->image_url,'images/default.jpg')===false?$this->getAlertMessage($zone,$zoneAlert):null;
-                if(!is_null($alertMessage)){
+                $alertMessage=strpos($zone->image_url,'images/default.jpg')===false?$this->getAlertMessage($zone,$zoneAlert):['title'=>null,'content'=>null];
+                if(!is_null($alertMessage['title'])&&!is_null($alertMessage['content'])){
                     if(count($zoneAlert->mails)>0){
                         foreach ($zoneAlert->mails as $key => $mail) {
                             if(is_null($zoneAlert->last_mail_send_date)&&!is_null($mail->mail)){
@@ -152,6 +170,18 @@ class SendZoneAlertsEmails extends Command
                                         break;
                                     case '6 horas':
                                         if($diffInHours>=6){
+                                            Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
+                                            $this->info("Mail enviado a: ".$mail->mail);
+                                        }
+                                        break;
+                                    case '12 horas':
+                                        if($diffInHours>=12){
+                                            Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
+                                            $this->info("Mail enviado a: ".$mail->mail);
+                                        }
+                                        break;
+                                    case '24 horas':
+                                        if($diffInHours>=24){
                                             Mail::to($mail->mail)->send(new ZoneAlertMail($alertMessage));
                                             $this->info("Mail enviado a: ".$mail->mail);
                                         }

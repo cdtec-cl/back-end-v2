@@ -563,8 +563,10 @@ class ZoneController extends Controller
                         }
 
                         $requestMeasures=json_decode($request->get('measures'));
+                         
                         foreach ($requestMeasures as $key => $value) {
                             $measure=Measure::where("id_wiseconn",$value->id)->first();
+
                             if(is_null($measure)){
                                 $newMeasure= new Measure();
                                 $newMeasure->name=$value->name;
@@ -583,6 +585,7 @@ class ZoneController extends Controller
                         foreach ($requestGraphs as $key => $value) {
                             $graph=Graph::find($value->id);
                             if(!is_null($graph)){
+
                                 $graph->title=isset($value->title)?$value->title:null;
                                 $graph->description=isset($value->description)?$value->description:null;
                                 $graph->active=isset($value->active)&&$value->active=="0"?false:true;
@@ -610,6 +613,7 @@ class ZoneController extends Controller
                                 $zoneGraph->id_zone=$newZone->id;
                                 $zoneGraph->save();
                             }else{
+                                
                                 $graph= new Graph();
                                 $graph->id_zone=$newZone->id;
                                 $graph->title=isset($value->title)?$value->title:null;
@@ -618,18 +622,20 @@ class ZoneController extends Controller
                                 $graph->save();
                                 foreach ($value->measure_graphs as $key => $measure_graph) {
                                     if(!is_null($measure_graph->id_measure)){
-                                        if(isset($measure_graph->id)){
+                                        if(isset($measure_graph->id) ){
+                                            $measure=!is_null(Measure::where('id_wiseconn',$measure_graph->id_measure))?Measure::where('id_wiseconn',$measure_graph->id_measure)->first():Measure::find($measure_graph->id_measure);
                                             $measureGraph=MeasureGraph::find($measure_graph->id);
                                             if(!is_null($measureGraph)){
                                                 $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
-                                                $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                                $measureGraph->id_measure=$measure->id;
                                                 $measureGraph->update();
                                             }
                                         }else{
+                                            $measure=!is_null(Measure::where('id_wiseconn',$measure_graph->id_measure))?Measure::where('id_wiseconn',$measure_graph->id_measure)->first():Measure::find($measure_graph->id_measure);
                                             $measureGraph=new MeasureGraph();
                                             $measureGraph->id_graph=$graph->id;
                                             $measureGraph->graph_type=isset($measure_graph->graph_type)?$measure_graph->graph_type:"line";
-                                            $measureGraph->id_measure=isset($measure_graph->id_measure)?$measure_graph->id_measure:$measureGraph->id_measure;
+                                            $measureGraph->id_measure=$measure->id;
                                             $measureGraph->save();
                                         }
                                     }
@@ -859,10 +865,10 @@ class ZoneController extends Controller
                     ], 500);
                 }
             }
-    public function registerAlert(Request $request,$id){
+    public function registerAlert(Request $request,$id,$type){
         $validator = Validator::make($request->all(), [
             'min_value'            => 'required|integer',
-            'max_value'            => 'required|numeric',
+            'max_value'            => 'required|integer',
             'out_range'            => 'required|string|max:45',
         ],[
             'min_value.required'   => 'El valor mínimo es requerido',
@@ -886,6 +892,7 @@ class ZoneController extends Controller
             $zoneAlert->max_value=$request->get('max_value');
             $zoneAlert->out_range=$request->get('out_range');
             $zoneAlert->enabled=$request->get('enabled')?1:0;
+            $zoneAlert->type=$type;            
             $zoneAlert->save();
 
             ZoneAlertMail::where('id_zone_alert', $zoneAlert->id)->delete();
@@ -912,15 +919,15 @@ class ZoneController extends Controller
     public function updateAlert(Request $request,$id){
         $validator = Validator::make($request->all(), [
             'min_value'            => 'required|integer',
-            'max_value'            => 'required|numeric',
+            'max_value'            => 'required|integer',
             'out_range'            => 'required|string|max:45',
         ],[
             'min_value.required'   => 'El valor mínimo es requerido',
             'min_value.integer'    => 'El valor mínimo debe ser númerico',
             'max_value.required'   => 'El valor máximo es requerido',
             'max_value.integer'    => 'El valor máximo debe ser númerico',
-            'out_range.required'   => 'El fuera de rango es requerido',
-            'out_range.string'     => 'El latitude debe ser una cadena de texto',
+            'out_range.required'   => 'El rango es requerido',
+            'out_range.string'     => 'El rango debe ser una cadena de texto',
         ]);
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
