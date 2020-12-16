@@ -96,6 +96,7 @@ class CloneByFarmMeasureData extends Command
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
                                         $measure->lastDataDate=isset($value->lastDataDate)?$value->lastDataDate:null;
+                                        $measure->lastData=isset($value->lastData)?$value->lastData:0;
                                         $measure->update(); 
                                         $arrayMeasures[] = [
                                             'id_measure' => $measure->id,
