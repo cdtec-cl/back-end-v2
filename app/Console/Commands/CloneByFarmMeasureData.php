@@ -95,7 +95,7 @@ class CloneByFarmMeasureData extends Command
                                 if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "6-"){
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
-                                        $measure->lastDataDate=$value->lastDataDate;
+                                        $measure->lastDataDate=isset($value->lastDataDate)?$value->lastDataDate:null;
                                         $measure->update(); 
                                         $arrayMeasures[] = [
                                             'id_measure' => $measure->id,
