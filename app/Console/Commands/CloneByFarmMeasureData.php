@@ -81,7 +81,7 @@ class CloneByFarmMeasureData extends Command
                     $id_wiseconn=$farm->id_wiseconn;
                         try{
                             if($key % 3 == 0){
-                                sleep(1);
+                                sleep(2);
                             }
                             $executionStartTime = microtime(true);
                             $measuresResponse = $this->requestWiseconn('GET',$currentRequestUri);
