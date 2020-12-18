@@ -5,8 +5,6 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
-use App\Measure;
-use App\CloningErrors;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class CloneCloningDataError extends Command
@@ -16,7 +14,7 @@ class CloneCloningDataError extends Command
      *
      * @var string
      */
-    protected $signature = 'clonecloningerrorData:run';
+    protected $signature = 'clonecloningerrorData2222:run';
 
     /**
      * The console command description.
@@ -35,7 +33,7 @@ class CloneCloningDataError extends Command
         parent::__construct();
     }
     protected function requestWiseconn($method,$uri){
-        $client = new Client([
+       /* $client = new Client([
             'base_uri' => 'https://apiv2.wiseconn.com',
             'timeout'  => 100.0,
         ]);
@@ -44,7 +42,7 @@ class CloneCloningDataError extends Command
                 'api_key' => '9Ev6ftyEbHhylMoKFaok',
                 'Accept'     => 'application/json'
             ]
-        ]);
+        ]);*/
     }
 
     /**
@@ -54,7 +52,7 @@ class CloneCloningDataError extends Command
      */
     public function handle()
     {
-        try{
+       /* try{
             $clonigError=CloningErrors::all();
             $fechaData = Carbon::now();
             foreach ($clonigError as $key => $cloning) {
@@ -97,8 +95,8 @@ class CloneCloningDataError extends Command
                             $cloningError->uri=$currentRequestUri;
                             $cloningError->id_wiseconn=$id_wiseconn;
                             $cloningError->save();
-                        }*/
-                    }
+                        }
+               /*     }
                 
                 }                               
             }
@@ -106,6 +104,6 @@ class CloneCloningDataError extends Command
         } catch (\Exception $e) {
             $this->error("Error:" . $e->getMessage());
             $this->error("Linea:" . $e->getLine());
-        }
+        }*/
     }
 }
