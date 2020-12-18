@@ -679,7 +679,7 @@ class FarmController extends Controller
         }
         public function weatherStation($id){
             try {
-                $weatherStation = Zone::where("id_farm",$id)->whereIn("name", ["Estación Meteorológica","Estación Metereológica"])->first();
+                $weatherStation = Zone::where("id_farm",$id)->whereIn("name", ["Estación Meteorológica","Estación Metereológica", "Estación de clima", "Estación de Clima"])->first();
                 $response = [
                     'message'=> 'Lista de zonas',
                     '$id'=> $id,
