@@ -234,7 +234,9 @@ class CloneByFarmMeasures extends Command
             "daily irrigation volume by pump system",
             "daily irrigation time by pump system",
             "irrigation by pump system",
-            "flow by zone"
+            "flow by zone",
+            "Et0",
+            "Etp"
         ];
         if(!isset($measure->sensorType)){
             $measure->sensorType=$measure->name;
