@@ -16,7 +16,7 @@ class CloneCloningError extends Command
      *
      * @var string
      */
-    protected $signature = 'clonecloningerror:run';
+    protected $signature = 'clonecloningerrorData:run';
 
     /**
      * The console command description.
