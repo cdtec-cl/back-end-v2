@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
         CloneByPumpsystemZones::class,
         CloneByMeasureData::class,
         CloneMeasuresDataTemp::class, 
-        CloneCloningError::class,
+        CloneCloningDataError::class,
         SendZoneAlertsEmails::class
     ];
 
