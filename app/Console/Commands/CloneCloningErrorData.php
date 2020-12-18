@@ -9,7 +9,7 @@ use App\Measure;
 use App\CloningErrors;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-class CloneCloningError extends Command
+class CloneCloningDataError extends Command
 {
     /**
      * The name and signature of the console command.
