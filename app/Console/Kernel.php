@@ -79,9 +79,9 @@ class Kernel extends ConsoleKernel
         // php artisan clonebyfarm:measures:run
       //   $schedule->command('clonebyfarm:measures:run')->everyTenMinutes();
         // php artisan clonebyfarm:irrigations:volumes:run
-        $schedule->command('clonebyfarm:irrigations:volumes:run')->everyTenMinutes();
+        //$schedule->command('clonebyfarm:irrigations:volumes:run')->everyTenMinutes();
         // php artisan clonebyfarm:realirrigations:volumes:run
-        $schedule->command('clonebyfarm:realirrigations:volumes:run')->everyTenMinutes();
+        //$schedule->command('clonebyfarm:realirrigations:volumes:run')->everyTenMinutes();
         // php artisan clonebyfarm:alarms:run
         // $schedule->command('clonebyfarm:alarms:run')->everyFiveMinutes();
         // php artisan clonebyzone:pumpsystems:run
@@ -97,7 +97,7 @@ class Kernel extends ConsoleKernel
         // php artisan clonebynode:measures:run
         // $schedule->command('clonebynode:measures:run')->everyFiveMinutes();
         // php artisan clonebyirrigation:realirrigations:run
-        $schedule->command('clonebyirrigation:realirrigations:run')->everyTenMinutes();
+       // $schedule->command('clonebyirrigation:realirrigations:run')->everyTenMinutes();
         // php artisan clonebypumpsystem:irrigations:volumes:run
        // $schedule->command('clonebypumpsystem:irrigations:volumes:run')->everyFiveMinutes();
         // php artisan clonebypumpsystem:realirrigations:volumes:run
@@ -109,13 +109,13 @@ class Kernel extends ConsoleKernel
         //$schedule->command('clonemeasuresdatatemp:run')->everyFifteenMinutes();
 
         // php artisan clonebyfarm:measuresdata:run
-      $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();
+      //$schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();
 
         // php artisan cloning error
      //   $schedule->command('clonecloningerror:run')->everyFiveMinutes();  
 
         // php artisan sendzonealertsemails:run
-      $schedule->command('sendzonealertsemails:run')->everyMinute();        
+      //$schedule->command('sendzonealertsemails:run')->everyMinute();        
 
          
     }
