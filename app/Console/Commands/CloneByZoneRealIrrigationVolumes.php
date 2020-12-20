@@ -103,7 +103,7 @@ class CloneByZoneRealIrrigationVolumes extends Command
         $initTime=Carbon::now(date_default_timezone_get())->subDays(10)->format('Y-m-d');
         $endTime=Carbon::now(date_default_timezone_get())->addDays(5)->format('Y-m-d');
         try{
-            // $zones=Zone::all();
+            $zones=Zone::all();
             foreach ($zones as $key => $zone) {
                 if($zone->id_wiseconn){
                     $cloningErrors=CloningErrors::where("elements","/zones/id/realIrrigations")->get();
