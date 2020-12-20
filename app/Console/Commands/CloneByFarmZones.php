@@ -119,7 +119,8 @@ class CloneByFarmZones extends Command
     public function handle()
     {
         try { 
-            $farms=Farm::all();
+            // $farms=Farm::all();
+            $farms=Farm::whereIn('id_wiseconn', [1136,1457,2064,1423,1415,2314,2014,2163,2284,925,825,1424,1905,821])->get();
             foreach ($farms as $key => $farm) {
                 if($farm->active_cloning==1){
                     try {
