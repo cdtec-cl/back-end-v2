@@ -143,6 +143,7 @@ class CloneByFarmZones extends Command
                                 $zonesResponse =  $this->requestWiseconn('GET',$currentRequestUri);
                                 $zones=json_decode($zonesResponse->getBody()->getContents()); 
                                 $this->info("==========Clonando nuevos elementos (".count($zones)." elementos)");
+                                $this->info($id_wiseconn);
                                 foreach ($zones as $key => $zone) {
                                     $this->cloneBy($zone);
                                 }
