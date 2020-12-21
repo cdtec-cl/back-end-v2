@@ -86,10 +86,10 @@ class CloneByMeasureData extends Command
             //desarrollo
             // $measures=Measure::whereIn('id', [4154,4155,4156,4157,4158,4159,4160,4161,4162])->get(); //all();
            //producci{on}
-           $measures=Measure::whereIn('id', [ 7856])->get(); 
+           $measures=Measure::whereIn('id', [7856])->get(); 
 
-            $initTime=Carbon::now(date_default_timezone_get())->subDays(10)->format('Y-m-d');
-            $endTime=Carbon::now(date_default_timezone_get())->subDays(20)->format('Y-m-d');
+            $initTime=Carbon::now(date_default_timezone_get())->subDays(20)->format('Y-m-d');
+            $endTime=Carbon::now(date_default_timezone_get())->subDays(10)->format('Y-m-d');
             $this->info("==========Fecha Inicio (".$initTime." elementos)");
             $this->info("==========Fecha Finalizacion (".$endTime." elementos)");
             
