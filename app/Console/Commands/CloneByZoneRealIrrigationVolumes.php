@@ -119,9 +119,11 @@ class CloneByZoneRealIrrigationVolumes extends Command
                         }
                     }else{
                         try{
+                            sleep(1);
                             $currentRequestUri='/zones/'.$zone->id_wiseconn.'/realIrrigations/?endTime='.$endTime.'&initTime='.$initTime;
                             $currentRequestElement='/zones/id/realIrrigations';
                             $id_wiseconn=$zone->id_wiseconn;
+                            $this->info($zone->id); 
                             $realIrrigationsResponse = $this->requestWiseconn('GET',$currentRequestUri);
                             $realIrrigations=json_decode($realIrrigationsResponse->getBody()->getContents());
                             foreach ($realIrrigations as $key => $realIrrigation) {
