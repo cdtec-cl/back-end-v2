@@ -70,7 +70,7 @@ class CloneByFarmMeasureData extends Command
         //
         try{
             $i=0;
-            $farms=Farm::where('active_cloning',1)->get();
+            $farms=Farm::where('active_cloning',1)->where('id', 1)->get();
             $fechaData = Carbon::now();
             foreach ($farms as $key => $farm) {
                 $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
