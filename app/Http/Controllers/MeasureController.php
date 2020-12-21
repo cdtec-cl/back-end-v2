@@ -174,7 +174,7 @@ class MeasureController extends Controller{
             }
             if($measure->sensorType==='Rain'){
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
-                ->whereBetween("time",[$request->input("initTime"), $request->input("endTime")])
+                ->whereBetween("time",[$request->input("initTime"), $fecha_actual])
                 ->select(\DB::raw(
                  
                  'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
@@ -185,7 +185,7 @@ class MeasureController extends Controller{
 
             }else{
                 $dataMeasure[]=MeasureData::where("id_measure",$value)
-                ->whereBetween("time",[$request->input("initTime"), $request->input("endTime")])
+                ->whereBetween("time",[$request->input("initTime"), $fecha_actual])
                 ->select(\DB::raw(
                  
                  'UNIX_TIMESTAMP(CONVERT_TZ(time, "+00:00", @@global.time_zone)) as date_measure,
