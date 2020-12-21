@@ -109,13 +109,13 @@ class Kernel extends ConsoleKernel
         //$schedule->command('clonemeasuresdatatemp:run')->everyFifteenMinutes();
 
         // php artisan clonebyfarm:measuresdata:run
-      //$schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();
+      $schedule->command('clonebyfarm:measuresdata:run')->everyFifteenMinutes();
 
         // php artisan cloning error
      //   $schedule->command('clonecloningerror:run')->everyFiveMinutes();  
 
         // php artisan sendzonealertsemails:run
-      //$schedule->command('sendzonealertsemails:run')->everyMinute();        
+      $schedule->command('sendzonealertsemails:run')->everyMinute();        
 
          
     }
