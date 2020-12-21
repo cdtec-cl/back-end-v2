@@ -62,7 +62,7 @@ class CloneByFarmMeasures extends Command
         if($sensorType){
             $sensorTypeZone=SensorTypeZones::where("id_sensor_type",$sensorType->id)->where("id_farm",$farm->id)->where("id_zone",$zone->id)->first();
             if(is_null($sensorTypeZone)){
-                $this->info($sensorType->id);
+                print_r($sensorType);
                 SensorTypeZones::create([
                     "id_sensor_type"=> $sensorType->id,
                     "id_farm" => isset($farm->id)?$farm->id:null,
