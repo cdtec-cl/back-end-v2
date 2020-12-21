@@ -70,7 +70,7 @@ class CloneByFarmMeasureData extends Command
         //
         try{
             $i=0;
-            $farms=Farm::where('active_cloning',1)->where('id', 1)->get();
+            $farms=Farm::where('active_cloning',1)->get();
             $fechaData = Carbon::now();
             foreach ($farms as $key => $farm) {
                 $currentRequestUri='/farms/'.$farm->id_wiseconn.'/measures';
@@ -93,11 +93,11 @@ class CloneByFarmMeasureData extends Command
                             $arrayMeasures = []; 
                             $this->info($farm->id);
                             foreach ($measures as $key => $value) {
-                                //if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "2-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "4-"){
-                                    $this->info($value->id);
+                                if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "2-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "4-"){
+                                    
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
-                                        $this->info('Se agrego');
+                                        
                                         $measure->lastDataDate=isset($value->lastDataDate)?$value->lastDataDate:null;
                                         $measure->lastData=isset($value->lastData)?$value->lastData:0;
                                         $measure->update(); 
@@ -109,7 +109,7 @@ class CloneByFarmMeasureData extends Command
                                             'updated_at' => $fechaData
                                         ]; 
                                     }
-                                //}
+                                }
 
                             }    
                             DB::table('measure_data')->insert($arrayMeasures);
