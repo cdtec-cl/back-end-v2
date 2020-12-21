@@ -938,6 +938,7 @@ class ZoneController extends Controller
     }
     public function updateAlert(Request $request,$id){       
         $validator=null;
+        $type= $request->get("type");
         switch ($type) {
             case 'local':
                 $validator = Validator::make($request->all(), [
