@@ -62,8 +62,9 @@ class CloneByFarmMeasures extends Command
         if($sensorType){
             $sensorTypeZone=SensorTypeZones::where("id_sensor_type",$sensorType->id)->where("id_farm",$farm->id)->where("id_zone",$zone->id)->first();
             if(is_null($sensorTypeZone)){
+                $this->info($sensorType->id);
                 SensorTypeZones::create([
-                    "id_sensor_type"=>$sensorType->id,
+                    "id_sensor_type"=> $sensorType->id,
                     "id_farm" => isset($farm->id)?$farm->id:null,
                     "id_zone" => isset($zone->id)?$zone->id:null,
                 ]);
@@ -268,6 +269,7 @@ class CloneByFarmMeasures extends Command
            // $farms=Farm::all();
 
             $farms=Farm::whereIn('id_wiseconn', [2733,
+            2733,
             2063,
             2067,
             342,
@@ -275,8 +277,15 @@ class CloneByFarmMeasures extends Command
             1299,
             376,
             1423,
-            721,
-            1415])->get();  
+            324,
+            559,
+            2014,
+            2163,
+            2284,
+            307,
+            192,
+            933            
+            ])->get();  
             
 
             foreach ($farms as $key => $farm) {
