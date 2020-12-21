@@ -93,7 +93,7 @@ class CloneByFarmMeasureData extends Command
                             $arrayMeasures = []; 
                             $this->info($farm->id);
                             foreach ($measures as $key => $value) {
-                                if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "2-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "4-"){
+                                //if($value->id[0].$value->id[1]== "1-" || $value->id[0].$value->id[1]== "2-" || $value->id[0].$value->id[1]== "3-" || $value->id[0].$value->id[1]== "4-"){
                                     $measure=Measure::where("id_wiseconn",$value->id)->first();
                                     if(!is_null($measure)){
                                         $measure->lastDataDate=isset($value->lastDataDate)?$value->lastDataDate:null;
@@ -107,7 +107,7 @@ class CloneByFarmMeasureData extends Command
                                             'updated_at' => $fechaData
                                         ]; 
                                     }
-                                }
+                                //}
 
                             }    
                             DB::table('measure_data')->insert($arrayMeasures);
