@@ -285,11 +285,11 @@ class UserController extends Controller
             $farmsUsers=FarmsUsers::where('id_user',$id)->get();
             $accounts=[];
             foreach ($farmsUsers as $key => $farmUser) {
-                if(count($accounts)==0){
+                if(count($accounts)==0){                    
                    array_push($accounts, $farmUser->farm->account); 
-               }else{
-                    foreach($accounts as $account) {
-                        if(!in_array($account, $accounts)) {
+               }else{                
+                    foreach($accounts as $account) {                
+                        if(!in_array($farmUser->farm->account, $accounts)) {                
                             array_push($accounts, $farmUser->farm->account);
                         }
                     }
@@ -299,6 +299,7 @@ class UserController extends Controller
             $response = [
                 'message'=> 'Lista de cuentas de usuario',
                 'data' => $accounts,
+                'farmsusers' => $farmsUsers
             ];
             return response()->json($response, 200);
         } catch (\Exception $e) {
