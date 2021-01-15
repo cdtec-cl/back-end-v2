@@ -157,6 +157,8 @@ Route::group(['middleware' => ['api']], function() {
 	//irrimax
 	Route::post('irrimax/query', 'IrrimaxController@query');
 
+	Route::post('polygoncreation/savefile', 'PolygonCreationController@saveFile');
+
 });
 Route::post('auth/login', 'Api\AuthController@login');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
