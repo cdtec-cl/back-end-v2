@@ -13,7 +13,7 @@ class PolygonCreationController extends Controller
 {
     public function getByFarm($id){
         try {
-            $farm = Farm::find($id)->first();
+            $farm = Farm::find($id);
             if(is_null($farm)){
                 return response()->json([
                     'message'=>'Campo no existente',
@@ -65,17 +65,27 @@ class PolygonCreationController extends Controller
             ], 500);
         }
     }
-    public function linkSector(Request $request,$id){
+    public function linkSector(Request $request,$idFarmGoogleMapsFile,$idZone){
         try {
-            $zone = Zone::find($id);
-            if(is_null($zone)){
-                return response()->json([
-                    'message'=>'Zona no existente',
-                    'data'=>$zone
-                ],404);
+            $farmGoogleMapsFile = FarmGoogleMapsFile::find($idFarmGoogleMapsFile);
+            $zone = Zone::find($idZone);
+            if(is_null($farmGoogleMapsFile)||is_null($zone)){
+                if(is_null($farmGoogleMapsFile)){
+                    return response()->json([
+                        'message'=>'Campo sin archivo registrado',
+                        'data'=>$farmGoogleMapsFile
+                    ],404);
+                }
+                if(is_null($zone)){
+                    return response()->json([
+                        'message'=>'Zona no existente',
+                        'data'=>$zone
+                    ],404);
+                }
             }
             $zoneCoordinatesMap = new ZoneCoordinatesMap();
             $zoneCoordinatesMap->id_zone=$zone->id;
+            $zoneCoordinatesMap->id_farm_google_maps_file=$farmGoogleMapsFile->id;
             $zoneCoordinatesMap->lat=$request->get('lat');
             $zoneCoordinatesMap->lng=$request->get('lng');
             $zoneCoordinatesMap->save();

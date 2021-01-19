@@ -10,5 +10,7 @@ class ZoneCoordinatesMap extends Model
     	'id_zone',
         'lat',
         'lng',
+        'bookmark_name',
+        'id_farm_google_maps_file'
     ];
 }

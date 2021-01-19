@@ -19,6 +19,6 @@ class ZoneAlert extends Model
         'mails',
     ];
     public function mails(){
-        return $this->hasMany(ZoneAlertMail::class,'id_zone_alert');        
+        return $this->hasMany(ZoneAlertMail::class,'id_zone_alert');
     }
 }
