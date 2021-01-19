@@ -84,8 +84,9 @@ class PolygonCreationController extends Controller
                 }
             }
             $zoneCoordinatesMap = new ZoneCoordinatesMap();
-            $zoneCoordinatesMap->id_zone=$zone->id;
+            $zoneCoordinatesMap->id_zone=$zone->id;            
             $zoneCoordinatesMap->id_farm_google_maps_file=$farmGoogleMapsFile->id;
+            $zoneCoordinatesMap->bookmark_name=$request->get('bookmark_name');
             $zoneCoordinatesMap->lat=$request->get('lat');
             $zoneCoordinatesMap->lng=$request->get('lng');
             $zoneCoordinatesMap->save();

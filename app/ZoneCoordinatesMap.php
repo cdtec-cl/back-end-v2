@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Zone;
 class ZoneCoordinatesMap extends Model
 {
     protected $fillable = [
@@ -13,4 +13,8 @@ class ZoneCoordinatesMap extends Model
         'bookmark_name',
         'id_farm_google_maps_file'
     ];
+    public function zone()
+    {
+        return $this->hasOne(Zone::class,'id','id_zone');
+    }
 }
