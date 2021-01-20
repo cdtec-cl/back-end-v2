@@ -160,6 +160,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::get('polygoncreation/getbyfarm/{id}', 'PolygonCreationController@getByFarm');
 	Route::post('polygoncreation/savefile/{id}', 'PolygonCreationController@saveFile');
 	Route::post('polygoncreation/linksector/{id_farm_google_maps_file}/{id_zone}', 'PolygonCreationController@linkSector');
+	Route::get('polygoncreation/unlinksector/{id}', 'PolygonCreationController@unlinkSector');
 
 });
 Route::post('auth/login', 'Api\AuthController@login');

@@ -103,5 +103,28 @@ class PolygonCreationController extends Controller
             ], 500);
         }
     }
+    public function unlinkSector($id){
+        try {
+            $zoneCoordinatesMap = ZoneCoordinatesMap::find($id);
+            if(is_null($zoneCoordinatesMap)){
+                    return response()->json([
+                        'message'=>'ZoneCoordinatesMap no existente',
+                        'data'=>$zoneCoordinatesMap
+                    ],404);
+            }
+            $response = [
+                'message'=> 'Zona desvinculada a coordenadas',
+                'data' => $zoneCoordinatesMap,
+            ];
+            $zoneCoordinatesMap->delete();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
     
 }

@@ -13,6 +13,7 @@ class ZoneCoordinatesMap extends Model
         'bookmark_name',
         'id_farm_google_maps_file'
     ];
+    protected $with = ['zone'];
     public function zone()
     {
         return $this->hasOne(Zone::class,'id','id_zone');
