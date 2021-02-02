@@ -94,9 +94,10 @@ class AccountController extends Controller
             'agent_name' => $request->get('agent_name')?$request->get('agent_name'):null,
             'agent_rut' => $request->get('agent_rut')?$request->get('agent_rut'):null,
             'agent_telefono' => $request->get('agent_telefono')?$request->get('agent_telefono'):null,
-            'admin_status'=>$request->get('admin_status')?$request->get('admin_status'):null,
+            'admin_status'=>$request->get('admin_status')?$request->get('admin_status'):null,            
             'client_type'=>$request->get('client_type')?$request->get('client_type'):null,
             'platform'=>$request->get('platform')?$request->get('platform'):null,
+            'status' => true
         ]);
         $response = [
             'message'=> 'Cuenta registrada satisfactoriamente',
@@ -160,6 +161,28 @@ class AccountController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+
+    public function changeStatus($id){
+        try {
+            $account=Account::find($id);
+            if(is_null($account)){
+                return response()->json(['message'=>'Cuenta no existente'],404);
+            }
+            $account->status=!$account->status;
+            $account->update();
+            $response = [
+                'message'=> $account->status==1?'Cuenta activada':'Cuenta desactivada',
+                'data'=> $account
+            ];            
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
                 'error' => $e->getMessage(),
                 'linea' => $e->getLine()
             ], 500);

@@ -26,7 +26,8 @@ class Account extends Model
         'admin_status',
         'client_type',
         'platform',
-        'id_wiseconn'
+        'id_wiseconn',
+        'status'
     ];
     public function farms()
    	{

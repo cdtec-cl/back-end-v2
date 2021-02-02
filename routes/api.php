@@ -19,6 +19,7 @@ Route::group(['middleware' => ['api']], function() {
 	Route::get('accounts/{id}', 'AccountController@get');
 	Route::post('accounts/store', 'AccountController@store');
 	Route::post('accounts/update/{id}', 'AccountController@update');
+	Route::get('accounts/{id}/changestatus', 'FarmController@changeStatus');	
 	// farms
 	Route::get('farms', 'FarmController@all');
 	Route::get('farms/{id}', 'FarmController@get');
