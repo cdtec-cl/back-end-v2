@@ -33,6 +33,7 @@ use App\ZoneReport;
 use App\ZoneReportType;
 use App\ManagementZoneReport;
 use App\InstallationZoneReport;
+use App\DerivedVariables;
 use Image;
 use File;
 use View;
