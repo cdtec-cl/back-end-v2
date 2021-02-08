@@ -74,6 +74,10 @@ Route::group(['middleware' => ['api']], function() {
 	Route::post('zones/updatereporttype/{id}/{type}', 'ZoneController@updateReportType');
 	Route::delete('zones/deletereporttype/{id}/{type}', 'ZoneController@deleteReportType');
 	Route::get('zones/seereporttype/{id}/{type}', 'ZoneController@seeReportType');
+	Route::get('zones/getderivedvariables/{id}', 'ZoneController@getDerivedVariables');
+	Route::post('zones/registerderivedvariable/{id}', 'ZoneController@registerDerivedVariable');
+	Route::post('zones/updatederivedvariable/{id}', 'ZoneController@updateDerivedVariable');
+	Route::delete('zones/deletederivedvariable/{id}', 'ZoneController@deleteDerivedVariable');
 
 	// paths
 	Route::post('path/store', 'PathController@store');

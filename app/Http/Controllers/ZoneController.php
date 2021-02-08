@@ -1650,4 +1650,97 @@ class ZoneController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    public function getDerivedVariables($id){
+        try {
+            $zone = Zone::find($id);
+            if(is_null($zone)){
+                return response()->json([
+                    'message'=>'Zona no existente',
+                    'data'=>$zone
+                ],404);
+            }
+            $derivedVariables=DerivedVariables::where('id_zone',$zone->id)->get();
+            $response = [
+                'message'=> 'Variables derivadas del sector '.$zone->name,
+                'data' => $derivedVariables,
+            ];
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function registerDerivedVariable(Request $request,$id){
+        try {
+            $zone = Zone::find($id);
+            if(is_null($zone)){
+                return response()->json([
+                    'message'=>'Zona no existente',
+                    'data'=>$zone
+                ],404);
+            }
+            $derivedVariable= new DerivedVariables();
+            $derivedVariable->name=$request->get("name")?$request->get("name"):null;
+            $derivedVariable->execution_period=$request->get("execution_period")?$request->get("execution_period"):null;
+            $derivedVariable->variable_start_date=$request->get("variable_start_date")?$request->get("variable_start_date"):null;
+            $derivedVariable->id_zone=$zone->id;
+            $derivedVariable->save();
+            return response()->json(["data"=>$derivedVariable], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function updateDerivedVariable(Request $request,$id){
+        try {
+            $derivedVariable = DerivedVariables::find($id);
+            if(is_null($derivedVariable)){
+                return response()->json([
+                    'message'=>'Variable derivada no existente',
+                    'data'=>$derivedVariable
+                ],404);
+            }
+            $derivedVariable->name=$request->get("name")?$request->get("name"):null;
+            $derivedVariable->execution_period=$request->get("execution_period")?$request->get("execution_period"):null;
+            $derivedVariable->variable_start_date=$request->get("variable_start_date")?$request->get("variable_start_date"):null;
+            $derivedVariable->update();
+            return response()->json(["data"=>$derivedVariable], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
+    public function deleteDerivedVariable($id){
+        try {
+            $derivedVariable = DerivedVariables::find($id);
+            if(is_null($derivedVariable)){
+                return response()->json([
+                    'message'=>'Variable derivada no existente',
+                    'data'=>$derivedVariable
+                ],404);
+            }
+            $response = [
+                'message'=> 'Variable eliminada satisfactoriamente',
+                'data' => $derivedVariable,
+            ];
+            $derivedVariable->delete();
+            return response()->json($response, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de obtener los datos.',
+                'error' => $e->getMessage(),
+                'linea' => $e->getLine()
+            ], 500);
+        }
+    }
 }

@@ -13,7 +13,7 @@ class AddValuesToZoneCoordinatesMapsTable extends Migration
      */
     public function up()
     {
-        Schema::table('zone_coordinates_maps', function (Blueprint $table) {            
+        Schema::table('zone_coordinates_maps', function (Blueprint $table) {
             $table->string('bookmark_name')->nullable();
             $table->unsignedBigInteger('id_farm_google_maps_file')->unsigned();
             $table->foreign('id_farm_google_maps_file')
