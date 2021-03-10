@@ -707,7 +707,7 @@ class ZoneController extends Controller
                             }
                         }
 
-                        $requestMeasures=json_decode($request->get('measures'));
+                      /*  $requestMeasures=json_decode($request->get('measures'));
                         foreach ($requestMeasures as $key => $value) {
                             $measure=Measure::find($value->id);
                             if(!is_null($measure)){
@@ -716,7 +716,7 @@ class ZoneController extends Controller
                                 $measure->id_zone=$zone->id;
                                 $measure->update();
                             }
-                        }
+                        }*/
 
                         $requestGraphs=$requestZone->graphs;
                         foreach ($requestGraphs as $key => $value) {
