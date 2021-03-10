@@ -659,7 +659,7 @@ class ZoneController extends Controller
                             }
                         }
                         $response = [
-                            'message'=> 'Registro de zona y measures'
+                            'message'=> 'Registro de zona y measures',
                             'zona1' =>   $pruebalog,
                         ];
                         return response()->json($response, 200);
