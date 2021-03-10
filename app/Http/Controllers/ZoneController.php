@@ -519,6 +519,7 @@ class ZoneController extends Controller
                     $zone=!is_null($apiZone)?($apiZone):($localZone);
                     $requestZone=json_decode($request->get('zone'));
                     if(is_null($zone)&&!is_null($requestZone)&&!is_null($request->get('id_farm'))){
+                        $pruebalog = 'Hola 1'; 
                         $newZone=new Zone();
                         $newZone->name=$requestZone->name;
                         $newZone->latitude=$requestZone->latitude;
@@ -658,11 +659,13 @@ class ZoneController extends Controller
                             }
                         }
                         $response = [
-                            'message'=> 'Registro de zona y measures',
+                            'message'=> 'Registro de zona y measures'
+                            'zona1' =>   $pruebalog,
                         ];
                         return response()->json($response, 200);
                     }
                     if(!is_null($zone)){
+                        $pruebalog='not null';
                         $zone->name=$requestZone->name;
                         $zone->latitude=$requestZone->latitude;
                         $zone->longitude=$requestZone->longitude;
@@ -777,12 +780,14 @@ class ZoneController extends Controller
                     }else{
                         $response = [
                             'message'=> 'Zona no existente',
+                            'zona2' =>   $pruebalog,
                         ];
                         return response()->json($response, 404);
                     }
 
                     $response = [
                         'message'=> 'Registro de zona y measures',
+                        'zona3' =>   $pruebalog,
                         'data'=> $request->all(),
                     ];
                     return response()->json($response, 200);
