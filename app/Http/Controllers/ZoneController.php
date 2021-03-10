@@ -516,7 +516,7 @@ class ZoneController extends Controller
 
                     $localZone=Zone::find($id);
                     $apiZone=Zone::where('id_wiseconn',$id)->first();
-                    $zone=!is_null($apiZone)?($apiZone):($localZone);
+                    $zone=$localZone;
                     $requestZone=json_decode($request->get('zone'));
                     if(is_null($zone)&&!is_null($requestZone)&&!is_null($request->get('id_farm'))){
                         $pruebalog = 'Hola 1'; 
