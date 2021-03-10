@@ -685,7 +685,7 @@ class ZoneController extends Controller
                         $zone->image_url=isset($requestZone->image_url)?$requestZone->image_url:asset('/images/default.jpg');
                         $zone->title_second_graph=isset($requestZone->title_second_graph)?$requestZone->title_second_graph:"";
                         $zone->floor_cb=isset($requestZone->floor_cb)&&$requestZone->floor_cb==1?true:false;  
-                        $zone->weather_cb=1;  
+                        $zone->weather_cb=isset($requestZone->weather_cb) && $requestZone->weather_cb==1 ? true : false;  
 
                         $zone->installation_date=isset($requestZone->installation_date)?$requestZone->installation_date:$zone->installation_date;
                         $zone->number_roots=isset($requestZone->number_roots)?$requestZone->number_roots:$zone->number_roots;
@@ -787,10 +787,6 @@ class ZoneController extends Controller
 
                     $response = [
                         'message'=> 'Registro de zona y measures',
-                        'zona3' =>   $pruebalog,
-                        'request' => $requestZone,
-                        'consulta' => isset($requestZone->weather_cb) && $requestZone->weather_cb==1 ? true : false,
-                        'consulta2' => $requestZone->weather_cb,
                         'data'=> $request->all(),
                     ];
                     return response()->json($response, 200);
