@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "47d448083c4ed0b3442ddfdb8323c908",
     "content-hash": "85402d410af52f3e4a76fe0cdef22d2c",
     "packages": [
         {
@@ -57,7 +56,7 @@
                 "cors",
                 "stack"
             ],
-            "time": "2019-12-24 22:41:47"
+            "time": "2019-12-24T22:41:47+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -113,7 +112,7 @@
                 "laravel",
                 "pdf"
             ],
-            "time": "2020-09-07 11:50:18"
+            "time": "2020-09-07T11:50:18+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -146,7 +145,7 @@
                 "MIT"
             ],
             "description": "implementation of xdg base directory specification for php",
-            "time": "2019-12-04 15:06:13"
+            "time": "2019-12-04T15:06:13+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -228,7 +227,7 @@
                 "redis",
                 "xcache"
             ],
-            "time": "2020-07-07 18:54:01"
+            "time": "2020-07-07T18:54:01+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -323,7 +322,7 @@
                 "sqlserver",
                 "sqlsrv"
             ],
-            "time": "2020-09-12 21:20:41"
+            "time": "2020-09-12T21:20:41+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -399,7 +398,7 @@
                 "event system",
                 "events"
             ],
-            "time": "2020-05-29 18:28:51"
+            "time": "2020-05-29T18:28:51+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -476,7 +475,7 @@
                 "uppercase",
                 "words"
             ],
-            "time": "2020-05-29 15:13:26"
+            "time": "2020-05-29T15:13:26+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -538,7 +537,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2020-05-25 17:44:05"
+            "time": "2020-05-25T17:44:05+00:00"
         },
         {
             "name": "dompdf/dompdf",
@@ -606,7 +605,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2020-08-30 22:54:22"
+            "time": "2020-08-30T22:54:22+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -660,7 +659,7 @@
                 "cron",
                 "schedule"
             ],
-            "time": "2020-10-13 00:52:37"
+            "time": "2020-10-13T00:52:37+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -718,7 +717,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2020-11-14 15:56:27"
+            "time": "2020-11-14T15:56:27+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -772,7 +771,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2020-10-22 13:48:01"
+            "time": "2020-10-22T13:48:01+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -840,7 +839,7 @@
                 "crossdomain",
                 "laravel"
             ],
-            "time": "2020-04-28 08:47:37"
+            "time": "2020-04-28T08:47:37+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -907,7 +906,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2020-06-16 21:01:06"
+            "time": "2020-06-16T21:01:06+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -958,7 +957,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2020-09-30 07:37:28"
+            "time": "2020-09-30T07:37:28+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1029,7 +1028,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2020-09-30 07:37:11"
+            "time": "2020-09-30T07:37:11+00:00"
         },
         {
             "name": "intervention/image",
@@ -1099,7 +1098,7 @@
                 "thumbnail",
                 "watermark"
             ],
-            "time": "2019-11-02 09:15:47"
+            "time": "2019-11-02T09:15:47+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1142,7 +1141,7 @@
                 }
             ],
             "abandoned": "php-parallel-lint/php-console-color",
-            "time": "2018-09-29 17:23:10"
+            "time": "2018-09-29T17:23:10+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -1189,7 +1188,7 @@
             ],
             "description": "Highlight PHP code in terminal",
             "abandoned": "php-parallel-lint/php-console-highlighter",
-            "time": "2018-09-29 18:48:56"
+            "time": "2018-09-29T18:48:56+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1338,7 +1337,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-12-01 15:01:00"
+            "time": "2020-12-01T15:01:00+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1401,7 +1400,7 @@
                 "laravel",
                 "psysh"
             ],
-            "time": "2019-08-07 15:10:45"
+            "time": "2019-08-07T15:10:45+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -1456,7 +1455,7 @@
                 "JWS",
                 "jwt"
             ],
-            "time": "2020-08-20 13:22:28"
+            "time": "2020-08-20T13:22:28+00:00"
         },
         {
             "name": "league/commonmark",
@@ -1525,20 +1524,20 @@
                 "md",
                 "parser"
             ],
-            "time": "2020-10-31 13:49:32"
+            "time": "2020-10-31T13:49:32+00:00"
         },
         {
             "name": "league/flysystem",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a"
+                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/9be3b16c877d477357c015cec057548cf9b2a14a",
-                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
+                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
                 "shasum": ""
             },
             "require": {
@@ -1554,7 +1553,6 @@
                 "phpunit/phpunit": "^8.5.8"
             },
             "suggest": {
-                "ext-fileinfo": "Required for MimeType",
                 "ext-ftp": "Allows you to use FTP server storage",
                 "ext-openssl": "Allows you to use FTPS server storage",
                 "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
@@ -1610,20 +1608,30 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2020-08-23 07:39:11"
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem/issues",
+                "source": "https://github.com/thephpleague/flysystem/tree/1.1.4"
+            },
+            "funding": [
+                {
+                    "url": "https://offset.earth/frankdejonge",
+                    "type": "other"
+                }
+            ],
+            "time": "2021-06-23T21:56:05+00:00"
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.5.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "353f66d7555d8a90781f6f5e7091932f9a4250aa"
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/353f66d7555d8a90781f6f5e7091932f9a4250aa",
-                "reference": "353f66d7555d8a90781f6f5e7091932f9a4250aa",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
                 "shasum": ""
             },
             "require": {
@@ -1631,8 +1639,9 @@
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.36",
-                "phpunit/phpunit": "^8.5.8"
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "phpstan/phpstan": "^0.12.68",
+                "phpunit/phpunit": "^8.5.8 || ^9.3"
             },
             "type": "library",
             "autoload": {
@@ -1651,7 +1660,21 @@
                 }
             ],
             "description": "Mime-type detection for Flysystem",
-            "time": "2020-10-18 11:50:25"
+            "support": {
+                "issues": "https://github.com/thephpleague/mime-type-detection/issues",
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.7.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/frankdejonge",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-01-18T20:58:21+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1732,7 +1755,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2020-07-23 08:41:23"
+            "time": "2020-07-23T08:41:23+00:00"
         },
         {
             "name": "namshi/jose",
@@ -1795,7 +1818,7 @@
                 "jwt",
                 "token"
             ],
-            "time": "2016-12-05 07:27:31"
+            "time": "2016-12-05T07:27:31+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -1874,7 +1897,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2020-11-28 14:25:28"
+            "time": "2020-11-28T14:25:28+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1926,7 +1949,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2020-09-26 10:30:38"
+            "time": "2020-09-26T10:30:38+00:00"
         },
         {
             "name": "opis/closure",
@@ -1987,7 +2010,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2020-11-07 02:01:34"
+            "time": "2020-11-07T02:01:34+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2032,7 +2055,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-07-02 15:55:56"
+            "time": "2018-07-02T15:55:56+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -2069,7 +2092,7 @@
             ],
             "description": "A library to read, parse, export and make subsets of different types of font files.",
             "homepage": "https://github.com/PhenX/php-font-lib",
-            "time": "2020-03-08 15:31:32"
+            "time": "2020-03-08T15:31:32+00:00"
         },
         {
             "name": "phenx/php-svg-lib",
@@ -2109,7 +2132,7 @@
             ],
             "description": "A library to read, parse and export to PDF SVG files.",
             "homepage": "https://github.com/PhenX/php-svg-lib",
-            "time": "2019-09-11 20:02:13"
+            "time": "2019-09-11T20:02:13+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2158,7 +2181,7 @@
                     "email": "mike.vanriel@naenius.com"
                 }
             ],
-            "time": "2016-01-25 08:17:30"
+            "time": "2016-01-25T08:17:30+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -2213,7 +2236,7 @@
                 "php",
                 "type"
             ],
-            "time": "2020-07-20 17:29:33"
+            "time": "2020-07-20T17:29:33+00:00"
         },
         {
             "name": "psr/container",
@@ -2262,7 +2285,7 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14 16:28:37"
+            "time": "2017-02-14T16:28:37+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2312,7 +2335,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "psr/log",
@@ -2359,7 +2382,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2020-03-23 09:12:05"
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2407,7 +2430,7 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-10-23 01:57:42"
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "psy/psysh",
@@ -2481,7 +2504,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2019-12-06 14:19:43"
+            "time": "2019-12-06T14:19:43+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -2521,7 +2544,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2019-03-08 08:55:37"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -2608,7 +2631,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2020-02-21 04:36:14"
+            "time": "2020-02-21T04:36:14+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -2653,7 +2676,7 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2020-06-01 09:10:00"
+            "time": "2020-06-01T09:10:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2715,7 +2738,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2019-11-12 09:31:26"
+            "time": "2019-11-12T09:31:26+00:00"
         },
         {
             "name": "symfony/console",
@@ -2787,7 +2810,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-28 10:15:42"
+            "time": "2020-11-28T10:15:42+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -2835,7 +2858,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2020-10-28 21:31:18"
+            "time": "2020-10-28T21:31:18+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2887,7 +2910,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2020-10-28 20:42:29"
+            "time": "2020-10-28T20:42:29+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2937,7 +2960,7 @@
             ],
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
-            "time": "2020-09-07 11:33:47"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -2989,7 +3012,7 @@
             ],
             "description": "Symfony ErrorHandler Component",
             "homepage": "https://symfony.com",
-            "time": "2020-10-28 20:42:29"
+            "time": "2020-10-28T20:42:29+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3055,7 +3078,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2020-10-31 22:44:29"
+            "time": "2020-10-31T22:44:29+00:00"
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -3117,7 +3140,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-07-06 13:19:58"
+            "time": "2020-07-06T13:19:58+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3161,7 +3184,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-17 19:45:34"
+            "time": "2020-11-17T19:45:34+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -3223,7 +3246,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-10-14 17:08:19"
+            "time": "2020-10-14T17:08:19+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -3273,7 +3296,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-03 11:58:18"
+            "time": "2020-11-03T11:58:18+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -3360,7 +3383,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-29 09:23:08"
+            "time": "2020-11-29T09:23:08+00:00"
         },
         {
             "name": "symfony/mime",
@@ -3423,7 +3446,7 @@
                 "mime",
                 "mime-type"
             ],
-            "time": "2020-10-30 14:55:39"
+            "time": "2020-10-30T14:55:39+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -3485,7 +3508,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
@@ -3548,7 +3571,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
@@ -3618,7 +3641,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -3685,7 +3708,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -3748,7 +3771,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -3799,7 +3822,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
@@ -3858,7 +3881,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -3920,7 +3943,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -3986,7 +4009,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-10-23 14:02:19"
+            "time": "2020-10-23T14:02:19+00:00"
         },
         {
             "name": "symfony/process",
@@ -4030,7 +4053,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-02 15:10:16"
+            "time": "2020-11-02T15:10:16+00:00"
         },
         {
             "name": "symfony/routing",
@@ -4101,7 +4124,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2020-11-24 13:31:32"
+            "time": "2020-11-24T13:31:32+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -4163,7 +4186,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-09-07 11:33:47"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/translation",
@@ -4234,7 +4257,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-11-27 06:35:49"
+            "time": "2020-11-27T06:35:49+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -4295,7 +4318,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-09-28 13:05:58"
+            "time": "2020-09-28T13:05:58+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -4367,7 +4390,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2020-11-24 09:55:37"
+            "time": "2020-11-24T09:55:37+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -4416,7 +4439,7 @@
             ],
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
-            "time": "2020-07-13 06:12:54"
+            "time": "2020-07-13T06:12:54+00:00"
         },
         {
             "name": "tymon/jwt-auth",
@@ -4490,7 +4513,7 @@
                 "jwt",
                 "laravel"
             ],
-            "time": "2020-11-27 12:32:42"
+            "time": "2020-11-27T12:32:42+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4553,7 +4576,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2020-07-14 19:04:52"
+            "time": "2020-07-14T19:04:52+00:00"
         }
     ],
     "packages-dev": [
@@ -4606,7 +4629,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2020-11-10 18:47:58"
+            "time": "2020-11-10T18:47:58+00:00"
         },
         {
             "name": "facade/flare-client-php",
@@ -4661,7 +4684,7 @@
                 "flare",
                 "reporting"
             ],
-            "time": "2020-10-21 16:02:39"
+            "time": "2020-10-21T16:02:39+00:00"
         },
         {
             "name": "facade/ignition",
@@ -4731,7 +4754,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2020-10-30 13:40:01"
+            "time": "2020-10-30T13:40:01+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -4780,7 +4803,7 @@
                 "flare",
                 "ignition"
             ],
-            "time": "2020-07-14 10:10:28"
+            "time": "2020-07-14T10:10:28+00:00"
         },
         {
             "name": "filp/whoops",
@@ -4841,7 +4864,7 @@
                 "throwable",
                 "whoops"
             ],
-            "time": "2020-11-01 12:00:00"
+            "time": "2020-11-01T12:00:00+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -4891,7 +4914,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2019-12-12 13:22:17"
+            "time": "2019-12-12T13:22:17+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -4938,7 +4961,7 @@
             "keywords": [
                 "test"
             ],
-            "time": "2020-07-09 08:09:16"
+            "time": "2020-07-09T08:09:16+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -5003,7 +5026,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2020-08-11 18:10:21"
+            "time": "2020-08-11T18:10:21+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -5051,7 +5074,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2020-11-13 09:40:50"
+            "time": "2020-11-13T09:40:50+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -5113,7 +5136,7 @@
                 "php",
                 "symfony"
             ],
-            "time": "2020-10-29 16:05:21"
+            "time": "2020-10-29T16:05:21+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -5169,7 +5192,7 @@
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
-            "time": "2020-06-27 14:33:11"
+            "time": "2020-06-27T14:33:11+00:00"
         },
         {
             "name": "phar-io/version",
@@ -5216,7 +5239,7 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
-            "time": "2020-11-30 09:21:21"
+            "time": "2020-11-30T09:21:21+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -5279,7 +5302,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2020-03-05 15:02:03"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5342,7 +5365,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2020-12-02 13:39:03"
+            "time": "2020-12-02T13:39:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -5392,7 +5415,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2020-11-30 08:25:21"
+            "time": "2020-11-30T08:25:21+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -5433,7 +5456,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2015-06-21 13:50:34"
+            "time": "2015-06-21T13:50:34+00:00"
         },
         {
             "name": "phpunit/php-timer",
@@ -5482,7 +5505,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2020-11-30 08:20:02"
+            "time": "2020-11-30T08:20:02+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -5532,7 +5555,7 @@
                 "tokenizer"
             ],
             "abandoned": true,
-            "time": "2020-11-30 08:38:46"
+            "time": "2020-11-30T08:38:46+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -5615,7 +5638,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2020-12-01 04:53:52"
+            "time": "2020-12-01T04:53:52+00:00"
         },
         {
             "name": "scrivo/highlight.php",
@@ -5684,7 +5707,7 @@
                 "highlight.php",
                 "syntax"
             ],
-            "time": "2020-11-22 06:07:40"
+            "time": "2020-11-22T06:07:40+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5729,7 +5752,7 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2020-11-30 08:15:22"
+            "time": "2020-11-30T08:15:22+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -5793,7 +5816,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2020-11-30 08:04:30"
+            "time": "2020-11-30T08:04:30+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -5849,7 +5872,7 @@
                 "unidiff",
                 "unified diff"
             ],
-            "time": "2020-11-30 07:59:04"
+            "time": "2020-11-30T07:59:04+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -5902,7 +5925,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2020-11-30 07:53:42"
+            "time": "2020-11-30T07:53:42+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -5969,7 +5992,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2020-11-30 07:47:53"
+            "time": "2020-11-30T07:47:53+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -6023,7 +6046,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2020-11-30 07:43:24"
+            "time": "2020-11-30T07:43:24+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -6070,7 +6093,7 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2020-11-30 07:40:27"
+            "time": "2020-11-30T07:40:27+00:00"
         },
         {
             "name": "sebastian/object-reflector",
@@ -6115,7 +6138,7 @@
             ],
             "description": "Allows reflection of object attributes, including inherited and non-public ones",
             "homepage": "https://github.com/sebastianbergmann/object-reflector/",
-            "time": "2020-11-30 07:37:18"
+            "time": "2020-11-30T07:37:18+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -6168,7 +6191,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2020-11-30 07:34:24"
+            "time": "2020-11-30T07:34:24+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -6210,7 +6233,7 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
-            "time": "2020-11-30 07:30:19"
+            "time": "2020-11-30T07:30:19+00:00"
         },
         {
             "name": "sebastian/type",
@@ -6256,7 +6279,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2020-11-30 07:25:11"
+            "time": "2020-11-30T07:25:11+00:00"
         },
         {
             "name": "sebastian/version",
@@ -6299,7 +6322,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2016-10-03 07:35:21"
+            "time": "2016-10-03T07:35:21+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -6339,7 +6362,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2020-07-12 23:59:07"
+            "time": "2020-07-12T23:59:07+00:00"
         }
     ],
     "aliases": [],
@@ -6352,5 +6375,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
